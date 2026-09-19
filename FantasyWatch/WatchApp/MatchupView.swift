@@ -59,30 +59,29 @@ struct MatchupView: View {
         }
     }
 
-    /// Two pages, swiped between. The page dots below double as the team
-    /// indicator, which is what the arrow button used to be for.
+    /// The matchup header is the same on both sides, so it stays put; only the
+    /// roster below it pages. The page dots under it are the team indicator.
     private var lineupPages: some View {
-        TabView(selection: $model.side) {
-            lineupList(for: .me)
-                .tag(Side.me)
-            lineupList(for: .opp)
-                .tag(Side.opp)
+        VStack(spacing: 0) {
+            MatchupHeaderView(
+                me: model.payload?.me,
+                opp: model.payload?.opp,
+                leagueSize: model.payload?.leagueSize
+            )
+            .padding(.horizontal, 6)
+
+            TabView(selection: $model.side) {
+                lineupList(for: .me)
+                    .tag(Side.me)
+                lineupList(for: .opp)
+                    .tag(Side.opp)
+            }
+            .tabViewStyle(.page)
         }
-        .tabViewStyle(.page)
     }
 
     private func lineupList(for side: Side) -> some View {
         List {
-            Section {
-                MatchupHeaderView(
-                    me: model.payload?.me,
-                    opp: model.payload?.opp,
-                    leagueSize: model.payload?.leagueSize
-                )
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
-            }
-
             Section {
                 ForEach(model.payload?.lineup(for: side) ?? []) { player in
                     PlayerRow(player: player)
@@ -103,16 +102,37 @@ struct MatchupView: View {
 
     @ViewBuilder
     private var freshnessFooter: some View {
-        if let updated = model.payload?.updated {
-            HStack(spacing: 4) {
-                if model.isShowingLastGood {
-                    Image(systemName: "wifi.slash")
-                }
-                Text("as of \(Format.staleness(since: updated))")
+        VStack(alignment: .leading, spacing: 1) {
+            if let standing = standingText {
+                Text(standing)
             }
-            .font(.caption2)
-            .foregroundStyle(.secondary)
+            if let updated = model.payload?.updated {
+                HStack(spacing: 4) {
+                    if model.isShowingLastGood {
+                        Image(systemName: "wifi.slash")
+                    }
+                    Text("as of \(Format.staleness(since: updated))")
+                }
+            }
         }
+        .font(.caption2)
+        .foregroundStyle(.secondary)
+        // Clear of the page dots, which float over the bottom of the TabView.
+        .padding(.bottom, 14)
+    }
+
+    /// "1st of 10 · 1-0" — season context, which belongs below the live
+    /// numbers rather than competing with them for permanent header space.
+    private var standingText: String? {
+        guard let me = model.payload?.me else { return nil }
+        var parts: [String] = []
+        if let rank = me.rankText {
+            parts.append(
+                model.payload?.leagueSize.map { "\(rank) of \($0)" } ?? rank
+            )
+        }
+        if let record = me.record { parts.append(record) }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 }
 

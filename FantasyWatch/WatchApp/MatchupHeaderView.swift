@@ -17,31 +17,17 @@ struct MatchupHeaderView: View {
 
             winProbabilityBar
 
-            HStack {
-                projection(me)
-                Spacer()
-                projection(opp)
-            }
-            .font(.system(size: 11))
-            .foregroundStyle(.secondary)
-
-            // What is still to come. A lead means nothing without this.
-            HStack(alignment: .top) {
-                progress(me, alignment: .leading)
+            // Projection and what is left to play share a line: the header no
+            // longer scrolls away, so each row it costs is a row of roster.
+            HStack(alignment: .firstTextBaseline) {
+                summary(me, alignment: .leading)
                 Spacer(minLength: 4)
-                progress(opp, alignment: .trailing)
+                summary(opp, alignment: .trailing)
             }
             .font(.system(size: 10))
-            .foregroundStyle(.tertiary)
-
-            if let standing = standingText {
-                Text(standing)
-                    .font(.system(size: 10))
-                    .foregroundStyle(.tertiary)
-                    .padding(.top, 1)
-            }
+            .foregroundStyle(.secondary)
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, 5)
     }
 
     private func totals(
@@ -104,36 +90,22 @@ struct MatchupHeaderView: View {
         }
     }
 
-    private func projection(_ team: TeamScore?) -> some View {
-        Text("proj \(Format.projected(team?.projected))")
-            .monospacedDigit()
-    }
-
-    private func progress(
+    /// "proj 142.6 · 7 to play" — the projection and what is left to come.
+    private func summary(
         _ team: TeamScore?, alignment: HorizontalAlignment
     ) -> some View {
-        VStack(alignment: alignment, spacing: 0) {
-            Text(team?.progressText ?? "")
-            if let remaining = team?.remaining, remaining > 0 {
-                Text("+\(Format.projected(remaining)) to come")
-                    .monospacedDigit()
-            }
-        }
-        .frame(
-            maxWidth: .infinity,
-            alignment: alignment == .leading ? .leading : .trailing
-        )
-    }
-
-    /// "1st of 10 · 1-0" — where today's score sits, and the season so far.
-    private var standingText: String? {
-        guard let me else { return nil }
-        var parts: [String] = []
-        if let rank = me.rankText {
-            parts.append(leagueSize.map { "\(rank) of \($0)" } ?? rank)
-        }
-        if let record = me.record { parts.append(record) }
-        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+        let projection = "proj \(Format.projected(team?.projected))"
+        let text = [projection, team?.progressText]
+            .compactMap { $0 }
+            .joined(separator: " · ")
+        return Text(text)
+            .monospacedDigit()
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
+            .frame(
+                maxWidth: .infinity,
+                alignment: alignment == .leading ? .leading : .trailing
+            )
     }
 }
 
