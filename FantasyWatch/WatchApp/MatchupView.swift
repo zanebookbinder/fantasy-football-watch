@@ -9,7 +9,7 @@ struct MatchupView: View {
             Group {
                 switch model.payload?.state {
                 case .ok:
-                    lineupList
+                    lineupPages
                 case .authExpired:
                     StatusView(
                         symbol: "key.slash",
@@ -38,7 +38,6 @@ struct MatchupView: View {
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
         }
-        .refreshable { await model.refresh() }
     }
 
     private var navigationTitle: String {
@@ -60,7 +59,19 @@ struct MatchupView: View {
         }
     }
 
-    private var lineupList: some View {
+    /// Two pages, swiped between. The page dots below double as the team
+    /// indicator, which is what the arrow button used to be for.
+    private var lineupPages: some View {
+        TabView(selection: $model.side) {
+            lineupList(for: .me)
+                .tag(Side.me)
+            lineupList(for: .opp)
+                .tag(Side.opp)
+        }
+        .tabViewStyle(.page)
+    }
+
+    private func lineupList(for side: Side) -> some View {
         List {
             Section {
                 MatchupHeaderView(
@@ -72,32 +83,21 @@ struct MatchupView: View {
             }
 
             Section {
-                ForEach(model.lineup) { player in
+                ForEach(model.payload?.lineup(for: side) ?? []) { player in
                     PlayerRow(player: player)
                 }
             } header: {
-                sideHeader
+                Text(model.team(for: side)?.team ?? "Lineup")
+                    .lineLimit(1)
             } footer: {
                 freshnessFooter
             }
         }
         .listStyle(.plain)
-    }
-
-    private var sideHeader: some View {
-        Button {
-            model.toggleSide()
-        } label: {
-            HStack {
-                Text(model.focusedTeam?.team ?? "Lineup")
-                    .lineLimit(1)
-                Spacer()
-                Image(systemName: "arrow.left.arrow.right")
-                    .font(.caption2)
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityHint("Switches between your lineup and your opponent's")
+        .refreshable { await model.refresh() }
+        .accessibilityLabel(
+            side == .me ? "Your lineup" : "Your opponent's lineup"
+        )
     }
 
     @ViewBuilder

@@ -33,18 +33,12 @@ final class MatchupModel {
         payload?.lineup(for: side) ?? []
     }
 
-    /// The team whose lineup is on screen, and the other one.
-    var focusedTeam: TeamScore? {
+    func team(for side: Side) -> TeamScore? {
         side == .me ? payload?.me : payload?.opp
     }
 
-    var otherTeam: TeamScore? {
-        side == .me ? payload?.opp : payload?.me
-    }
-
-    func toggleSide() {
-        side = side == .me ? .opp : .me
-    }
+    /// The team whose lineup is on screen.
+    var focusedTeam: TeamScore? { team(for: side) }
 
     // MARK: - Polling
 
