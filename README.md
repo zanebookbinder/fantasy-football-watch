@@ -23,6 +23,7 @@ watch (app + widget)  ──GET /score + x-api-key──▶  Lambda  ──cooki
 | `lambda/template.yaml` | SAM stack — function, Function URL, secret, IAM, log group |
 | `lambda/tests/` | 34 tests, run against a real captured week |
 | `lambda/tools/` | Fixture capture and sample-payload generation |
+| `scripts/` | Cookie refresh |
 | `FantasyWatch/Shared/` | Codable models, networking, config — compiled into both targets |
 | `FantasyWatch/WatchApp/` | The full-detail app: header, starter list, polling loop |
 | `FantasyWatch/WatchWidget/` | The Smart Stack widget and its timeline provider |
@@ -88,8 +89,8 @@ aws secretsmanager put-secret-value \
   --secret-string '{"SWID":"{...}","espn_s2":"..."}'
 ```
 
-Grab both cookies from your browser while logged in to ESPN (DevTools →
-Application → Cookies → `espn.com`). `SWID` includes its curly braces.
+Or just run `make refresh-cookies`, which does the same thing with a hidden
+prompt and checks the cookies against ESPN first — see below.
 
 Then check it:
 
@@ -98,6 +99,43 @@ curl -H "x-api-key: $CLIENT_API_KEY" "$SCORE_URL/score"
 ```
 
 `sam deploy` prints `ScoreUrl` and `SecretId` as stack outputs.
+
+## Refreshing the cookies
+
+`espn_s2` expires. When it does, ESPN returns 401, the Lambda answers
+`auth_expired`, and the watch shows **Reconnect** — that's the signal, and it's
+the only warning you get.
+
+```bash
+make refresh-cookies
+```
+
+It reuses the stored `SWID`, takes the new `espn_s2` on a hidden prompt,
+**validates it against ESPN before saving anything**, writes it to Secrets
+Manager, and then waits for the live endpoint to start serving `ok` again so you
+know it worked without picking up the watch. A bad paste aborts with the old
+secret untouched. Pass `--swid` if the SWID ever needs changing too.
+
+No cache busting is involved: on a 401 the Lambda drops its in-memory cookies,
+so the next request past the ~20s payload TTL re-reads the secret by itself.
+
+**How often?** Nobody can say precisely. `SWID` is your account's GUID and
+effectively never changes, so this is really only ever the one value. `espn_s2`
+is issued with a long nominal expiry (check the `Expires` column in DevTools for
+yours) but is invalidated early by logging out anywhere, changing your password,
+or Disney rotating sessions. Reported lifetimes run from a few weeks to a whole
+season. Since the cost of being surprised is one `make refresh-cookies`, this is
+built to be cheap rather than predictable.
+
+**Why the watch can't do this itself.** The cookies live in a browser, on a
+different device. watchOS has no browser, no access to Safari's cookie store,
+and no `ASWebAuthenticationSession` — there is nothing on the watch for it to
+read. Automating it further means either an iOS companion app that harvests
+cookies from a `WKWebView` after you log in, or scripting the Disney OneID login
+with your account password. The latter is deliberately not built here: a
+password is a strictly more powerful secret than the cookie it would replace, it
+breaks under 2FA and CAPTCHA, and it would be run from an AWS IP that Disney is
+far more likely to challenge than your home connection.
 
 ### Configuration
 
@@ -157,9 +195,10 @@ for live; treat the widget as a frequently-updated glance, not a ticker.**
 ## Developing
 
 ```bash
-make test        # 34 tests
-make typecheck   # both watch targets against the watchOS SDK
-make sample      # regenerate the contract sample
+make test             # 34 tests
+make typecheck        # both watch targets against the watchOS SDK
+make sample           # regenerate the contract sample
+make refresh-cookies  # push fresh ESPN cookies to Secrets Manager
 make fixture RAW=~/Downloads/fantasy-data.json   # rebuild the test fixture
 ```
 

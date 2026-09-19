@@ -1,4 +1,4 @@
-.PHONY: help test sample fixture deploy typecheck
+.PHONY: help test sample fixture deploy typecheck refresh-cookies
 
 help:
 	@echo "test       Run the Lambda test suite"
@@ -7,6 +7,7 @@ help:
 	@echo "           make fixture RAW=~/Downloads/fantasy-data.json"
 	@echo "typecheck  Type-check both watch targets against the watchOS SDK"
 	@echo "deploy     sam build && sam deploy --guided"
+	@echo "refresh-cookies  Paste fresh ESPN cookies into Secrets Manager"
 
 VENV := .venv
 PY := $(VENV)/bin/python
@@ -39,3 +40,7 @@ typecheck:
 
 deploy:
 	cd lambda && sam build && sam deploy --guided
+
+# Validates against ESPN before saving, so a bad paste can't break the stack.
+refresh-cookies:
+	@./scripts/refresh-cookies.sh
