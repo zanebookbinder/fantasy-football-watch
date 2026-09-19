@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Fantasy Watch score proxy. Holds the ESPN cookies so the watch never sees
+  them, and hands back a compact, cookie-free payload.
+
+Parameters:
+  ClientApiKey:
+    Type: String
+    NoEcho: true
+    MinLength: 20
+    Description: >
+      Static key the watch app sends as x-api-key. Generate one with
+      `openssl rand -hex 24`. This is what keeps the Function URL from being
+      open to the internet.
+  LeagueId:
+    Type: String
+    Default: '1896305934'
+  TeamId:
+    Type: Number
+    Default: 7
+  Season:
+    Type: Number
+    Default: 2026
+  CacheTtlSeconds:
+    Type: Number
+    Default: 20
+    Description: >
+      The live-ness knob. 20s caps ESPN at ~3 calls/min no matter how fast the
+      watch polls; fantasy scoring updates on about that cadence anyway.
+
+Globals:
+  Function:
+    Timeout: 15
+    MemorySize: 256
+    Runtime: python3.13
+    Architectures: [arm64]
+
+Resources:
+  EspnCookies:
+    Type: AWS::SecretsManager::Secret
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Properties:
+      Name: !Sub '${AWS::StackName}/espn-cookies'
+      Description: ESPN SWID and espn_s2 cookies for the fantasy league read.
+      # Created with a throwaway value; put the real cookies in afterwards with
+      # `aws secretsmanager put-secret-value` so they never touch this template,
+      # CloudFormation's history, or source control. GenerateSecretString only
+      # applies at create time, so redeploys never clobber the real value.
+      GenerateSecretString:
+        SecretStringTemplate: '{"SWID":"replace-me"}'
+        GenerateStringKey: espn_s2
+        PasswordLength: 32
+        ExcludePunctuation: true
+
+  ScoreFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-score'
+      CodeUri: ./
+      Handler: app.handler.lambda_handler
+      Description: Fetches and parses the live ESPN fantasy matchup.
+      Environment:
+        Variables:
+          ESPN_SECRET_ID: !Ref EspnCookies
+          CLIENT_API_KEY: !Ref ClientApiKey
+          LEAGUE_ID: !Ref LeagueId
+          TEAM_ID: !Ref TeamId
+          SEASON: !Ref Season
+          CACHE_TTL_SECONDS: !Ref CacheTtlSeconds
+          LOG_LEVEL: INFO
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: !Ref EspnCookies
+      FunctionUrlConfig:
+        # The x-api-key header is the auth; IAM auth would mean signing requests
+        # from the watch, which is not worth it for one personal endpoint.
+        AuthType: NONE
+
+  ScoreFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${AWS::StackName}-score'
+      RetentionInDays: 14
+
+Outputs:
+  ScoreUrl:
+    Description: Put this in FantasyWatch/Config/Secrets.xcconfig as LAMBDA_BASE_URL.
+    Value: !GetAtt ScoreFunctionUrl.FunctionUrl
+  SecretId:
+    Description: Put the real ESPN cookies here.
+    Value: !Ref EspnCookies

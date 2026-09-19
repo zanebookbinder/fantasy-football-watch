@@ -1,0 +1,18 @@
+// Shared build settings for both targets.
+//
+// The endpoint and client key are intentionally empty here and overridden by
+// Config/Secrets.xcconfig, which is gitignored (design doc: "Keep the key in
+// the watch app's build config, not in source control").
+
+// An xcconfig treats "//" as a comment, even inside a value, so a URL cannot be
+// written literally. Defining a slash variable and interpolating it is the
+// standard way around that -- see Secrets.example.xcconfig.
+SLASH = /
+
+LAMBDA_BASE_URL =
+CLIENT_API_KEY =
+
+// Optional: present only after you copy the example file. The "?" makes a
+// missing file a no-op rather than a build failure, so the project still
+// compiles on a fresh clone.
+#include? "Secrets.xcconfig"

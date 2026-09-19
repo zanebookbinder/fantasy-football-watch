@@ -1,0 +1,3 @@
+# No third-party dependencies: the handler uses urllib for HTTP, and boto3 for
+# Secrets Manager is already present in the Lambda Python runtime. Keeping this
+# empty means the deployment package is a few KB and cold starts stay short.

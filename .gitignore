@@ -1,0 +1,27 @@
+# Secrets: the Lambda endpoint and client API key never go in source control.
+FantasyWatch/Config/Secrets.xcconfig
+
+# Never commit a raw ESPN response -- it contains league and account data.
+# Use lambda/tools/capture_fixture.py to produce the trimmed test fixture.
+fantasy-data.json
+*-raw.json
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcworkspace/xcuserdata/
+
+# SAM / AWS
+lambda/.aws-sam/
+samconfig.toml
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# macOS
+.DS_Store
