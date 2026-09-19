@@ -57,6 +57,35 @@ def get_cookies():
         return _cached
 
 
+def put_cookies(swid, espn_s2):
+    """Replace the stored cookies.
+
+    Never logs either value. Callers are expected to have validated the pair
+    against ESPN first -- this does not check, it just writes.
+    """
+    secret_id = os.environ.get("ESPN_SECRET_ID")
+    if not secret_id:
+        raise RuntimeError("ESPN_SECRET_ID is not set; nowhere to write")
+
+    import boto3  # imported lazily so tests need no AWS SDK
+
+    client = boto3.client("secretsmanager")
+    client.put_secret_value(
+        SecretId=secret_id,
+        SecretString=json.dumps({"SWID": swid, "espn_s2": espn_s2}),
+    )
+    reset()
+
+
+def normalize_swid(value):
+    """ESPN's SWID is a GUID in curly braces; people copy it bare."""
+    value = (value or "").strip()
+    if not value:
+        return ""
+    value = value[len("SWID="):] if value.startswith("SWID=") else value
+    return value if value.startswith("{") else "{" + value.strip("{}") + "}"
+
+
 def reset():
     """Drop the cached cookies so the next call re-reads them."""
     global _cached

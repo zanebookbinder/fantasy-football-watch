@@ -106,22 +106,50 @@ curl -H "x-api-key: $CLIENT_API_KEY" "$SCORE_URL/score"
 
 ## Refreshing the cookies
 
-`espn_s2` expires. When it does, ESPN returns 401, the Lambda answers
-`auth_expired`, and the watch shows **Reconnect** — that's the signal, and it's
-the only warning you get.
+Two ways, same outcome. Both validate the cookie against ESPN before writing,
+so a bad paste always leaves a working secret alone.
+
+### From the Mac
 
 ```bash
 make refresh-cookies
 ```
 
-It reuses the stored `SWID`, takes the new `espn_s2` on a hidden prompt,
-**validates it against ESPN before saving anything**, writes it to Secrets
-Manager, and then waits for the live endpoint to start serving `ok` again so you
-know it worked without picking up the watch. A bad paste aborts with the old
-secret untouched. Pass `--swid` if the SWID ever needs changing too.
+Reuses the stored `SWID`, takes the new `espn_s2` on a hidden prompt, writes it
+via the AWS CLI, then waits for the endpoint to serve `ok` again.
 
-No cache busting is involved: on a 401 the Lambda drops its in-memory cookies,
-so the next request past the ~20s payload TTL re-reads the secret by itself.
+### From anything that can make an HTTP request
+
+`POST /cookies` rotates the session with no AWS credentials involved — useful
+from a phone, a Shortcut, or any machine without the AWS CLI:
+
+```bash
+source .secrets.env    # gitignored; holds SCORE_URL and both keys
+
+curl -X POST "$SCORE_URL/cookies" \
+  -H "x-admin-key: $ADMIN_API_KEY" \
+  -H 'content-type: application/json' \
+  -d '{"espn_s2":"PASTE_IT_HERE"}'
+```
+
+`{"state":"ok"}` means saved and live. `{"state":"rejected"}` means ESPN did not
+accept the pair and **nothing was written**. `SWID` is optional — omit it and the
+stored one is reused; send it bare or braced, either works.
+
+**The write key is deliberately not the read key.** `CLIENT_API_KEY` is compiled
+into the watch app, on a device you could lose; it gets a `403` on this endpoint.
+Only `ADMIN_API_KEY` can rotate the session.
+
+### When it expires
+
+`espn_s2` expires. When it does, ESPN returns 401, the Lambda answers
+`auth_expired`, and the watch shows **Reconnect** — that's the signal, and it's
+the only warning you get. Then run either of the above.
+
+Recovery takes up to the cache TTL and needs no restart: on a 401 the Lambda
+drops its in-memory cookies, so the next request past the ~20s payload TTL
+re-reads the secret by itself. A write through `POST /cookies` clears that
+container's cache immediately.
 
 **How often?** Nobody can say precisely. `SWID` is your account's GUID and
 effectively never changes, so this is really only ever the one value. `espn_s2`
@@ -146,7 +174,8 @@ far more likely to challenge than your home connection.
 | Env var | Default | Purpose |
 | --- | --- | --- |
 | `ESPN_SECRET_ID` | — | Secrets Manager id holding `SWID` and `espn_s2` |
-| `CLIENT_API_KEY` | — | Key the watch sends as `x-api-key`; **unset means every request is refused** |
+| `CLIENT_API_KEY` | — | Key the watch sends as `x-api-key` for reads; **unset means every request is refused** |
+| `ADMIN_API_KEY` | — | Key for `POST /cookies`, sent as `x-admin-key`; must differ from `CLIENT_API_KEY` |
 | `LEAGUE_ID` | `1896305934` | |
 | `TEAM_ID` | `7` | |
 | `SEASON` | `2026` | |
