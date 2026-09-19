@@ -7,47 +7,36 @@ struct MatchupView: View {
     /// Which roster the horizontal pager is resting on.
     @State private var pagedSide: Side? = .me
 
+    // No NavigationStack: its top bar pinned the week label in place and blurred
+    // whatever scrolled under it. The label is ordinary content now, so it sits
+    // level with the clock and scrolls away with everything else.
     var body: some View {
-        NavigationStack {
-            Group {
-                switch model.payload?.state {
-                case .ok:
-                    matchup
-                case .authExpired:
-                    StatusView(
-                        symbol: "key.slash",
-                        title: "Reconnect",
-                        message: "ESPN signed the proxy out. Refresh the cookies in Secrets Manager.",
-                        tint: .orange
-                    )
-                case .noMatchup:
-                    StatusView(
-                        symbol: "calendar",
-                        title: "No matchup",
-                        message: "Nothing scheduled this week.",
-                        tint: .secondary
-                    )
-                case .upstreamError:
-                    StatusView(
-                        symbol: "exclamationmark.icloud",
-                        title: "ESPN unavailable",
-                        message: "Couldn't read the league. Trying again shortly.",
-                        tint: .orange
-                    )
-                case nil:
-                    initialState
-                }
-            }
-            // Level with the clock, in the top bar. watchOS reserves that band
-            // whether or not anything is in it, so putting the week there is
-            // free; moving it into the content only pushed everything down.
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text(weekText)
-                        .font(.caption)
-                        .foregroundStyle(.green)
-                }
-            }
+        switch model.payload?.state {
+        case .ok:
+            matchup
+        case .authExpired:
+            StatusView(
+                symbol: "key.slash",
+                title: "Reconnect",
+                message: "ESPN signed the proxy out. Refresh the cookies in Secrets Manager.",
+                tint: .orange
+            )
+        case .noMatchup:
+            StatusView(
+                symbol: "calendar",
+                title: "No matchup",
+                message: "Nothing scheduled this week.",
+                tint: .secondary
+            )
+        case .upstreamError:
+            StatusView(
+                symbol: "exclamationmark.icloud",
+                title: "ESPN unavailable",
+                message: "Couldn't read the league. Trying again shortly.",
+                tint: .orange
+            )
+        case nil:
+            initialState
         }
     }
 
@@ -76,6 +65,10 @@ struct MatchupView: View {
     private var matchup: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 6) {
+                Text(weekText)
+                    .font(.caption)
+                    .foregroundStyle(.green)
+
                 MatchupHeaderView(
                     me: model.payload?.me,
                     opp: model.payload?.opp,
@@ -86,11 +79,10 @@ struct MatchupView: View {
                 footer
             }
             .padding(.horizontal, 6)
-            // The top bar reserves a much taller band than the week label
-            // needs. Ignoring it and paying a hand-measured inset instead --
-            // just enough to clear the label -- is the only way to close that
-            // gap on watchOS.
-            .padding(.top, 46)
+            // Hand-measured so the week label lands level with the clock. The
+            // safe area is ignored because its inset is far taller than a
+            // caption needs, and paying it put a dead band under the label.
+            .padding(.top, 22)
         }
         .ignoresSafeArea(.container, edges: .top)
     }
