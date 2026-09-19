@@ -7,9 +7,6 @@ struct MatchupView: View {
     /// Which roster the horizontal pager is resting on.
     @State private var pagedSide: Side? = .me
 
-    /// Anchor for sending the vertical scroll back to the top on a team switch.
-    private let topAnchor = "top"
-
     var body: some View {
         NavigationStack {
             Group {
@@ -77,32 +74,25 @@ struct MatchupView: View {
     /// other content, with a horizontal pager nested inside it that moves only
     /// the roster.
     private var matchup: some View {
-        ScrollViewReader { proxy in
-            ScrollView(.vertical) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Color.clear
-                        .frame(height: 0)
-                        .id(topAnchor)
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 6) {
+                MatchupHeaderView(
+                    me: model.payload?.me,
+                    opp: model.payload?.opp,
+                    leagueSize: model.payload?.leagueSize
+                )
 
-                    MatchupHeaderView(
-                        me: model.payload?.me,
-                        opp: model.payload?.opp,
-                        leagueSize: model.payload?.leagueSize
-                    )
-
-                    rosterPager
-                    footer
-                }
-                .padding(.horizontal, 6)
+                rosterPager
+                footer
             }
-            .onChange(of: model.side) { _, _ in
-                // Coming back to a roster should start at the QB again, not
-                // wherever this side happened to be left.
-                withAnimation(.easeOut(duration: 0.2)) {
-                    proxy.scrollTo(topAnchor, anchor: .top)
-                }
-            }
+            .padding(.horizontal, 6)
+            // The top bar reserves a much taller band than the week label
+            // needs. Ignoring it and paying a hand-measured inset instead --
+            // just enough to clear the label -- is the only way to close that
+            // gap on watchOS.
+            .padding(.top, 46)
         }
+        .ignoresSafeArea(.container, edges: .top)
     }
 
     /// A paging horizontal scroll rather than a TabView: it takes its height
