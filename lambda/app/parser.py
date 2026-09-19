@@ -62,6 +62,27 @@ def _split_for(player, scoring_period, stat_source_id):
     return None
 
 
+def _game_info(game_states, pro_team_id):
+    """Normalize a scoreboard entry.
+
+    Accepts the rich dict ``fetch_game_states`` returns, and tolerates a bare
+    state string so callers with nothing but a state still work.
+    """
+    raw = game_states.get(pro_team_id)
+    if raw is None:
+        return None
+    if isinstance(raw, str):
+        return {"state": raw, "opponent": None, "isAway": False, "kickoff": None}
+    return raw
+
+
+def _opponent_label(info):
+    """"@SF" when the player's team is on the road, "NE" when at home."""
+    if not info or not info.get("opponent"):
+        return None
+    return ("@" if info.get("isAway") else "") + info["opponent"]
+
+
 def _build_player(entry, side, scoring_period, game_states):
     pool = entry.get("playerPoolEntry") or {}
     player = pool.get("player") or {}
@@ -77,7 +98,8 @@ def _build_player(entry, side, scoring_period, game_states):
 
     # A player with a real stat split has certainly started; otherwise trust the
     # NFL scoreboard, and fall back to "pre" when the team has no game (bye).
-    game_state = game_states.get(pro_team_id)
+    info = _game_info(game_states, pro_team_id)
+    game_state = (info or {}).get("state")
     if game_state is None:
         game_state = "live" if raw_stats else "pre"
     elif game_state == "pre" and raw_stats:
@@ -94,6 +116,11 @@ def _build_player(entry, side, scoring_period, game_states):
         "points": _round(pool.get("appliedStatTotal"), 2) or 0.0,
         "projected": _round((projection or {}).get("appliedTotal"), 1),
         "statLine": build_stat_line(position, raw_stats),
+        # Lets the watch show "@SF Sun 1pm" for a player who has not kicked off,
+        # instead of a 0.00 that means nothing. Kickoff is UTC; the watch renders
+        # it in the wearer's own timezone.
+        "opponent": _opponent_label(info),
+        "kickoff": (info or {}).get("kickoff"),
         "injury": None if injury in ("NORMAL", "ACTIVE") else injury,
         "side": side,
         "_order": (

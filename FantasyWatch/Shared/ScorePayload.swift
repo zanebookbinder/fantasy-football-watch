@@ -61,6 +61,10 @@ struct Player: Codable, Equatable, Identifiable, Sendable {
     var points: Double
     var projected: Double?
     var statLine: String
+    /// "@SF" on the road, "NE" at home, nil when the scoreboard had nothing.
+    var opponent: String?
+    /// Kickoff in UTC; rendered in the wearer's own timezone.
+    var kickoff: Date?
     var injury: String?
     var side: Side
 

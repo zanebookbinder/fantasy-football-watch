@@ -20,6 +20,9 @@ from app import constants as C  # noqa: E402
 from app.parser import build_payload  # noqa: E402
 
 FIXTURE = os.path.join(HERE, "..", "tests", "fixtures", "league-week2.json")
+GAME_STATES = os.path.join(
+    HERE, "..", "tests", "fixtures", "game-states-week2.json"
+)
 
 
 def main():
@@ -32,8 +35,9 @@ def main():
     with open(args.fixture) as handle:
         league = json.load(handle)
 
-    # BUF and DET have finished; everyone else has yet to kick off.
-    game_states = {2: "final", 8: "final"}
+    # The real week-2 scoreboard, captured so the sample stays deterministic.
+    with open(GAME_STATES) as handle:
+        game_states = {int(k): v for k, v in json.load(handle).items()}
     payload = build_payload(
         league,
         args.team_id,

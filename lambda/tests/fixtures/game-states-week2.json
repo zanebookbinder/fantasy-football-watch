@@ -1,0 +1,194 @@
+{
+ "1": {
+  "isAway": false,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "CAR",
+  "state": "pre"
+ },
+ "10": {
+  "isAway": false,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "PHI",
+  "state": "pre"
+ },
+ "11": {
+  "isAway": true,
+  "kickoff": "2026-09-21T00:20:00Z",
+  "opponent": "KC",
+  "state": "pre"
+ },
+ "12": {
+  "isAway": false,
+  "kickoff": "2026-09-21T00:20:00Z",
+  "opponent": "IND",
+  "state": "pre"
+ },
+ "13": {
+  "isAway": true,
+  "kickoff": "2026-09-20T20:05:00Z",
+  "opponent": "LAC",
+  "state": "pre"
+ },
+ "14": {
+  "isAway": false,
+  "kickoff": "2026-09-22T00:15:00Z",
+  "opponent": "NYG",
+  "state": "pre"
+ },
+ "15": {
+  "isAway": true,
+  "kickoff": "2026-09-20T20:25:00Z",
+  "opponent": "SF",
+  "state": "pre"
+ },
+ "16": {
+  "isAway": true,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "CHI",
+  "state": "pre"
+ },
+ "17": {
+  "isAway": false,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "PIT",
+  "state": "pre"
+ },
+ "18": {
+  "isAway": true,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "BAL",
+  "state": "pre"
+ },
+ "19": {
+  "isAway": true,
+  "kickoff": "2026-09-22T00:15:00Z",
+  "opponent": "LAR",
+  "state": "pre"
+ },
+ "2": {
+  "isAway": false,
+  "kickoff": "2026-09-18T00:15:00Z",
+  "opponent": "DET",
+  "state": "final"
+ },
+ "20": {
+  "isAway": false,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "GB",
+  "state": "pre"
+ },
+ "21": {
+  "isAway": true,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "TEN",
+  "state": "pre"
+ },
+ "22": {
+  "isAway": false,
+  "kickoff": "2026-09-20T20:25:00Z",
+  "opponent": "SEA",
+  "state": "pre"
+ },
+ "23": {
+  "isAway": true,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "NE",
+  "state": "pre"
+ },
+ "24": {
+  "isAway": false,
+  "kickoff": "2026-09-20T20:05:00Z",
+  "opponent": "LV",
+  "state": "pre"
+ },
+ "25": {
+  "isAway": false,
+  "kickoff": "2026-09-20T20:25:00Z",
+  "opponent": "MIA",
+  "state": "pre"
+ },
+ "26": {
+  "isAway": true,
+  "kickoff": "2026-09-20T20:25:00Z",
+  "opponent": "ARI",
+  "state": "pre"
+ },
+ "27": {
+  "isAway": false,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "CLE",
+  "state": "pre"
+ },
+ "28": {
+  "isAway": true,
+  "kickoff": "2026-09-20T20:25:00Z",
+  "opponent": "DAL",
+  "state": "pre"
+ },
+ "29": {
+  "isAway": true,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "ATL",
+  "state": "pre"
+ },
+ "3": {
+  "isAway": false,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "MIN",
+  "state": "pre"
+ },
+ "30": {
+  "isAway": true,
+  "kickoff": "2026-09-20T20:05:00Z",
+  "opponent": "DEN",
+  "state": "pre"
+ },
+ "33": {
+  "isAway": false,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "NO",
+  "state": "pre"
+ },
+ "34": {
+  "isAway": false,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "CIN",
+  "state": "pre"
+ },
+ "4": {
+  "isAway": true,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "HOU",
+  "state": "pre"
+ },
+ "5": {
+  "isAway": true,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "TB",
+  "state": "pre"
+ },
+ "6": {
+  "isAway": false,
+  "kickoff": "2026-09-20T20:25:00Z",
+  "opponent": "WSH",
+  "state": "pre"
+ },
+ "7": {
+  "isAway": false,
+  "kickoff": "2026-09-20T20:05:00Z",
+  "opponent": "JAX",
+  "state": "pre"
+ },
+ "8": {
+  "isAway": true,
+  "kickoff": "2026-09-18T00:15:00Z",
+  "opponent": "BUF",
+  "state": "final"
+ },
+ "9": {
+  "isAway": true,
+  "kickoff": "2026-09-20T17:00:00Z",
+  "opponent": "NYJ",
+  "state": "pre"
+ }
+}

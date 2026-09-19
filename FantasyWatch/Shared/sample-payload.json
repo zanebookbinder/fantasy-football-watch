@@ -24,6 +24,8 @@
       "points": 40.82,
       "projected": 22.7,
       "statLine": "20/31, 248 yd, 3 TD \u00b7 14 car, 69 yd, 2 TD",
+      "opponent": "DET",
+      "kickoff": "2026-09-18T00:15:00Z",
       "injury": null,
       "side": "me"
     },
@@ -36,6 +38,8 @@
       "points": 0.0,
       "projected": 21.5,
       "statLine": "",
+      "opponent": "MIA",
+      "kickoff": "2026-09-20T20:25:00Z",
       "injury": null,
       "side": "me"
     },
@@ -48,6 +52,8 @@
       "points": 0.0,
       "projected": 17.6,
       "statLine": "",
+      "opponent": "NO",
+      "kickoff": "2026-09-20T17:00:00Z",
       "injury": null,
       "side": "me"
     },
@@ -60,6 +66,8 @@
       "points": 0.0,
       "projected": 15.9,
       "statLine": "",
+      "opponent": "GB",
+      "kickoff": "2026-09-20T17:00:00Z",
       "injury": null,
       "side": "me"
     },
@@ -72,6 +80,8 @@
       "points": 6.8,
       "projected": 10.3,
       "statLine": "3 rec, 38 yd",
+      "opponent": "DET",
+      "kickoff": "2026-09-18T00:15:00Z",
       "injury": null,
       "side": "me"
     },
@@ -84,6 +94,8 @@
       "points": 0.0,
       "projected": 10.5,
       "statLine": "",
+      "opponent": "MIA",
+      "kickoff": "2026-09-20T20:25:00Z",
       "injury": null,
       "side": "me"
     },
@@ -96,6 +108,8 @@
       "points": 0.0,
       "projected": 14.1,
       "statLine": "",
+      "opponent": "@CHI",
+      "kickoff": "2026-09-20T17:00:00Z",
       "injury": null,
       "side": "me"
     },
@@ -108,6 +122,8 @@
       "points": 0.0,
       "projected": 6.6,
       "statLine": "",
+      "opponent": "PIT",
+      "kickoff": "2026-09-20T17:00:00Z",
       "injury": null,
       "side": "me"
     },
@@ -120,6 +136,8 @@
       "points": 0.0,
       "projected": 8.8,
       "statLine": "",
+      "opponent": "CLE",
+      "kickoff": "2026-09-20T17:00:00Z",
       "injury": null,
       "side": "me"
     },
@@ -132,6 +150,8 @@
       "points": 0.0,
       "projected": 21.7,
       "statLine": "",
+      "opponent": "NO",
+      "kickoff": "2026-09-20T17:00:00Z",
       "injury": null,
       "side": "opp"
     },
@@ -144,6 +164,8 @@
       "points": 0.0,
       "projected": 18.4,
       "statLine": "",
+      "opponent": "@KC",
+      "kickoff": "2026-09-21T00:20:00Z",
       "injury": null,
       "side": "opp"
     },
@@ -156,6 +178,8 @@
       "points": 0.0,
       "projected": 17.6,
       "statLine": "",
+      "opponent": "@TEN",
+      "kickoff": "2026-09-20T17:00:00Z",
       "injury": null,
       "side": "opp"
     },
@@ -168,6 +192,8 @@
       "points": 0.0,
       "projected": 13.7,
       "statLine": "",
+      "opponent": "NYG",
+      "kickoff": "2026-09-22T00:15:00Z",
       "injury": null,
       "side": "opp"
     },
@@ -180,6 +206,8 @@
       "points": 0.0,
       "projected": 9.9,
       "statLine": "",
+      "opponent": "LV",
+      "kickoff": "2026-09-20T20:05:00Z",
       "injury": null,
       "side": "opp"
     },
@@ -192,6 +220,8 @@
       "points": 0.0,
       "projected": 11.0,
       "statLine": "",
+      "opponent": "@LAR",
+      "kickoff": "2026-09-22T00:15:00Z",
       "injury": null,
       "side": "opp"
     },
@@ -204,6 +234,8 @@
       "points": -0.1,
       "projected": 12.6,
       "statLine": "1 car, -1 yd",
+      "opponent": "DET",
+      "kickoff": "2026-09-18T00:15:00Z",
       "injury": null,
       "side": "opp"
     },
@@ -216,6 +248,8 @@
       "points": 0.0,
       "projected": 6.6,
       "statLine": "",
+      "opponent": "MIA",
+      "kickoff": "2026-09-20T20:25:00Z",
       "injury": null,
       "side": "opp"
     },
@@ -228,6 +262,8 @@
       "points": 0.0,
       "projected": 9.8,
       "statLine": "",
+      "opponent": "LV",
+      "kickoff": "2026-09-20T20:05:00Z",
       "injury": null,
       "side": "opp"
     }

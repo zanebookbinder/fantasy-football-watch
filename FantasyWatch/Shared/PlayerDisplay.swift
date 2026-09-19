@@ -3,17 +3,42 @@ import Foundation
 /// Presentation-only derivations. Anything that would need an ESPN stat id
 /// belongs in the Lambda, not here.
 extension Player {
-    /// What to show beneath the name when the Lambda sent an empty stat line.
+    /// What to show beneath the name.
     ///
-    /// The Lambda deliberately emits "" rather than a row of zeros, leaving the
-    /// placeholder wording to the UI.
-    var statLineOrPlaceholder: String {
+    /// The Lambda emits an empty stat line rather than a row of zeros. For a
+    /// player who has not kicked off, the kickoff itself is the useful thing to
+    /// show — "@SF Sun 1pm" tells you when to care; "yet to play" does not.
+    var subtitle: String {
         if !statLine.isEmpty { return statLine }
+        if gameState == .pre, let schedule = scheduleText { return schedule }
         switch gameState {
-        case .pre: return "— yet to play"
-        case .live: return "— no stats yet"
-        case .final: return "— did not play"
+        case .pre: return "yet to play"
+        case .live: return "no stats yet"
+        case .final: return "did not play"
         }
+    }
+
+    /// "@SF Sun 1pm" / "NE Thu 8:30pm", in the wearer's timezone.
+    var scheduleText: String? {
+        switch (opponent, kickoff) {
+        case let (opponent?, kickoff?):
+            return "\(opponent) \(Format.kickoff(kickoff))"
+        case let (opponent?, nil):
+            return opponent
+        case let (nil, kickoff?):
+            return Format.kickoff(kickoff)
+        default:
+            return nil
+        }
+    }
+
+    /// Points above or below projection, for players whose game has started.
+    ///
+    /// Meaningless before kickoff — everyone is "under" their projection at
+    /// 0.00 — so it is nil until there is a game to judge it against.
+    var projectionDelta: Double? {
+        guard gameState != .pre, let projected else { return nil }
+        return points - projected
     }
 
     var hasPlayed: Bool { gameState != .pre }
@@ -21,6 +46,13 @@ extension Player {
     var isOut: Bool {
         guard let injury else { return false }
         return ["OUT", "INJURY_RESERVE", "SUSPENSION", "DOUBTFUL"].contains(injury)
+    }
+
+    /// "J. Allen" — the widget's detail line has room for about that much.
+    var shortName: String {
+        let parts = name.split(separator: " ")
+        guard let first = parts.first, parts.count > 1 else { return name }
+        return "\(first.prefix(1)). \(parts.dropFirst().joined(separator: " "))"
     }
 
     /// "OUT", "Q" — short enough for a watch row.
@@ -33,6 +65,17 @@ extension Player {
         case "SUSPENSION": return "SUSP"
         default: return nil
         }
+    }
+}
+
+extension ScorePayload {
+    /// The starter furthest from their projection in either direction, across
+    /// both lineups — the single most interesting thing that has happened so
+    /// far, and what the widget leads with.
+    var biggestSurprise: Player? {
+        players
+            .filter { $0.projectionDelta != nil }
+            .max { abs($0.projectionDelta!) < abs($1.projectionDelta!) }
     }
 }
 
@@ -57,6 +100,21 @@ enum Format {
     static func projected(_ value: Double?) -> String {
         guard let value else { return "—" }
         return String(format: "%.1f", value)
+    }
+
+    /// "Sun 1pm", "Thu 8:30pm" — the minutes are dropped on the hour.
+    static func kickoff(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        let minutes = Calendar.current.component(.minute, from: date)
+        formatter.dateFormat = minutes == 0 ? "EEE ha" : "EEE h:mma"
+        return formatter.string(from: date)
+            .replacingOccurrences(of: "AM", with: "am")
+            .replacingOccurrences(of: "PM", with: "pm")
+    }
+
+    /// "+18.1" / "-7.2" — always signed, so the direction reads at a glance.
+    static func signedDelta(_ value: Double) -> String {
+        String(format: "%+.1f", value)
     }
 
     /// "as of 30s ago" — the honesty knob on a cached or stale score.

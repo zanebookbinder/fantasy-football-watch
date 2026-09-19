@@ -5,6 +5,7 @@ Uses urllib only, so the deployment package has no third-party dependencies.
 
 import json
 import logging
+from datetime import datetime, timezone
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -62,11 +63,31 @@ def fetch_league(league_id, season, swid, espn_s2):
         raise UpstreamError(f"could not reach ESPN: {exc.reason}") from exc
 
 
-def fetch_game_states(season, week):
-    """proTeamId -> 'pre' | 'live' | 'final' for every team playing this week.
+def _normalize_kickoff(raw):
+    """ESPN sends '2026-09-25T00:15Z' -- no seconds, which strict ISO 8601
+    parsers (Swift's included) reject. Re-emit it with seconds."""
+    if not raw:
+        return None
+    try:
+        parsed = datetime.strptime(raw, "%Y-%m-%dT%H:%MZ")
+    except ValueError:
+        try:
+            parsed = datetime.strptime(raw, "%Y-%m-%dT%H:%M:%SZ")
+        except ValueError:
+            return None
+    return parsed.replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    Best-effort: a scoreboard failure degrades the stat lines' gameState rather
-    than failing the whole request, so it never takes the score down with it.
+
+def fetch_game_states(season, week):
+    """proTeamId -> this week's game for that team.
+
+    Each value is ``{"state", "opponent", "isAway", "kickoff"}``: the state is
+    'pre' | 'live' | 'final', and the rest lets the watch show "@SF Sun 1pm"
+    for a player who has not kicked off instead of a meaningless 0.00.
+
+    Best-effort: a scoreboard failure degrades gameState and hides kickoff
+    times rather than failing the whole request, so it never takes the score
+    down with it.
     """
     query = urllib.parse.urlencode(
         {"week": week, "seasontype": 2, "year": season}
@@ -74,9 +95,12 @@ def fetch_game_states(season, week):
     url = f"{C.SCOREBOARD_URL}?{query}"
     mapping = {}
     try:
-        data = _get_json(url, {"User-Agent": C.BROWSER_UA}, SCOREBOARD_TIMEOUT)
+        data = _get_json(url, {"User-Agent": C.SCOREBOARD_UA}, SCOREBOARD_TIMEOUT)
     except Exception as exc:  # noqa: BLE001 - deliberately non-fatal
-        log.warning("scoreboard lookup failed, falling back: %s", exc)
+        # Logged at error level on purpose: the fallback produces plausible
+        # output, so a silent warning let a broken scoreboard call go unnoticed
+        # in production once already.
+        log.error("scoreboard lookup failed, approximating gameState: %s", exc)
         return mapping
 
     states = {"pre": "pre", "in": "live", "post": "final"}
@@ -85,11 +109,24 @@ def fetch_game_states(season, week):
         state = states.get(state)
         if not state:
             continue
+        kickoff = _normalize_kickoff(event.get("date"))
+
         for competition in event.get("competitions") or []:
-            for competitor in competition.get("competitors") or []:
-                team_id = (competitor.get("team") or {}).get("id")
+            competitors = competition.get("competitors") or []
+            if len(competitors) != 2:
+                continue
+            for competitor in competitors:
+                team = competitor.get("team") or {}
                 try:
-                    mapping[int(team_id)] = state
+                    team_id = int(team.get("id"))
                 except (TypeError, ValueError):
                     continue
+                other = next(c for c in competitors if c is not competitor)
+                opponent = (other.get("team") or {}).get("abbreviation")
+                mapping[team_id] = {
+                    "state": state,
+                    "opponent": opponent,
+                    "isAway": competitor.get("homeAway") == "away",
+                    "kickoff": kickoff,
+                }
     return mapping

@@ -46,6 +46,7 @@ else — no stat ids, no cookies, no ESPN hosts.
       "name": "Josh Allen", "slot": "QB", "position": "QB", "proTeam": "BUF",
       "gameState": "final", "points": 40.82, "projected": 22.7,
       "statLine": "20/31, 248 yd, 3 TD · 14 car, 69 yd, 2 TD",
+      "opponent": "DET", "kickoff": "2026-09-18T00:15:00Z",
       "injury": null, "side": "me"
     }
   ]
@@ -64,8 +65,11 @@ Notes on the numbers:
   split per player — it decays toward the live total as games finish.
 - `winProb` is ESPN's own `winProbability`, and the two sides sum to 1.
 - Points carry two decimals (as ESPN shows them); projections carry one.
-- `statLine` is `""` when a player has done nothing; the watch renders
-  "— yet to play" from `gameState` rather than printing a row of zeros.
+- `statLine` is `""` when a player has done nothing. Rather than printing a row
+  of zeros, the watch falls back to `opponent` + `kickoff` — "@SF Sun 1pm" tells
+  you when to care in a way "yet to play" does not.
+- `opponent` is `"@SF"` on the road and `"NE"` at home; `kickoff` is UTC and the
+  watch renders it in the wearer's own timezone.
 
 Regenerate `docs/sample-payload.json` with `make sample` — it also refreshes the
 copy bundled into both watch targets, so the two halves never drift.
@@ -205,6 +209,21 @@ make fixture RAW=~/Downloads/fantasy-data.json   # rebuild the test fixture
 `lambda/tests/fixtures/league-week2.json` is a 59 KB trim of a real week-2
 response — real data, small enough to commit. The raw 1.5 MB response is
 gitignored; don't commit one.
+
+## Two ESPN gotchas worth not relearning
+
+**The two hosts want opposite User-Agents.** `lm-api-reads` (the private fantasy
+read) 401s anything that is not browser-shaped. `site.api` (the public NFL
+scoreboard) does the reverse: it 403s a Chrome UA *even with a full set of
+Accept / Referer / Sec-Fetch-\* headers*, and serves plain clients happily.
+Sending the browser UA to both looks tidy and silently breaks the scoreboard —
+which is exactly what happened here, and the `gameState` fallback is plausible
+enough that it went unnoticed in production for a while. There is now a test
+pinning each host to its own UA, and the scoreboard failure logs at error level.
+
+**Kickoff times arrive without seconds.** ESPN sends `2026-09-25T00:15Z`, which
+strict ISO 8601 parsers — Swift's `.iso8601` among them — reject outright. The
+Lambda normalizes them before they reach the contract.
 
 ## Known limitations
 

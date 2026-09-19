@@ -48,10 +48,20 @@ final class MatchupModel {
 
     // MARK: - Polling
 
+    /// Show the last score this watch saw, immediately, while the network
+    /// catches up. Without this the app opens on a spinner every time even
+    /// though it already has a perfectly good score on disk.
+    func loadCachedPayload() async {
+        guard payload == nil, let cached = await client.lastGood() else { return }
+        payload = cached
+        isShowingLastGood = true
+    }
+
     /// Start the foreground loop. Safe to call repeatedly.
     func startPolling() {
         guard pollTask == nil else { return }
         pollTask = Task { [weak self] in
+            await self?.loadCachedPayload()
             while !Task.isCancelled {
                 await self?.refresh()
                 do {

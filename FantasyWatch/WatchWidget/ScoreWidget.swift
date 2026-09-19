@@ -60,8 +60,16 @@ struct ScoreWidgetView: View {
                 .minimumScaleFactor(0.6)
         }
         .gaugeStyle(.accessoryCircular)
-        .tint(.green)
+        .tint(leadTint)
         .widgetAccentable()
+    }
+
+    /// Green when I'm ahead, orange when I'm behind — the one thing worth
+    /// reading from across the room.
+    private var leadTint: Color {
+        guard let me, let opp else { return .primary }
+        if me.live == opp.live { return .primary }
+        return me.live > opp.live ? .green : .orange
     }
 
     private var rectangular: some View {
@@ -93,6 +101,7 @@ struct ScoreWidgetView: View {
             Text(Format.compactPoints(me?.live ?? 0))
                 .font(.system(.headline, design: .rounded))
                 .monospacedDigit()
+                .foregroundStyle(leadTint)
                 .widgetAccentable()
             Text("–")
                 .foregroundStyle(.secondary)
@@ -111,10 +120,21 @@ struct ScoreWidgetView: View {
 
     @ViewBuilder
     private var detailLine: some View {
-        if let top = entry.payload.topScorer, top.points > 0 {
-            Text("\(top.name) \(Format.compactPoints(top.points))")
-                .font(.caption2)
-                .lineLimit(1)
+        // The most interesting thing that has happened so far, either way:
+        // whoever is furthest from their projection, on either roster.
+        if let surprise = entry.payload.biggestSurprise,
+           let delta = surprise.projectionDelta {
+            HStack(spacing: 3) {
+                Image(systemName: delta >= 0 ? "arrow.up.right" : "arrow.down.right")
+                    .font(.system(size: 9, weight: .bold))
+                Text(surprise.shortName)
+                    .lineLimit(1)
+                Text(Format.signedDelta(delta))
+                    .monospacedDigit()
+                    .fontWeight(.semibold)
+            }
+            .font(.caption2)
+            .foregroundStyle(delta >= 0 ? Color.green : Color.red)
         } else if let me, let projected = me.projected {
             Text("proj \(Format.projected(projected))")
                 .font(.caption2)

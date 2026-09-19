@@ -20,11 +20,19 @@ SCOREBOARD_URL = (
     "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
 )
 
-# ESPN 401s requests that do not look like a browser.
+# The two ESPN endpoints want OPPOSITE clients, which is not a typo:
+#
+#   lm-api-reads (private fantasy)  401s anything that is not browser-shaped.
+#   site.api     (public scoreboard) 403s browser UAs -- even with a full set of
+#                                    Accept / Referer / Sec-Fetch-* headers --
+#                                    and serves plain clients happily.
+#
+# Sending the browser UA to both looks tidy and silently breaks the scoreboard.
 BROWSER_UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 )
+SCOREBOARD_UA = "curl/8.7.1"
 
 # --- Lineup slots ----------------------------------------------------------
 # lineupSlotId -> label shown in the position badge.

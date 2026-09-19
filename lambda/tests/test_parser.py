@@ -26,10 +26,23 @@ def league():
         return json.load(handle)
 
 
+# Shaped like what fetch_game_states returns, with real week-2 fixtures.
+GAME_STATES = {
+    2: {"state": "final", "opponent": "DET", "isAway": False,
+        "kickoff": "2026-09-18T00:15:00Z"},
+    8: {"state": "final", "opponent": "BUF", "isAway": True,
+        "kickoff": "2026-09-18T00:15:00Z"},
+    25: {"state": "pre", "opponent": "MIA", "isAway": False,
+         "kickoff": "2026-09-20T20:25:00Z"},
+    33: {"state": "pre", "opponent": "CLE", "isAway": True,
+         "kickoff": "2026-09-20T17:00:00Z"},
+}
+
+
 @pytest.fixture(scope="module")
 def payload(league):
     # BUF final, SF yet to kick off -- exercises both scoreboard branches.
-    game_states = {2: "final", 8: "final", 25: "pre"}
+    game_states = GAME_STATES
     return build_payload(
         league,
         TEAM_ID,
@@ -89,6 +102,30 @@ def test_player_fields(payload):
     assert allen["side"] == "me"
 
 
+def test_opponent_and_kickoff_ride_along(payload):
+    kittle = next(p for p in payload["players"] if p["name"] == "George Kittle")
+    assert kittle["opponent"] == "MIA"  # SF at home
+    assert kittle["kickoff"] == "2026-09-20T20:25:00Z"
+
+    henry = next(p for p in payload["players"] if p["name"] == "Derrick Henry")
+    assert henry["opponent"] == "@CLE"  # BAL on the road
+    assert henry["kickoff"] == "2026-09-20T17:00:00Z"
+
+
+def test_kickoff_is_absent_when_the_scoreboard_says_nothing(league):
+    payload = build_payload(league, TEAM_ID, game_states={})
+    for player in payload["players"]:
+        assert player["opponent"] is None
+        assert player["kickoff"] is None
+
+
+def test_a_bare_state_string_is_still_accepted(league):
+    payload = build_payload(league, TEAM_ID, game_states={2: "final"})
+    allen = next(p for p in payload["players"] if p["name"] == "Josh Allen")
+    assert allen["gameState"] == "final"
+    assert allen["opponent"] is None
+
+
 def test_game_state_from_the_scoreboard(payload):
     allen = next(p for p in payload["players"] if p["name"] == "Josh Allen")
     assert allen["gameState"] == "final"
@@ -106,7 +143,11 @@ def test_a_scoreboard_miss_falls_back_to_having_stats(league):
 
 
 def test_stats_override_a_stale_pre_from_the_scoreboard(league):
-    payload = build_payload(league, TEAM_ID, game_states={2: "pre"})
+    payload = build_payload(
+        league, TEAM_ID,
+        game_states={2: {"state": "pre", "opponent": "DET", "isAway": False,
+                         "kickoff": "2026-09-18T00:15:00Z"}},
+    )
     allen = next(p for p in payload["players"] if p["name"] == "Josh Allen")
     assert allen["gameState"] == "live"
 

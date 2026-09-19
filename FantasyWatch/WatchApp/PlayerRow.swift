@@ -6,50 +6,46 @@ struct PlayerRow: View {
     let player: Player
 
     var body: some View {
-        HStack(alignment: .top, spacing: 6) {
-            // Slot and pro team stack into one narrow column so the stat line
-            // gets the width it needs -- a QB's is long enough to wrap three
-            // times otherwise.
-            VStack(spacing: 2) {
+        VStack(alignment: .leading, spacing: 2) {
+            // Badge, name and points share one baseline-aligned row -- stacking
+            // the badge above the name left it floating oddly high.
+            HStack(alignment: .firstTextBaseline, spacing: 5) {
                 SlotBadge(slot: player.slot)
-                Text(player.proTeam)
-                    .font(.system(size: 8, weight: .medium))
-                    .foregroundStyle(.tertiary)
-            }
+                    .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 3 }
 
-            VStack(alignment: .leading, spacing: 1) {
-                HStack(spacing: 4) {
-                    Text(player.name)
-                        .font(.system(size: 14, weight: .medium))
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                    if let badge = player.injuryBadge {
-                        Text(badge)
-                            .font(.system(size: 9, weight: .bold))
-                            .foregroundStyle(player.isOut ? .red : .orange)
-                    }
+                Text(player.name)
+                    .font(.system(size: 14, weight: .medium))
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+
+                if let badge = player.injuryBadge {
+                    Text(badge)
+                        .font(.system(size: 9, weight: .bold))
+                        .foregroundStyle(player.isOut ? .red : .orange)
                 }
 
-                // A QB with rushing yards produces the longest line there is
-                // ("20/31, 248 yd, 3 TD · 14 car, 69 yd, 2 TD"), and it has to
-                // fit without truncating on the smallest watch.
-                Text(player.statLineOrPlaceholder)
-                    .font(.system(size: 10))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(3)
-                    .minimumScaleFactor(0.85)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+                Spacer(minLength: 2)
 
-            Spacer(minLength: 2)
-
-            VStack(alignment: .trailing, spacing: 1) {
                 Text(Format.points(player.points))
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
                     .monospacedDigit()
                     // A player who has not kicked off yet shows a 0.00 that
                     // means nothing; dim it so it reads as "not yet".
                     .foregroundStyle(player.hasPlayed ? .primary : .secondary)
+            }
+
+            // The subtitle spans the full width now that nothing sits beside
+            // it, so even a QB's long dual line fits in two.
+            HStack(alignment: .top, spacing: 4) {
+                Text(player.subtitle)
+                    .font(.system(size: 10))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.85)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Spacer(minLength: 2)
+
                 Text(Format.projected(player.projected))
                     .font(.system(size: 9))
                     .foregroundStyle(.tertiary)
@@ -62,7 +58,7 @@ struct PlayerRow: View {
             "\(player.slot) \(player.name), \(player.proTeam), "
                 + "\(Format.points(player.points)) points"
         )
-        .accessibilityValue(player.statLineOrPlaceholder)
+        .accessibilityValue(player.subtitle)
     }
 }
 

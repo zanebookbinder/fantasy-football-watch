@@ -74,9 +74,6 @@ struct MatchupHeaderView: View {
                 HStack {
                     Text(me?.winPercentText ?? "")
                     Spacer()
-                    Text("win prob")
-                        .foregroundStyle(.tertiary)
-                    Spacer()
                     Text(opp?.winPercentText ?? "")
                 }
                 .font(.system(size: 10))
