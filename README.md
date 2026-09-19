@@ -39,14 +39,19 @@ else — no stat ids, no cookies, no ESPN hosts.
   "state": "ok",
   "week": 2,
   "updated": "2026-09-19T17:40:00Z",
-  "me":  { "team": "The Christian Faith", "live": 47.62, "projected": 142.6, "winProb": 0.69 },
-  "opp": { "team": "Team Tïts",          "live": -0.1,  "projected": 108.6, "winProb": 0.31 },
+  "leagueSize": 10,
+  "me":  { "team": "The Christian Faith", "live": 47.62, "projected": 142.6, "winProb": 0.69,
+           "rank": 1, "record": "1-0", "seed": 1,
+           "toPlay": 7, "playing": 0, "done": 2, "remaining": 95.0 },
+  "opp": { "team": "Team Tïts", "live": -0.1, "projected": 108.6, "winProb": 0.31,
+           "rank": 10, "record": "1-0", "seed": 3,
+           "toPlay": 8, "playing": 0, "done": 1, "remaining": 108.7 },
   "players": [
     {
       "name": "Josh Allen", "slot": "QB", "position": "QB", "proTeam": "BUF",
       "gameState": "final", "points": 40.82, "projected": 22.7,
       "statLine": "20/31, 248 yd, 3 TD · 14 car, 69 yd, 2 TD",
-      "opponent": "DET", "kickoff": "2026-09-18T00:15:00Z",
+      "opponent": "DET", "kickoff": "2026-09-18T00:15:00Z", "clock": null,
       "injury": null, "side": "me"
     }
   ]
@@ -69,7 +74,14 @@ Notes on the numbers:
   of zeros, the watch falls back to `opponent` + `kickoff` — "@SF Sun 1pm" tells
   you when to care in a way "yet to play" does not.
 - `opponent` is `"@SF"` on the road and `"NE"` at home; `kickoff` is UTC and the
-  watch renders it in the wearer's own timezone.
+  watch renders it in the wearer's own timezone. `clock` is `"Q3 4:12"` while a
+  game is in progress and `null` otherwise.
+- `toPlay` / `playing` / `done` count starters, and `remaining` sums the
+  projections of those yet to kick off. **A live score is close to meaningless
+  without these** — 47.62 to −0.10 looks decisive until you notice the other
+  side still has eight starters to play and 108.7 projected points coming.
+- `rank` is this week's position by live score across the whole league,
+  `leagueSize` teams; `record` is `"1-0"` and `seed` the current playoff seed.
 
 Regenerate `docs/sample-payload.json` with `make sample` — it also refreshes the
 copy bundled into both watch targets, so the two halves never drift.

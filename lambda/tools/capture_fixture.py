@@ -44,6 +44,15 @@ def trim_player(player, scoring_period):
     return trimmed
 
 
+def score_only(side, scoring_period):
+    """Just enough of another matchup's team to rank it this week."""
+    return {
+        k: side[k]
+        for k in ("teamId", "totalPoints", "totalPointsLive")
+        if k in side
+    }
+
+
 def trim_side(side, scoring_period):
     trimmed = {
         k: side[k]
@@ -89,20 +98,22 @@ def main():
     scoring_period = league.get("scoringPeriodId")
     matchup_period = (league.get("status") or {}).get("currentMatchupPeriod")
 
+    # Every matchup in the period is kept so this week's league-wide ranking is
+    # computable, but only the one being watched keeps its rosters.
     schedule = []
     for matchup in league.get("schedule") or []:
         if matchup.get("matchupPeriodId") != matchup_period:
             continue
         home, away = matchup.get("home") or {}, matchup.get("away") or {}
-        if args.team_id not in (home.get("teamId"), away.get("teamId")):
-            continue
+        mine = args.team_id in (home.get("teamId"), away.get("teamId"))
+        trim = trim_side if mine else score_only
         schedule.append(
             {
                 "id": matchup.get("id"),
                 "matchupPeriodId": matchup_period,
                 "winner": matchup.get("winner"),
-                "home": trim_side(home, scoring_period),
-                "away": trim_side(away, scoring_period),
+                "home": trim(home, scoring_period),
+                "away": trim(away, scoring_period),
             }
         )
 
@@ -115,7 +126,18 @@ def main():
             for k in ("currentMatchupPeriod", "latestScoringPeriod", "isActive")
         },
         "teams": [
-            {"id": t.get("id"), "name": t.get("name"), "abbrev": t.get("abbrev")}
+            {
+                "id": t.get("id"),
+                "name": t.get("name"),
+                "abbrev": t.get("abbrev"),
+                "playoffSeed": t.get("playoffSeed"),
+                "record": {
+                    "overall": {
+                        k: (t.get("record") or {}).get("overall", {}).get(k)
+                        for k in ("wins", "losses", "ties")
+                    }
+                },
+            }
             for t in league.get("teams") or []
         ],
         "schedule": schedule,

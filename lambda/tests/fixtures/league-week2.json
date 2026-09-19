@@ -3,6 +3,51 @@
  "schedule": [
   {
    "away": {
+    "teamId": 14,
+    "totalPoints": 0.0,
+    "totalPointsLive": 23.3
+   },
+   "home": {
+    "teamId": 1,
+    "totalPoints": 0.0,
+    "totalPointsLive": 17.2
+   },
+   "id": 6,
+   "matchupPeriodId": 2,
+   "winner": "UNDECIDED"
+  },
+  {
+   "away": {
+    "teamId": 12,
+    "totalPoints": 0.0,
+    "totalPointsLive": 42.2
+   },
+   "home": {
+    "teamId": 15,
+    "totalPoints": 0.0,
+    "totalPointsLive": 0.0
+   },
+   "id": 7,
+   "matchupPeriodId": 2,
+   "winner": "UNDECIDED"
+  },
+  {
+   "away": {
+    "teamId": 11,
+    "totalPoints": 0.0,
+    "totalPointsLive": 0.0
+   },
+   "home": {
+    "teamId": 6,
+    "totalPoints": 0.0,
+    "totalPointsLive": 0.0
+   },
+   "id": 8,
+   "matchupPeriodId": 2,
+   "winner": "UNDECIDED"
+  },
+  {
+   "away": {
     "rosterForCurrentScoringPeriod": {
      "entries": [
       {
@@ -169,56 +214,6 @@
          "proTeamId": 2,
          "stats": [
           {
-           "appliedTotal": 40.82,
-           "scoringPeriodId": 2,
-           "seasonId": 2026,
-           "statSourceId": 0,
-           "statSplitTypeId": 1,
-           "stats": {
-            "0": 31.0,
-            "1": 20.0,
-            "10": 2.0,
-            "11": 4.0,
-            "12": 2.0,
-            "13": 2.0,
-            "14": 1.0,
-            "15": 1.0,
-            "155": 1.0,
-            "158": 30.0,
-            "175": 1.0,
-            "176": 1.0,
-            "179": 2.0,
-            "2": 11.0,
-            "21": 64.52,
-            "210": 1.0,
-            "211": 14.0,
-            "212": 8.0,
-            "22": 248.0,
-            "23": 14.0,
-            "24": 69.0,
-            "25": 2.0,
-            "27": 13.0,
-            "28": 6.0,
-            "29": 3.0,
-            "3": 248.0,
-            "30": 2.0,
-            "31": 1.0,
-            "33": 2.0,
-            "34": 1.0,
-            "39": 4.929,
-            "4": 3.0,
-            "40": 69.0,
-            "5": 49.0,
-            "6": 24.0,
-            "64": 2.0,
-            "65": 1.0,
-            "68": 1.0,
-            "7": 12.0,
-            "8": 9.0,
-            "9": 4.0
-           }
-          },
-          {
            "appliedTotal": 22.65422402,
            "scoringPeriodId": 2,
            "seasonId": 2026,
@@ -272,6 +267,56 @@
             "70": 0.041410634,
             "72": 0.258525668,
             "73": 0.990468693,
+            "8": 9.0,
+            "9": 4.0
+           }
+          },
+          {
+           "appliedTotal": 40.82,
+           "scoringPeriodId": 2,
+           "seasonId": 2026,
+           "statSourceId": 0,
+           "statSplitTypeId": 1,
+           "stats": {
+            "0": 31.0,
+            "1": 20.0,
+            "10": 2.0,
+            "11": 4.0,
+            "12": 2.0,
+            "13": 2.0,
+            "14": 1.0,
+            "15": 1.0,
+            "155": 1.0,
+            "158": 30.0,
+            "175": 1.0,
+            "176": 1.0,
+            "179": 2.0,
+            "2": 11.0,
+            "21": 64.52,
+            "210": 1.0,
+            "211": 14.0,
+            "212": 8.0,
+            "22": 248.0,
+            "23": 14.0,
+            "24": 69.0,
+            "25": 2.0,
+            "27": 13.0,
+            "28": 6.0,
+            "29": 3.0,
+            "3": 248.0,
+            "30": 2.0,
+            "31": 1.0,
+            "33": 2.0,
+            "34": 1.0,
+            "39": 4.929,
+            "4": 3.0,
+            "40": 69.0,
+            "5": 49.0,
+            "6": 24.0,
+            "64": 2.0,
+            "65": 1.0,
+            "68": 1.0,
+            "7": 12.0,
             "8": 9.0,
             "9": 4.0
            }
@@ -756,49 +801,6 @@
          "proTeamId": 8,
          "stats": [
           {
-           "appliedTotal": 29.78,
-           "scoringPeriodId": 2,
-           "seasonId": 2026,
-           "statSourceId": 0,
-           "statSplitTypeId": 1,
-           "stats": {
-            "0": 38.0,
-            "1": 26.0,
-            "10": 3.0,
-            "11": 5.0,
-            "12": 2.0,
-            "13": 2.0,
-            "14": 1.0,
-            "156": 1.0,
-            "158": 24.0,
-            "17": 1.0,
-            "175": 2.0,
-            "176": 1.0,
-            "177": 1.0,
-            "2": 12.0,
-            "21": 68.42,
-            "210": 1.0,
-            "211": 19.0,
-            "22": 327.0,
-            "23": 3.0,
-            "24": 7.0,
-            "27": 1.0,
-            "3": 327.0,
-            "39": 2.333,
-            "4": 4.0,
-            "40": 7.0,
-            "5": 65.0,
-            "6": 32.0,
-            "64": 4.0,
-            "65": 1.0,
-            "66": 1.0,
-            "68": 2.0,
-            "7": 16.0,
-            "8": 13.0,
-            "9": 6.0
-           }
-          },
-          {
            "appliedTotal": 17.0130448,
            "scoringPeriodId": 2,
            "seasonId": 2026,
@@ -850,6 +852,49 @@
             "8": 10.0,
             "9": 5.0
            }
+          },
+          {
+           "appliedTotal": 29.78,
+           "scoringPeriodId": 2,
+           "seasonId": 2026,
+           "statSourceId": 0,
+           "statSplitTypeId": 1,
+           "stats": {
+            "0": 38.0,
+            "1": 26.0,
+            "10": 3.0,
+            "11": 5.0,
+            "12": 2.0,
+            "13": 2.0,
+            "14": 1.0,
+            "156": 1.0,
+            "158": 24.0,
+            "17": 1.0,
+            "175": 2.0,
+            "176": 1.0,
+            "177": 1.0,
+            "2": 12.0,
+            "21": 68.42,
+            "210": 1.0,
+            "211": 19.0,
+            "22": 327.0,
+            "23": 3.0,
+            "24": 7.0,
+            "27": 1.0,
+            "3": 327.0,
+            "39": 2.333,
+            "4": 4.0,
+            "40": 7.0,
+            "5": 65.0,
+            "6": 32.0,
+            "64": 4.0,
+            "65": 1.0,
+            "66": 1.0,
+            "68": 2.0,
+            "7": 16.0,
+            "8": 13.0,
+            "9": 6.0
+           }
           }
          ]
         }
@@ -872,31 +917,6 @@
          "lastName": "Shakir",
          "proTeamId": 2,
          "stats": [
-          {
-           "appliedTotal": 6.8,
-           "scoringPeriodId": 2,
-           "seasonId": 2026,
-           "statSourceId": 0,
-           "statSplitTypeId": 1,
-           "stats": {
-            "114": 11.0,
-            "116": 1.0,
-            "155": 1.0,
-            "210": 1.0,
-            "213": 2.0,
-            "41": 3.0,
-            "42": 38.0,
-            "47": 7.0,
-            "48": 3.0,
-            "49": 1.0,
-            "50": 1.0,
-            "53": 3.0,
-            "58": 6.0,
-            "59": 19.0,
-            "60": 12.667,
-            "61": 38.0
-           }
-          },
           {
            "appliedTotal": 10.3315888,
            "scoringPeriodId": 2,
@@ -941,6 +961,31 @@
             "71": 0.034639286,
             "72": 0.035556704,
             "73": 0.035556704
+           }
+          },
+          {
+           "appliedTotal": 6.8,
+           "scoringPeriodId": 2,
+           "seasonId": 2026,
+           "statSourceId": 0,
+           "statSplitTypeId": 1,
+           "stats": {
+            "114": 11.0,
+            "116": 1.0,
+            "155": 1.0,
+            "210": 1.0,
+            "213": 2.0,
+            "41": 3.0,
+            "42": 38.0,
+            "47": 7.0,
+            "48": 3.0,
+            "49": 1.0,
+            "50": 1.0,
+            "53": 3.0,
+            "58": 6.0,
+            "59": 19.0,
+            "60": 12.667,
+            "61": 38.0
            }
           }
          ]
@@ -1487,21 +1532,6 @@
          "proTeamId": 2,
          "stats": [
           {
-           "appliedTotal": -0.1,
-           "scoringPeriodId": 2,
-           "seasonId": 2026,
-           "statSourceId": 0,
-           "statSplitTypeId": 1,
-           "stats": {
-            "155": 1.0,
-            "210": 1.0,
-            "23": 1.0,
-            "24": -1.0,
-            "39": -1.0,
-            "40": -1.0
-           }
-          },
-          {
            "appliedTotal": 12.58045486,
            "scoringPeriodId": 2,
            "seasonId": 2026,
@@ -1546,6 +1576,21 @@
             "71": 0.033298845,
             "72": 0.035935311,
             "73": 0.035935311
+           }
+          },
+          {
+           "appliedTotal": -0.1,
+           "scoringPeriodId": 2,
+           "seasonId": 2026,
+           "statSourceId": 0,
+           "statSplitTypeId": 1,
+           "stats": {
+            "155": 1.0,
+            "210": 1.0,
+            "23": 1.0,
+            "24": -1.0,
+            "39": -1.0,
+            "40": -1.0
            }
           }
          ]
@@ -2224,6 +2269,21 @@
    "id": 9,
    "matchupPeriodId": 2,
    "winner": "UNDECIDED"
+  },
+  {
+   "away": {
+    "teamId": 10,
+    "totalPoints": 0.0,
+    "totalPointsLive": 16.9
+   },
+   "home": {
+    "teamId": 2,
+    "totalPoints": 0.0,
+    "totalPointsLive": 5.3
+   },
+   "id": 10,
+   "matchupPeriodId": 2,
+   "winner": "UNDECIDED"
   }
  ],
  "scoringPeriodId": 2,
@@ -2237,52 +2297,132 @@
   {
    "abbrev": "RCOM",
    "id": 1,
-   "name": "Fantasy Playbook "
+   "name": "Fantasy Playbook ",
+   "playoffSeed": 6,
+   "record": {
+    "overall": {
+     "losses": 1,
+     "ties": 0,
+     "wins": 0
+    }
+   }
   },
   {
    "abbrev": "HELP",
    "id": 2,
-   "name": "The Real Brock Hard Ladds"
+   "name": "The Real Brock Hard Ladds",
+   "playoffSeed": 7,
+   "record": {
+    "overall": {
+     "losses": 1,
+     "ties": 0,
+     "wins": 0
+    }
+   }
   },
   {
    "abbrev": "LATO",
    "id": 3,
-   "name": "Team  T\u00efts"
+   "name": "Team  T\u00efts",
+   "playoffSeed": 3,
+   "record": {
+    "overall": {
+     "losses": 0,
+     "ties": 0,
+     "wins": 1
+    }
+   }
   },
   {
    "abbrev": "SOED",
    "id": 6,
-   "name": "Cleveland This Is For You"
+   "name": "Cleveland This Is For You",
+   "playoffSeed": 2,
+   "record": {
+    "overall": {
+     "losses": 0,
+     "ties": 0,
+     "wins": 1
+    }
+   }
   },
   {
    "abbrev": "ZANE",
    "id": 7,
-   "name": "The Christian Faith"
+   "name": "The Christian Faith",
+   "playoffSeed": 1,
+   "record": {
+    "overall": {
+     "losses": 0,
+     "ties": 0,
+     "wins": 1
+    }
+   }
   },
   {
    "abbrev": "Dead",
    "id": 10,
-   "name": "The Hospital"
+   "name": "The Hospital",
+   "playoffSeed": 8,
+   "record": {
+    "overall": {
+     "losses": 1,
+     "ties": 0,
+     "wins": 0
+    }
+   }
   },
   {
    "abbrev": "BROW",
    "id": 11,
-   "name": "The Brock Hard Ladds"
+   "name": "The Brock Hard Ladds",
+   "playoffSeed": 9,
+   "record": {
+    "overall": {
+     "losses": 1,
+     "ties": 0,
+     "wins": 0
+    }
+   }
   },
   {
    "abbrev": "CB",
    "id": 12,
-   "name": "Coogan's Bathroom"
+   "name": "Coogan's Bathroom",
+   "playoffSeed": 5,
+   "record": {
+    "overall": {
+     "losses": 0,
+     "ties": 0,
+     "wins": 1
+    }
+   }
   },
   {
    "abbrev": "GGT",
    "id": 14,
-   "name": "Somerville Football Team"
+   "name": "Somerville Football Team",
+   "playoffSeed": 4,
+   "record": {
+    "overall": {
+     "losses": 0,
+     "ties": 0,
+     "wins": 1
+    }
+   }
   },
   {
    "abbrev": "JST",
    "id": 15,
-   "name": "CeeDeezNutz"
+   "name": "CeeDeezNutz",
+   "playoffSeed": 10,
+   "record": {
+    "overall": {
+     "losses": 1,
+     "ties": 0,
+     "wins": 0
+    }
+   }
   }
  ]
 }

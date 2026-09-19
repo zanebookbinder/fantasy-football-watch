@@ -18,6 +18,13 @@ extension Player {
         }
     }
 
+    /// What the row shows to the right of the stat line: the game clock while
+    /// play is live, so you can tell a 12-point third quarter from a 12-point
+    /// final.
+    var statusText: String? {
+        gameState == .live ? clock : nil
+    }
+
     /// "@SF Sun 1pm" / "NE Thu 8:30pm", in the wearer's timezone.
     var scheduleText: String? {
         switch (opponent, kickoff) {
@@ -80,6 +87,30 @@ extension ScorePayload {
 }
 
 extension TeamScore {
+    /// "7 to play" / "3 playing · 4 to play" / "all done" — the context that
+    /// makes a live score mean something.
+    var progressText: String? {
+        guard let toPlay, let playing else { return nil }
+        var parts: [String] = []
+        if playing > 0 { parts.append("\(playing) live") }
+        if toPlay > 0 { parts.append("\(toPlay) to play") }
+        return parts.isEmpty ? "all done" : parts.joined(separator: " · ")
+    }
+
+    /// "1st of 10" — where this score sits in the league today.
+    var rankText: String? {
+        guard let rank else { return nil }
+        let suffix: String
+        switch (rank % 10, rank % 100) {
+        case (1, 11), (2, 12), (3, 13): suffix = "th"
+        case (1, _): suffix = "st"
+        case (2, _): suffix = "nd"
+        case (3, _): suffix = "rd"
+        default: suffix = "th"
+        }
+        return "\(rank)\(suffix)"
+    }
+
     var winPercentText: String? {
         guard let winProb else { return nil }
         return "\(Int((winProb * 100).rounded()))%"

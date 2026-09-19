@@ -2,17 +2,32 @@
   "state": "ok",
   "week": 2,
   "updated": "2026-09-19T17:40:00Z",
+  "leagueSize": 10,
   "me": {
     "team": "The Christian Faith",
     "live": 47.62,
     "projected": 142.6,
-    "winProb": 0.69
+    "winProb": 0.69,
+    "rank": 1,
+    "record": "1-0",
+    "seed": 1,
+    "toPlay": 7,
+    "playing": 0,
+    "done": 2,
+    "remaining": 95.0
   },
   "opp": {
     "team": "Team  T\u00efts",
     "live": -0.1,
     "projected": 108.6,
-    "winProb": 0.31
+    "winProb": 0.31,
+    "rank": 10,
+    "record": "1-0",
+    "seed": 3,
+    "toPlay": 8,
+    "playing": 0,
+    "done": 1,
+    "remaining": 108.7
   },
   "players": [
     {
@@ -26,6 +41,7 @@
       "statLine": "20/31, 248 yd, 3 TD \u00b7 14 car, 69 yd, 2 TD",
       "opponent": "DET",
       "kickoff": "2026-09-18T00:15:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -40,6 +56,7 @@
       "statLine": "",
       "opponent": "MIA",
       "kickoff": "2026-09-20T20:25:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -54,6 +71,7 @@
       "statLine": "",
       "opponent": "NO",
       "kickoff": "2026-09-20T17:00:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -68,6 +86,7 @@
       "statLine": "",
       "opponent": "GB",
       "kickoff": "2026-09-20T17:00:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -82,6 +101,7 @@
       "statLine": "3 rec, 38 yd",
       "opponent": "DET",
       "kickoff": "2026-09-18T00:15:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -96,6 +116,7 @@
       "statLine": "",
       "opponent": "MIA",
       "kickoff": "2026-09-20T20:25:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -110,6 +131,7 @@
       "statLine": "",
       "opponent": "@CHI",
       "kickoff": "2026-09-20T17:00:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -124,6 +146,7 @@
       "statLine": "",
       "opponent": "PIT",
       "kickoff": "2026-09-20T17:00:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -138,6 +161,7 @@
       "statLine": "",
       "opponent": "CLE",
       "kickoff": "2026-09-20T17:00:00Z",
+      "clock": null,
       "injury": null,
       "side": "me"
     },
@@ -152,6 +176,7 @@
       "statLine": "",
       "opponent": "NO",
       "kickoff": "2026-09-20T17:00:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     },
@@ -166,6 +191,7 @@
       "statLine": "",
       "opponent": "@KC",
       "kickoff": "2026-09-21T00:20:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     },
@@ -180,6 +206,7 @@
       "statLine": "",
       "opponent": "@TEN",
       "kickoff": "2026-09-20T17:00:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     },
@@ -194,6 +221,7 @@
       "statLine": "",
       "opponent": "NYG",
       "kickoff": "2026-09-22T00:15:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     },
@@ -208,6 +236,7 @@
       "statLine": "",
       "opponent": "LV",
       "kickoff": "2026-09-20T20:05:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     },
@@ -222,6 +251,7 @@
       "statLine": "",
       "opponent": "@LAR",
       "kickoff": "2026-09-22T00:15:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     },
@@ -236,6 +266,7 @@
       "statLine": "1 car, -1 yd",
       "opponent": "DET",
       "kickoff": "2026-09-18T00:15:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     },
@@ -250,6 +281,7 @@
       "statLine": "",
       "opponent": "MIA",
       "kickoff": "2026-09-20T20:25:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     },
@@ -264,6 +296,7 @@
       "statLine": "",
       "opponent": "LV",
       "kickoff": "2026-09-20T20:05:00Z",
+      "clock": null,
       "injury": null,
       "side": "opp"
     }

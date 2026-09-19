@@ -5,6 +5,7 @@ import SwiftUI
 struct MatchupHeaderView: View {
     let me: TeamScore?
     let opp: TeamScore?
+    var leagueSize: Int?
 
     var body: some View {
         VStack(spacing: 6) {
@@ -23,6 +24,22 @@ struct MatchupHeaderView: View {
             }
             .font(.system(size: 11))
             .foregroundStyle(.secondary)
+
+            // What is still to come. A lead means nothing without this.
+            HStack(alignment: .top) {
+                progress(me, alignment: .leading)
+                Spacer(minLength: 4)
+                progress(opp, alignment: .trailing)
+            }
+            .font(.system(size: 10))
+            .foregroundStyle(.tertiary)
+
+            if let standing = standingText {
+                Text(standing)
+                    .font(.system(size: 10))
+                    .foregroundStyle(.tertiary)
+                    .padding(.top, 1)
+            }
         }
         .padding(.vertical, 6)
     }
@@ -91,12 +108,40 @@ struct MatchupHeaderView: View {
         Text("proj \(Format.projected(team?.projected))")
             .monospacedDigit()
     }
+
+    private func progress(
+        _ team: TeamScore?, alignment: HorizontalAlignment
+    ) -> some View {
+        VStack(alignment: alignment, spacing: 0) {
+            Text(team?.progressText ?? "")
+            if let remaining = team?.remaining, remaining > 0 {
+                Text("+\(Format.projected(remaining)) to come")
+                    .monospacedDigit()
+            }
+        }
+        .frame(
+            maxWidth: .infinity,
+            alignment: alignment == .leading ? .leading : .trailing
+        )
+    }
+
+    /// "1st of 10 · 1-0" — where today's score sits, and the season so far.
+    private var standingText: String? {
+        guard let me else { return nil }
+        var parts: [String] = []
+        if let rank = me.rankText {
+            parts.append(leagueSize.map { "\(rank) of \($0)" } ?? rank)
+        }
+        if let record = me.record { parts.append(record) }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
 }
 
 #Preview {
     MatchupHeaderView(
         me: SamplePayload.payload.me,
-        opp: SamplePayload.payload.opp
+        opp: SamplePayload.payload.opp,
+        leagueSize: SamplePayload.payload.leagueSize
     )
     .padding(.horizontal)
 }

@@ -46,10 +46,19 @@ struct PlayerRow: View {
 
                 Spacer(minLength: 2)
 
-                Text(Format.projected(player.projected))
-                    .font(.system(size: 9))
-                    .foregroundStyle(.tertiary)
-                    .monospacedDigit()
+                // Mid-game, the clock matters more than the projection: it is
+                // the difference between a 12-point third quarter and a final.
+                if let status = player.statusText {
+                    Text(status)
+                        .font(.system(size: 9, weight: .medium))
+                        .foregroundStyle(.green)
+                        .monospacedDigit()
+                } else {
+                    Text(Format.projected(player.projected))
+                        .font(.system(size: 9))
+                        .foregroundStyle(.tertiary)
+                        .monospacedDigit()
+                }
             }
         }
         .padding(.vertical, 2)

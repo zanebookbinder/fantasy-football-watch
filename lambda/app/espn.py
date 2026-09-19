@@ -78,6 +78,21 @@ def _normalize_kickoff(raw):
     return parsed.replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def _game_clock(status):
+    """"Q3 4:12", "Half", "OT 1:20" -- how much football is left to care about."""
+    if (status.get("type") or {}).get("name") == "STATUS_HALFTIME":
+        return "Half"
+    period = status.get("period") or 0
+    display = (status.get("displayClock") or "").strip()
+    if 1 <= period <= 4:
+        label = f"Q{period}"
+    elif period >= 5:
+        label = "OT"
+    else:
+        return None
+    return f"{label} {display}".strip() or None
+
+
 def fetch_game_states(season, week):
     """proTeamId -> this week's game for that team.
 
@@ -105,11 +120,12 @@ def fetch_game_states(season, week):
 
     states = {"pre": "pre", "in": "live", "post": "final"}
     for event in data.get("events") or []:
-        state = ((event.get("status") or {}).get("type") or {}).get("state")
-        state = states.get(state)
+        status = event.get("status") or {}
+        state = states.get((status.get("type") or {}).get("state"))
         if not state:
             continue
         kickoff = _normalize_kickoff(event.get("date"))
+        clock = _game_clock(status) if state == "live" else None
 
         for competition in event.get("competitions") or []:
             competitors = competition.get("competitors") or []
@@ -128,5 +144,6 @@ def fetch_game_states(season, week):
                     "opponent": opponent,
                     "isAway": competitor.get("homeAway") == "away",
                     "kickoff": kickoff,
+                    "clock": clock,
                 }
     return mapping

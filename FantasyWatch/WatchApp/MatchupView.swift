@@ -76,7 +76,8 @@ struct MatchupView: View {
             Section {
                 MatchupHeaderView(
                     me: model.payload?.me,
-                    opp: model.payload?.opp
+                    opp: model.payload?.opp,
+                    leagueSize: model.payload?.leagueSize
                 )
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())

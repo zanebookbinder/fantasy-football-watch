@@ -8,6 +8,7 @@ struct ScorePayload: Codable, Equatable, Sendable {
     var state: PayloadState
     var week: Int?
     var updated: Date
+    var leagueSize: Int?
     var me: TeamScore?
     var opp: TeamScore?
     var players: [Player]
@@ -50,6 +51,16 @@ struct TeamScore: Codable, Equatable, Sendable {
     var live: Double
     var projected: Double?
     var winProb: Double?
+    /// This week's rank by live score across the whole league.
+    var rank: Int?
+    var record: String?
+    var seed: Int?
+    /// Starters who have not kicked off, are mid-game, and are finished.
+    var toPlay: Int?
+    var playing: Int?
+    var done: Int?
+    /// Projected points the yet-to-play starters are still expected to add.
+    var remaining: Double?
 }
 
 struct Player: Codable, Equatable, Identifiable, Sendable {
@@ -65,6 +76,8 @@ struct Player: Codable, Equatable, Identifiable, Sendable {
     var opponent: String?
     /// Kickoff in UTC; rendered in the wearer's own timezone.
     var kickoff: Date?
+    /// "Q3 4:12" while the game is in progress.
+    var clock: String?
     var injury: String?
     var side: Side
 

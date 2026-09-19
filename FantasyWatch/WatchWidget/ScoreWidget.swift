@@ -141,10 +141,21 @@ struct ScoreWidgetView: View {
                 .foregroundStyle(.secondary)
         }
 
-        Text(opp?.team ?? "")
+        // Replaces the opponent's name, which was the least useful thing on
+        // the widget: a lead is only legible next to what is left to play.
+        if let mine = me?.progressText {
+            HStack(spacing: 3) {
+                Text(mine)
+                if let theirs = opp?.toPlay {
+                    Text("·").foregroundStyle(.tertiary)
+                    Text("\(theirs) opp")
+                }
+            }
             .font(.system(size: 10))
-            .foregroundStyle(.tertiary)
+            .foregroundStyle(.secondary)
             .lineLimit(1)
+            .minimumScaleFactor(0.8)
+        }
     }
 }
 

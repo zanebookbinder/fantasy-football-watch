@@ -53,3 +53,32 @@ def test_a_scoreboard_failure_is_survivable(monkeypatch):
 
     monkeypatch.setattr(espn, "_get_json", boom)
     assert espn.fetch_game_states(2026, 2) == {}
+
+
+def test_game_clock_formatting():
+    clock = espn._game_clock
+    assert clock({"period": 3, "displayClock": "4:12"}) == "Q3 4:12"
+    assert clock({"period": 5, "displayClock": "1:20"}) == "OT 1:20"
+    assert clock(
+        {"type": {"name": "STATUS_HALFTIME"}, "period": 2}
+    ) == "Half"
+    assert clock({"period": 0, "displayClock": "0:00"}) is None
+
+
+def test_clock_is_only_attached_to_live_games(monkeypatch):
+    event = {
+        "date": "2026-09-20T17:00Z",
+        "status": {
+            "type": {"state": "pre", "name": "STATUS_SCHEDULED"},
+            "period": 0, "displayClock": "0:00",
+        },
+        "competitions": [{"competitors": [
+            {"homeAway": "home", "team": {"id": "2", "abbreviation": "BUF"}},
+            {"homeAway": "away", "team": {"id": "8", "abbreviation": "DET"}},
+        ]}],
+    }
+    monkeypatch.setattr(espn, "_get_json", lambda *a: {"events": [event]})
+    mapping = espn.fetch_game_states(2026, 2)
+    assert mapping[2]["clock"] is None
+    assert mapping[2]["opponent"] == "DET"
+    assert mapping[8]["isAway"] is True

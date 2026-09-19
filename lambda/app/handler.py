@@ -92,6 +92,7 @@ def _empty(state, updated=None):
         "week": None,
         "updated": updated
         or datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "leagueSize": None,
         "me": None,
         "opp": None,
         "players": [],

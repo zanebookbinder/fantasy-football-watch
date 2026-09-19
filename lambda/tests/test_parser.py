@@ -52,7 +52,9 @@ def payload(league):
 
 
 def test_contract_shape(payload):
-    assert set(payload) == {"state", "week", "updated", "me", "opp", "players"}
+    assert set(payload) == {
+        "state", "week", "updated", "leagueSize", "me", "opp", "players",
+    }
     assert payload["state"] == "ok"
     assert payload["week"] == 2
     assert payload["updated"] == "2026-09-19T17:40:00Z"
@@ -75,6 +77,38 @@ def test_projected_points_and_win_probability(payload):
     assert payload["me"]["winProb"] == 0.69
     assert payload["opp"]["winProb"] == 0.31
     assert round(payload["me"]["winProb"] + payload["opp"]["winProb"], 2) == 1.0
+
+
+def test_lineup_progress_travels_with_the_score(payload):
+    # A 47-0 lead reads like a blowout until you know what is left to play.
+    me = payload["me"]
+    assert me["toPlay"] + me["playing"] + me["done"] == 9
+    assert me["done"] == 2  # Allen and Shakir, both BUF/DET, are final
+    assert me["playing"] == 0
+    assert me["toPlay"] == 7
+    # Projections of the seven who have not kicked off.
+    assert me["remaining"] > 0
+
+
+def test_remaining_only_counts_players_yet_to_play(payload):
+    yet_to_play = [
+        p for p in payload["players"]
+        if p["side"] == "me" and p["gameState"] == "pre"
+    ]
+    expected = round(sum(p["projected"] or 0 for p in yet_to_play), 1)
+    assert payload["me"]["remaining"] == expected
+
+
+def test_week_ranking_covers_the_whole_league(payload):
+    assert payload["leagueSize"] == 10
+    # 47.62 is the top score in the league this week; -0.10 is the bottom.
+    assert payload["me"]["rank"] == 1
+    assert payload["opp"]["rank"] == 10
+
+
+def test_record_and_seed(payload):
+    assert payload["me"]["record"] == "1-0"
+    assert payload["me"]["seed"] == 1
 
 
 def test_both_lineups_are_present_and_tagged(payload):
@@ -100,6 +134,20 @@ def test_player_fields(payload):
     assert allen["projected"] == 22.7
     assert allen["statLine"] == "20/31, 248 yd, 3 TD · 14 car, 69 yd, 2 TD"
     assert allen["side"] == "me"
+
+
+def test_game_clock_rides_along_for_live_games(league):
+    states = dict(GAME_STATES)
+    states[2] = {
+        "state": "live", "opponent": "DET", "isAway": False,
+        "kickoff": "2026-09-18T00:15:00Z", "clock": "Q3 4:12",
+    }
+    payload = build_payload(league, TEAM_ID, game_states=states)
+    allen = next(p for p in payload["players"] if p["name"] == "Josh Allen")
+    assert allen["clock"] == "Q3 4:12"
+
+    kittle = next(p for p in payload["players"] if p["name"] == "George Kittle")
+    assert kittle["clock"] is None  # not kicked off
 
 
 def test_opponent_and_kickoff_ride_along(payload):
@@ -169,3 +217,4 @@ def test_missing_matchup_yields_an_empty_state(league):
     assert payload["state"] == "no_matchup"
     assert payload["players"] == []
     assert payload["me"] is None
+    assert payload["leagueSize"] is None
