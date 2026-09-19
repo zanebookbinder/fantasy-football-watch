@@ -7,7 +7,15 @@ struct PlayerRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 6) {
-            SlotBadge(slot: player.slot)
+            // Slot and pro team stack into one narrow column so the stat line
+            // gets the width it needs -- a QB's is long enough to wrap three
+            // times otherwise.
+            VStack(spacing: 2) {
+                SlotBadge(slot: player.slot)
+                Text(player.proTeam)
+                    .font(.system(size: 8, weight: .medium))
+                    .foregroundStyle(.tertiary)
+            }
 
             VStack(alignment: .leading, spacing: 1) {
                 HStack(spacing: 4) {
@@ -22,10 +30,15 @@ struct PlayerRow: View {
                     }
                 }
 
+                // A QB with rushing yards produces the longest line there is
+                // ("20/31, 248 yd, 3 TD · 14 car, 69 yd, 2 TD"), and it has to
+                // fit without truncating on the smallest watch.
                 Text(player.statLineOrPlaceholder)
-                    .font(.system(size: 11))
+                    .font(.system(size: 10))
                     .foregroundStyle(.secondary)
-                    .lineLimit(2)
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.85)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Spacer(minLength: 2)
@@ -37,7 +50,7 @@ struct PlayerRow: View {
                     // A player who has not kicked off yet shows a 0.00 that
                     // means nothing; dim it so it reads as "not yet".
                     .foregroundStyle(player.hasPlayed ? .primary : .secondary)
-                Text("\(player.proTeam) · \(Format.projected(player.projected))")
+                Text(Format.projected(player.projected))
                     .font(.system(size: 9))
                     .foregroundStyle(.tertiary)
                     .monospacedDigit()
@@ -46,7 +59,8 @@ struct PlayerRow: View {
         .padding(.vertical, 2)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(
-            "\(player.slot) \(player.name), \(Format.points(player.points)) points"
+            "\(player.slot) \(player.name), \(player.proTeam), "
+                + "\(Format.points(player.points)) points"
         )
         .accessibilityValue(player.statLineOrPlaceholder)
     }

@@ -81,7 +81,7 @@ struct MatchupView: View {
                 freshnessFooter
             }
         }
-        .listStyle(.carousel)
+        .listStyle(.plain)
     }
 
     private var sideHeader: some View {
