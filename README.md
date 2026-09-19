@@ -8,7 +8,7 @@ ESPN's fantasy API is unofficial and needs your account cookies, so an AWS
 Lambda holds those cookies and hands the watch a clean, cookie-free payload.
 **The cookies never reach the device.**
 
-Built from `Fantasy Watch — Live Score & Stats Design Document.md`.
+Built from the design document in [`docs/design-document.md`](docs/design-document.md).
 
 ```
 watch (app + widget)  ──GET /score + x-api-key──▶  Lambda  ──cookies──▶  ESPN
