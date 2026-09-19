@@ -24,8 +24,6 @@
 	<true/>
 	<key>WKWatchOnly</key>
 	<true/>
-	<key>WKRunsIndependentlyOfCompanionApp</key>
-	<true/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
