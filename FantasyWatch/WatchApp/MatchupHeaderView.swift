@@ -27,7 +27,8 @@ struct MatchupHeaderView: View {
             .font(.system(size: 10))
             .foregroundStyle(.secondary)
         }
-        .padding(.vertical, 5)
+        .padding(.top, 1)
+        .padding(.bottom, 4)
     }
 
     private func totals(

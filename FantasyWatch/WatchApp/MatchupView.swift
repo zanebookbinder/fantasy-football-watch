@@ -4,12 +4,18 @@ import SwiftUI
 struct MatchupView: View {
     @Bindable var model: MatchupModel
 
+    /// Which roster the horizontal pager is resting on.
+    @State private var pagedSide: Side? = .me
+
+    /// Anchor for sending the vertical scroll back to the top on a team switch.
+    private let topAnchor = "top"
+
     var body: some View {
         NavigationStack {
             Group {
                 switch model.payload?.state {
                 case .ok:
-                    lineupPages
+                    matchup
                 case .authExpired:
                     StatusView(
                         symbol: "key.slash",
@@ -35,12 +41,20 @@ struct MatchupView: View {
                     initialState
                 }
             }
-            .navigationTitle(navigationTitle)
-            .navigationBarTitleDisplayMode(.inline)
+            // Level with the clock, in the top bar. watchOS reserves that band
+            // whether or not anything is in it, so putting the week there is
+            // free; moving it into the content only pushed everything down.
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text(weekText)
+                        .font(.caption)
+                        .foregroundStyle(.green)
+                }
+            }
         }
     }
 
-    private var navigationTitle: String {
+    private var weekText: String {
         guard let week = model.payload?.week else { return "Fantasy" }
         return "Week \(week)"
     }
@@ -59,49 +73,97 @@ struct MatchupView: View {
         }
     }
 
-    /// The matchup header is the same on both sides, so it stays put; only the
-    /// roster below it pages. The page dots under it are the team indicator.
-    private var lineupPages: some View {
-        VStack(spacing: 0) {
-            MatchupHeaderView(
-                me: model.payload?.me,
-                opp: model.payload?.opp,
-                leagueSize: model.payload?.leagueSize
-            )
-            .padding(.horizontal, 6)
+    /// One vertical scroll over everything, so the header scrolls away like any
+    /// other content, with a horizontal pager nested inside it that moves only
+    /// the roster.
+    private var matchup: some View {
+        ScrollViewReader { proxy in
+            ScrollView(.vertical) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Color.clear
+                        .frame(height: 0)
+                        .id(topAnchor)
 
-            TabView(selection: $model.side) {
-                lineupList(for: .me)
-                    .tag(Side.me)
-                lineupList(for: .opp)
-                    .tag(Side.opp)
+                    MatchupHeaderView(
+                        me: model.payload?.me,
+                        opp: model.payload?.opp,
+                        leagueSize: model.payload?.leagueSize
+                    )
+
+                    rosterPager
+                    footer
+                }
+                .padding(.horizontal, 6)
             }
-            .tabViewStyle(.page)
+            .onChange(of: model.side) { _, _ in
+                // Coming back to a roster should start at the QB again, not
+                // wherever this side happened to be left.
+                withAnimation(.easeOut(duration: 0.2)) {
+                    proxy.scrollTo(topAnchor, anchor: .top)
+                }
+            }
         }
     }
 
-    private func lineupList(for side: Side) -> some View {
-        List {
-            Section {
-                ForEach(model.payload?.lineup(for: side) ?? []) { player in
-                    PlayerRow(player: player)
-                }
-            } header: {
+    /// A paging horizontal scroll rather than a TabView: it takes its height
+    /// from its content, so it can sit inside the vertical scroll instead of
+    /// claiming a fixed slice of the screen.
+    private var rosterPager: some View {
+        ScrollView(.horizontal) {
+            HStack(alignment: .top, spacing: 0) {
+                rosterColumn(for: .me).id(Side.me)
+                rosterColumn(for: .opp).id(Side.opp)
+            }
+            .scrollTargetLayout()
+        }
+        .scrollTargetBehavior(.paging)
+        .scrollPosition(id: $pagedSide)
+        .scrollIndicators(.hidden)
+        .onChange(of: pagedSide) { _, side in
+            if let side, model.side != side { model.side = side }
+        }
+        .onChange(of: model.side) { _, side in
+            // Keeps the pager honest when something else moves the selection,
+            // such as the widget's deep link.
+            if pagedSide != side { pagedSide = side }
+        }
+    }
+
+    private func rosterColumn(for side: Side) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(spacing: 4) {
                 Text(model.team(for: side)?.team ?? "Lineup")
+                    .font(.system(size: 14, weight: .semibold))
                     .lineLimit(1)
-            } footer: {
-                freshnessFooter
+                Spacer(minLength: 0)
+                // Which of the two rosters this is, now that there are no
+                // page dots to say so.
+                Image(systemName: side == .me ? "circle.fill" : "circle")
+                    .font(.system(size: 5))
+                    .foregroundStyle(.tertiary)
+                Image(systemName: side == .me ? "circle" : "circle.fill")
+                    .font(.system(size: 5))
+                    .foregroundStyle(.tertiary)
+            }
+
+            ForEach(model.payload?.lineup(for: side) ?? []) { player in
+                PlayerRow(player: player)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 5)
+                    .background(
+                        .fill.tertiary,
+                        in: RoundedRectangle(cornerRadius: 9)
+                    )
             }
         }
-        .listStyle(.plain)
-        .refreshable { await model.refresh() }
+        .containerRelativeFrame(.horizontal)
         .accessibilityLabel(
             side == .me ? "Your lineup" : "Your opponent's lineup"
         )
     }
 
     @ViewBuilder
-    private var freshnessFooter: some View {
+    private var footer: some View {
         VStack(alignment: .leading, spacing: 1) {
             if let standing = standingText {
                 Text(standing)
@@ -117,12 +179,12 @@ struct MatchupView: View {
         }
         .font(.caption2)
         .foregroundStyle(.secondary)
-        // Clear of the page dots, which float over the bottom of the TabView.
-        .padding(.bottom, 14)
+        .padding(.top, 2)
+        .padding(.bottom, 6)
     }
 
     /// "1st of 10 · 1-0" — season context, which belongs below the live
-    /// numbers rather than competing with them for permanent header space.
+    /// numbers rather than competing with them for header space.
     private var standingText: String? {
         guard let me = model.payload?.me else { return nil }
         var parts: [String] = []
