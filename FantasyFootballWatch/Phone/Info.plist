@@ -20,26 +20,18 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>WKApplication</key>
+	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.zanebookbinder.FantasyFootballWatch</string>
-	<key>WKRunsIndependentlyOfCompanionApp</key>
-	<true/>
-	<key>CFBundleURLTypes</key>
+	<key>UILaunchScreen</key>
+	<dict/>
+	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fantasyfootballwatch</string>
-			</array>
-		</dict>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>LambdaBaseURL</key>
-	<string>$(LAMBDA_BASE_URL)</string>
-	<key>LambdaAPIKey</key>
-	<string>$(CLIENT_API_KEY)</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

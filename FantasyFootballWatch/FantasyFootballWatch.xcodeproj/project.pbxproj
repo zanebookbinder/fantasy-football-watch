@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1192F042C0FC749C985F55B1 /* FantasyFootballWatchPhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B425C9C2916E56D0D2BF51A0 /* FantasyFootballWatchPhoneApp.swift */; };
+		E120E8F60279A6A05C5F17E2 /* CompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475113C69C3649EE6A060B0C /* CompanionView.swift */; };
+		1BA8B6C6B413DBEC6B2020C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E8BDFB019EE666F1DF9C9A9 /* Assets.xcassets */; };
+		E0748C16D3AA4492BDA0A327 /* FantasyFootballWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 9F358B13F44DE59E1E33F607 /* FantasyFootballWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		74E26DA31E0BD47513324780 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C7A263390071BFBE3637F5 /* Preferences.swift */; };
 		A264461FCBDEA2FFF81DE28F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C7A263390071BFBE3637F5 /* Preferences.swift */; };
 		BE1DF7753DA2564C08AE9ECB /* PlayerChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7431B842A7C4CEFA5C623D /* PlayerChanges.swift */; };
@@ -38,6 +42,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C54F533FFAD0ACEB9A7876AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 29C7B681C8D62CBAC94D51C0;
+			remoteInfo = FantasyFootballWatch;
+		};
 		5FD45A0B5E568EA3EEE3D282 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
@@ -48,6 +59,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		AC4209778438260C59AE5341 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				E0748C16D3AA4492BDA0A327 /* FantasyFootballWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F0AB04EE052351C80F3286E9 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -62,6 +84,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B425C9C2916E56D0D2BF51A0 /* FantasyFootballWatchPhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FantasyFootballWatchPhoneApp.swift; sourceTree = "<group>"; };
+		475113C69C3649EE6A060B0C /* CompanionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionView.swift; sourceTree = "<group>"; };
+		FC8FEEDE76F46BF044DF5367 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4E8BDFB019EE666F1DF9C9A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		117D4E7264B3F7095FC117EC /* FantasyFootballWatchPhone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FantasyFootballWatchPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62C7A263390071BFBE3637F5 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		FC7431B842A7C4CEFA5C623D /* PlayerChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerChanges.swift; sourceTree = "<group>"; };
 		81618FC22A0125A313BD6614 /* TeamPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerView.swift; sourceTree = "<group>"; };
@@ -92,6 +119,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		81CFDBD4AA287411B82FE9CE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		00902D9DB823B3227B76DC9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -109,9 +143,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B8E9ADCDCB3CE82AFC2ED9E /* Phone */ = {
+			isa = PBXGroup;
+			children = (
+				B425C9C2916E56D0D2BF51A0 /* FantasyFootballWatchPhoneApp.swift */,
+				475113C69C3649EE6A060B0C /* CompanionView.swift */,
+				4E8BDFB019EE666F1DF9C9A9 /* Assets.xcassets */,
+				FC8FEEDE76F46BF044DF5367 /* Info.plist */,
+			);
+			path = Phone;
+			sourceTree = "<group>";
+		};
 		0C54F0470E2253EA01E96383 = {
 			isa = PBXGroup;
 			children = (
+				3B8E9ADCDCB3CE82AFC2ED9E /* Phone */,
 				BA5BB2C397D469D3B14E5684 /* Config */,
 				8EA65C603DA123B5B8F1B5EA /* Shared */,
 				630C9FE1B38A9320A6D2FBA6 /* WatchApp */,
@@ -167,6 +213,7 @@
 		B40202C75D4FB44D8C59CFA5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				117D4E7264B3F7095FC117EC /* FantasyFootballWatchPhone.app */,
 				9F358B13F44DE59E1E33F607 /* FantasyFootballWatch.app */,
 				531E683C61C874129071C685 /* FantasyFootballWatchWidget.appex */,
 			);
@@ -185,6 +232,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		007AA7B41D8FECA0996F355E /* FantasyFootballWatchPhone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78E2C52EAF4C068BAAFF38C2 /* Build configuration list for PBXNativeTarget "FantasyFootballWatchPhone" */;
+			buildPhases = (
+				58E85AD951358A0435164242 /* Sources */,
+				81CFDBD4AA287411B82FE9CE /* Frameworks */,
+				FF7E2446CBCA35C87C861ADD /* Resources */,
+				AC4209778438260C59AE5341 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CA2B3B418840A89D0358197C /* PBXTargetDependency */,
+			);
+			name = FantasyFootballWatchPhone;
+			productName = FantasyFootballWatchPhone;
+			productReference = 117D4E7264B3F7095FC117EC /* FantasyFootballWatchPhone.app */;
+			productType = "com.apple.product-type.application";
+		};
 		29C7B681C8D62CBAC94D51C0 /* FantasyFootballWatch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23746EFE221170E24101FE05 /* Build configuration list for PBXNativeTarget "FantasyFootballWatch" */;
@@ -252,6 +318,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				007AA7B41D8FECA0996F355E /* FantasyFootballWatchPhone */,
 				29C7B681C8D62CBAC94D51C0 /* FantasyFootballWatch */,
 				9831A0ED7992645038323751 /* FantasyFootballWatchWidget */,
 			);
@@ -259,6 +326,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		FF7E2446CBCA35C87C861ADD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BA8B6C6B413DBEC6B2020C2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3AF33F3745E98800474FFF1C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -280,6 +355,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		58E85AD951358A0435164242 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1192F042C0FC749C985F55B1 /* FantasyFootballWatchPhoneApp.swift in Sources */,
+				E120E8F60279A6A05C5F17E2 /* CompanionView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		100696EACD8521AE6A07632C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -320,6 +404,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		CA2B3B418840A89D0358197C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 29C7B681C8D62CBAC94D51C0 /* FantasyFootballWatch */;
+			targetProxy = C54F533FFAD0ACEB9A7876AD /* PBXContainerItemProxy */;
+		};
 		6CA4EADB7B09EBD4910B02B7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9831A0ED7992645038323751 /* FantasyFootballWatchWidget */;
@@ -328,6 +417,54 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		B6F236A0FA02CB70599F6B8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XFNCN2MARQ;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Phone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyFootballWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5598E71FEF71013D417A85D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XFNCN2MARQ;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Phone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyFootballWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
 		3723DDD34D2BB342B89F5908 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -339,7 +476,7 @@
 				INFOPLIST_FILE = WatchApp/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyFootballWatch.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
@@ -356,7 +493,7 @@
 				INFOPLIST_FILE = WatchApp/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyFootballWatch.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
@@ -507,6 +644,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		78E2C52EAF4C068BAAFF38C2 /* Build configuration list for PBXNativeTarget "FantasyFootballWatchPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5598E71FEF71013D417A85D0 /* Debug */,
+				B6F236A0FA02CB70599F6B8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		23746EFE221170E24101FE05 /* Build configuration list for PBXNativeTarget "FantasyFootballWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
