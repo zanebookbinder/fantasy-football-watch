@@ -327,12 +327,13 @@ Lambda normalizes them before they reach the contract.
 - **Building needs the watchOS simulator runtime.** Xcode → Settings →
   Components. Without it `actool` fails before the Swift even compiles;
   `make typecheck` works regardless.
-- **`make deploy` no longer works on this machine.** The SAM CLI and the AWS
-  CLI are both x86_64 builds, and they stopped running when Rosetta went away
-  with macOS 27 (`bad CPU type in executable`). Reinstall both as arm64, or push
-  code-only changes with boto3 on an arm64 Python. `make refresh-cookies` is
-  affected too — use the `POST /cookies` endpoint instead, which needs only
-  curl.
+- **The AWS tools must be the arm64 builds.** The x86_64 SAM and AWS CLIs stop
+  running the moment Rosetta is unavailable (`bad CPU type in executable`),
+  which takes out `make deploy` and `make refresh-cookies` together. Install
+  them from the Apple Silicon Homebrew (`brew install awscli aws-sam-cli`) and
+  make sure `/opt/homebrew/bin` precedes `/usr/local/bin` on `PATH`, or the dead
+  Intel copies shadow the working ones. `POST /cookies` needs only curl, so
+  cookie rotation survives a broken toolchain either way.
 - **ESPN can break without notice.** It has changed hosts and API versions
   before. All of that lives in the Lambda, so a break is a `sam deploy`, not an
   app rebuild.
