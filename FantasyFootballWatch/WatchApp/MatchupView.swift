@@ -170,6 +170,15 @@ struct MatchupView: View {
                 }
                 .buttonStyle(.plain)
             }
+
+            // Belongs to the team on screen, so it rides the swipe with the
+            // roster rather than always describing your own team.
+            if let standing = standingText(for: side) {
+                Text(standing)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 1)
+            }
         }
         .containerRelativeFrame(.horizontal)
         .accessibilityLabel(
@@ -180,15 +189,12 @@ struct MatchupView: View {
     @ViewBuilder
     private var footer: some View {
         VStack(alignment: .leading, spacing: 1) {
-            if let standing = standingText {
-                Text(standing)
-            }
             if let updated = model.payload?.updated {
                 HStack(spacing: 4) {
                     if model.isShowingLastGood {
                         Image(systemName: "wifi.slash")
                     }
-                    Text("as of \(Format.staleness(since: updated))")
+                    Text("Data as of \(Format.staleness(since: updated))")
                 }
             }
         }
@@ -243,17 +249,19 @@ struct MatchupView: View {
         }
     }
 
-    /// "1st of 10 · 1-0" — season context, which belongs below the live
-    /// numbers rather than competing with them for header space.
-    private var standingText: String? {
-        guard let me = model.payload?.me else { return nil }
+    /// "1st place of 10 teams · 1-0" — where this week's score sits, and the
+    /// season record, for whichever team's roster is showing.
+    private func standingText(for side: Side) -> String? {
+        guard let team = model.team(for: side) else { return nil }
         var parts: [String] = []
-        if let rank = me.rankText {
-            parts.append(
-                model.payload?.leagueSize.map { "\(rank) of \($0)" } ?? rank
-            )
+        if let rank = team.rankText {
+            if let size = model.payload?.leagueSize {
+                parts.append("\(rank) place of \(size) teams")
+            } else {
+                parts.append("\(rank) place")
+            }
         }
-        if let record = me.record { parts.append(record) }
+        if let record = team.record { parts.append(record) }
         return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 }
