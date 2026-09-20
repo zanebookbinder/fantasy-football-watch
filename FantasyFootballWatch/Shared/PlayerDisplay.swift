@@ -94,7 +94,7 @@ extension TeamScore {
         var parts: [String] = []
         if playing > 0 { parts.append("\(playing) live") }
         if toPlay > 0 { parts.append("\(toPlay) to play") }
-        return parts.isEmpty ? "all done" : parts.joined(separator: " · ")
+        return parts.isEmpty ? "all done" : parts.joined(separator: ", ")
     }
 
     /// "1st in scoring this week" — where today's live score sits against the

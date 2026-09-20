@@ -91,6 +91,7 @@ struct MatchupView: View {
                 Text(weekText)
                     .font(.caption)
                     .foregroundStyle(.green)
+                    .frame(maxWidth: .infinity, alignment: .center)
 
                 MatchupHeaderView(
                     me: model.payload?.me,
@@ -104,10 +105,11 @@ struct MatchupView: View {
                 teamSettingsRow
             }
             .padding(.horizontal, 6)
-            // Hand-measured so the week label lands level with the clock. The
-            // safe area is ignored because its inset is far taller than a
-            // caption needs, and paying it put a dead band under the label.
-            .padding(.top, 22)
+            // The safe area is ignored because its inset is far taller than a
+            // caption needs; this is the hand-measured replacement, sitting the
+            // week label at the top of the usable area with the score directly
+            // beneath it.
+            .padding(.top, 10)
         }
         .ignoresSafeArea(.container, edges: .top)
     }

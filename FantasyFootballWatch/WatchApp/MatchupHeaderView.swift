@@ -91,22 +91,24 @@ struct MatchupHeaderView: View {
         }
     }
 
-    /// "proj 142.6 · 7 to play" — the projection and what is left to come.
+    /// "projected 142.6" over "5 live, 2 to play" — a forecast and a count of
+    /// remaining football are different things, so they get a line each.
     private func summary(
         _ team: TeamScore?, alignment: HorizontalAlignment
     ) -> some View {
-        let projection = "proj \(Format.projected(team?.projected))"
-        let text = [projection, team?.progressText]
-            .compactMap { $0 }
-            .joined(separator: " · ")
-        return Text(text)
-            .monospacedDigit()
-            .lineLimit(1)
-            .minimumScaleFactor(0.8)
-            .frame(
-                maxWidth: .infinity,
-                alignment: alignment == .leading ? .leading : .trailing
-            )
+        VStack(alignment: alignment, spacing: 0) {
+            Text("projected \(Format.projected(team?.projected))")
+            if let progress = team?.progressText {
+                Text(progress)
+            }
+        }
+        .monospacedDigit()
+        .lineLimit(1)
+        .minimumScaleFactor(0.75)
+        .frame(
+            maxWidth: .infinity,
+            alignment: alignment == .leading ? .leading : .trailing
+        )
     }
 }
 
