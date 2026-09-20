@@ -4,6 +4,10 @@ import SwiftUI
 /// beneath. The stat line arrives pre-formatted from the Lambda.
 struct PlayerRow: View {
     let player: Player
+    /// What this player has done since the last look, if anything.
+    var change: PlayerChange?
+    /// Whether the change detail is open.
+    var isExpanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -17,6 +21,14 @@ struct PlayerRow: View {
                     .font(.system(size: 14, weight: .medium))
                     .lineLimit(1)
                     .truncationMode(.tail)
+
+                // Retired as soon as the row is opened, and back only if the
+                // player's score moves again.
+                if change != nil {
+                    Circle()
+                        .fill(.blue)
+                        .frame(width: 6, height: 6)
+                }
 
                 if let badge = player.injuryBadge {
                     Text(badge)
@@ -60,14 +72,39 @@ struct PlayerRow: View {
                         .monospacedDigit()
                 }
             }
+
+            if isExpanded, let change {
+                changeDetail(change)
+            }
         }
         .padding(.vertical, 2)
+        .animation(.easeOut(duration: 0.15), value: isExpanded)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(
             "\(player.slot) \(player.name), \(player.proTeam), "
                 + "\(Format.points(player.points)) points"
         )
         .accessibilityValue(player.subtitle)
+    }
+}
+
+extension PlayerRow {
+    @ViewBuilder
+    func changeDetail(_ change: PlayerChange) -> some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text("\(Format.signedDelta(change.points)) points since last view")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(change.isGain ? .green : .red)
+            if !change.statSummary.isEmpty {
+                Text(change.statSummary)
+                    .font(.system(size: 10))
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
+        }
+        .padding(.top, 3)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .transition(.opacity)
     }
 }
 

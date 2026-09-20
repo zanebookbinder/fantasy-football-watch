@@ -7,10 +7,33 @@ struct MatchupView: View {
     /// Which roster the horizontal pager is resting on.
     @State private var pagedSide: Side? = .me
 
+    /// Presented from the settings row at the bottom of the scroll.
+    @State private var isChangingTeam = false
+    @State private var isConfirmingTeamChange = false
+
     // No NavigationStack: its top bar pinned the week label in place and blurred
     // whatever scrolled under it. The label is ordinary content now, so it sits
     // level with the clock and scrolls away with everything else.
     var body: some View {
+        content
+            .sheet(isPresented: $isChangingTeam) {
+                TeamPickerView(model: model) { isChangingTeam = false }
+            }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        // Nothing can be fetched until a team has been picked, so the picker is
+        // the whole screen on a first launch.
+        if model.needsTeamSelection {
+            TeamPickerView(model: model)
+        } else {
+            matchupStates
+        }
+    }
+
+    @ViewBuilder
+    private var matchupStates: some View {
         switch model.payload?.state {
         case .ok:
             matchup
@@ -77,6 +100,7 @@ struct MatchupView: View {
 
                 rosterPager
                 footer
+                teamSettingsRow
             }
             .padding(.horizontal, 6)
             // Hand-measured so the week label lands level with the clock. The
@@ -129,13 +153,22 @@ struct MatchupView: View {
             }
 
             ForEach(model.payload?.lineup(for: side) ?? []) { player in
-                PlayerRow(player: player)
+                Button {
+                    model.toggleExpanded(player)
+                } label: {
+                    PlayerRow(
+                        player: player,
+                        change: model.change(for: player),
+                        isExpanded: model.isExpanded(player)
+                    )
                     .padding(.horizontal, 7)
                     .padding(.vertical, 5)
                     .background(
                         .fill.tertiary,
                         in: RoundedRectangle(cornerRadius: 9)
                     )
+                }
+                .buttonStyle(.plain)
             }
         }
         .containerRelativeFrame(.horizontal)
@@ -163,6 +196,51 @@ struct MatchupView: View {
         .foregroundStyle(.secondary)
         .padding(.top, 2)
         .padding(.bottom, 6)
+    }
+
+    /// Bottom of the scroll, out of the way of the live numbers: switching
+    /// teams throws away every cached score and change baseline, so it asks
+    /// first.
+    private var teamSettingsRow: some View {
+        Button {
+            isConfirmingTeamChange = true
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: "person.2")
+                    .font(.system(size: 10))
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("My team")
+                        .font(.system(size: 12, weight: .medium))
+                    if let name = model.selectedTeamName {
+                        Text(name)
+                            .font(.system(size: 10))
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 9))
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 7)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.fill.tertiary, in: RoundedRectangle(cornerRadius: 9))
+        }
+        .buttonStyle(.plain)
+        .padding(.top, 2)
+        .padding(.bottom, 8)
+        .confirmationDialog(
+            "Change team?",
+            isPresented: $isConfirmingTeamChange,
+            titleVisibility: .visible
+        ) {
+            Button("Change team") { isChangingTeam = true }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This reloads the whole matchup and clears what's changed since your last view.")
+        }
     }
 
     /// "1st of 10 · 1-0" — season context, which belongs below the live

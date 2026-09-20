@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74E26DA31E0BD47513324780 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C7A263390071BFBE3637F5 /* Preferences.swift */; };
+		A264461FCBDEA2FFF81DE28F /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62C7A263390071BFBE3637F5 /* Preferences.swift */; };
+		BE1DF7753DA2564C08AE9ECB /* PlayerChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7431B842A7C4CEFA5C623D /* PlayerChanges.swift */; };
+		A183BDBC5E6249BFF802B8F9 /* PlayerChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7431B842A7C4CEFA5C623D /* PlayerChanges.swift */; };
+		32615C27FAC3599504F5FE63 /* TeamPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81618FC22A0125A313BD6614 /* TeamPickerView.swift */; };
 		09341D94008EB12242A113D0 /* sample-payload.json in Resources */ = {isa = PBXBuildFile; fileRef = 197C2372A16628F8244132EA /* sample-payload.json */; };
 		1D16594F984C9B359285F2DA /* ScoreProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E123D5D393E535A6255468 /* ScoreProvider.swift */; };
 		30F3E13CF28A8F0EE8EED697 /* sample-payload.json in Resources */ = {isa = PBXBuildFile; fileRef = 197C2372A16628F8244132EA /* sample-payload.json */; };
@@ -57,6 +62,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		62C7A263390071BFBE3637F5 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		FC7431B842A7C4CEFA5C623D /* PlayerChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerChanges.swift; sourceTree = "<group>"; };
+		81618FC22A0125A313BD6614 /* TeamPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerView.swift; sourceTree = "<group>"; };
+		5ED3E4A48209653F8AACBDB7 /* FantasyWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FantasyWatch.entitlements; sourceTree = "<group>"; };
+		4C66CB1F66C87FFDFFE1DEB6 /* FantasyWatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FantasyWatchWidget.entitlements; sourceTree = "<group>"; };
 		0987E876FCC75C441079FE26 /* SamplePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplePayload.swift; sourceTree = "<group>"; };
 		0D23D61069A8F6E491BFEB94 /* MatchupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchupView.swift; sourceTree = "<group>"; };
 		197C2372A16628F8244132EA /* sample-payload.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sample-payload.json"; sourceTree = "<group>"; };
@@ -113,6 +123,8 @@
 		630C9FE1B38A9320A6D2FBA6 /* WatchApp */ = {
 			isa = PBXGroup;
 			children = (
+				5ED3E4A48209653F8AACBDB7 /* FantasyWatch.entitlements */,
+				81618FC22A0125A313BD6614 /* TeamPickerView.swift */,
 				CE2422BC4C586D55A0135D51 /* FantasyWatchApp.swift */,
 				466F7721672E8C3D208D3BBE /* MatchupModel.swift */,
 				0D23D61069A8F6E491BFEB94 /* MatchupView.swift */,
@@ -127,6 +139,7 @@
 		69E1E2F5EFE053683BE21D14 /* WatchWidget */ = {
 			isa = PBXGroup;
 			children = (
+				4C66CB1F66C87FFDFFE1DEB6 /* FantasyWatchWidget.entitlements */,
 				BD2FD57378FE917FCB625727 /* FantasyWidgetBundle.swift */,
 				FB57B93E56E886E09DE3CC0D /* ScoreWidget.swift */,
 				71E123D5D393E535A6255468 /* ScoreProvider.swift */,
@@ -139,6 +152,8 @@
 		8EA65C603DA123B5B8F1B5EA /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				FC7431B842A7C4CEFA5C623D /* PlayerChanges.swift */,
+				62C7A263390071BFBE3637F5 /* Preferences.swift */,
 				2F9AC46EFE734F7CDEF8B16C /* ScorePayload.swift */,
 				9B9875F0BC675F6D61845919 /* PlayerDisplay.swift */,
 				D45637D4460337CF08BD2163 /* AppConfiguration.swift */,
@@ -269,6 +284,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A264461FCBDEA2FFF81DE28F /* Preferences.swift in Sources */,
+				A183BDBC5E6249BFF802B8F9 /* PlayerChanges.swift in Sources */,
 				83891B124A84C27F4456E715 /* ScorePayload.swift in Sources */,
 				71DD1A013702FB15D82E1CC3 /* PlayerDisplay.swift in Sources */,
 				7553A190C50891E357E59F64 /* AppConfiguration.swift in Sources */,
@@ -284,6 +301,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74E26DA31E0BD47513324780 /* Preferences.swift in Sources */,
+				BE1DF7753DA2564C08AE9ECB /* PlayerChanges.swift in Sources */,
+				32615C27FAC3599504F5FE63 /* TeamPickerView.swift in Sources */,
 				47A9664CBE99D553D030570D /* ScorePayload.swift in Sources */,
 				70D13F66DA3B46395D21BA73 /* PlayerDisplay.swift in Sources */,
 				FFD57716EDCCCB7F25E078AC /* AppConfiguration.swift in Sources */,
@@ -315,6 +335,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				DEVELOPMENT_TEAM = XFNCN2MARQ;
 				GENERATE_INFOPLIST_FILE = NO;
+				CODE_SIGN_ENTITLEMENTS = WatchApp/FantasyWatch.entitlements;
 				INFOPLIST_FILE = WatchApp/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyWatch.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -331,6 +352,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				DEVELOPMENT_TEAM = XFNCN2MARQ;
 				GENERATE_INFOPLIST_FILE = NO;
+				CODE_SIGN_ENTITLEMENTS = WatchApp/FantasyWatch.entitlements;
 				INFOPLIST_FILE = WatchApp/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyWatch.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -347,6 +369,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				DEVELOPMENT_TEAM = XFNCN2MARQ;
 				GENERATE_INFOPLIST_FILE = NO;
+				CODE_SIGN_ENTITLEMENTS = WatchWidget/FantasyWatchWidget.entitlements;
 				INFOPLIST_FILE = WatchWidget/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyWatch.watchkitapp.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -418,6 +441,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				DEVELOPMENT_TEAM = XFNCN2MARQ;
 				GENERATE_INFOPLIST_FILE = NO;
+				CODE_SIGN_ENTITLEMENTS = WatchWidget/FantasyWatchWidget.entitlements;
 				INFOPLIST_FILE = WatchWidget/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyWatch.watchkitapp.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";

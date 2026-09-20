@@ -129,6 +129,27 @@ def _defense(stats):
     return _join(clauses)
 
 
+def build_stat_map(stats):
+    """The non-zero stats as named numbers, for the watch to diff.
+
+    Deliberately position-agnostic: a key is present when the player has that
+    stat at all, so comparing two snapshots is a plain dictionary difference.
+    """
+    if not stats:
+        return {}
+    out = {}
+    for key, stat_id in C.STAT_FIELDS:
+        value = _num(stats, stat_id)
+        if value:
+            out[key] = int(value) if value == int(value) else round(value, 1)
+    # Defensive touchdowns are spread across four return types; the watch only
+    # cares that a defense scored.
+    dst_tds = sum(_num(stats, sid) for sid in C.DST_TD_STAT_IDS)
+    if dst_tds:
+        out["dTd"] = int(dst_tds)
+    return out
+
+
 def build_stat_line(position, stats):
     """Format a raw stat dict for a position.
 

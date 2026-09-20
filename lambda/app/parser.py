@@ -8,7 +8,7 @@ directly into Codable structs.
 from datetime import datetime, timezone
 
 from . import constants as C
-from .statlines import build_stat_line
+from .statlines import build_stat_line, build_stat_map
 
 # Order starters the way a fantasy lineup card reads, rather than the arbitrary
 # order ESPN returns roster entries in.
@@ -24,18 +24,38 @@ def _round(value, places=2):
         return None
 
 
+def list_teams(league):
+    """Every team in the league, for the watch's "my team" picker."""
+    teams = []
+    for team in league.get("teams") or []:
+        teams.append(
+            {
+                "id": team.get("id"),
+                "name": _display_name(team),
+                "abbrev": team.get("abbrev"),
+                "record": _record_text(team),
+                "seed": team.get("playoffSeed"),
+            }
+        )
+    teams.sort(key=lambda t: t["seed"] or 99)
+    return teams
+
+
+def _display_name(team):
+    name = (team.get("name") or "").strip()
+    if not name:
+        location = (team.get("location") or "").strip()
+        nickname = (team.get("nickname") or "").strip()
+        name = " ".join(p for p in (location, nickname) if p)
+    return name or team.get("abbrev") or f"Team {team.get('id')}"
+
+
 def _team_names(league):
     """teamId -> display name, falling back to the abbreviation then the id."""
-    names = {}
-    for team in league.get("teams") or []:
-        team_id = team.get("id")
-        name = (team.get("name") or "").strip()
-        if not name:
-            location = (team.get("location") or "").strip()
-            nickname = (team.get("nickname") or "").strip()
-            name = " ".join(p for p in (location, nickname) if p)
-        names[team_id] = name or team.get("abbrev") or f"Team {team_id}"
-    return names
+    return {
+        team.get("id"): _display_name(team)
+        for team in league.get("teams") or []
+    }
 
 
 def _find_matchup(league, team_id, matchup_period):
@@ -108,6 +128,7 @@ def _build_player(entry, side, scoring_period, game_states):
     injury = entry.get("injuryStatus") or player.get("injuryStatus") or "NORMAL"
 
     return {
+        "id": player.get("id") or entry.get("playerId"),
         "name": player.get("fullName") or "Unknown",
         "slot": slot,
         "position": position,
@@ -116,6 +137,9 @@ def _build_player(entry, side, scoring_period, game_states):
         "points": _round(pool.get("appliedStatTotal"), 2) or 0.0,
         "projected": _round((projection or {}).get("appliedTotal"), 1),
         "statLine": build_stat_line(position, raw_stats),
+        # Same numbers, unformatted, so the watch can say what changed since
+        # you last looked.
+        "stats": build_stat_map(raw_stats),
         # Lets the watch show "@SF Sun 1pm" for a player who has not kicked off,
         # instead of a 0.00 that means nothing. Kickoff is UTC; the watch renders
         # it in the wearer's own timezone.

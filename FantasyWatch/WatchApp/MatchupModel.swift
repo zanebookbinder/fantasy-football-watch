@@ -22,12 +22,29 @@ final class MatchupModel {
 
     var side: Side = .me
 
+    /// The team whose matchup is being shown, remembered across launches and
+    /// shared with the widget.
+    private(set) var selectedTeamId: Int? = Preferences.selectedTeamId
+    private(set) var selectedTeamName: String? = Preferences.selectedTeamName
+
+    /// Loaded only when the picker is opened.
+    private(set) var leagueTeams: [LeagueTeam] = []
+    private(set) var isLoadingTeams = false
+
+    /// Which player's row is open, showing what changed since the last look.
+    var expandedPlayerId: String?
+
+    let snapshots = PlayerSnapshotStore()
+
     private let client: FantasyClient
     private var pollTask: Task<Void, Never>?
 
     init(client: FantasyClient = .shared) {
         self.client = client
     }
+
+    /// Nothing can be shown until a team has been chosen.
+    var needsTeamSelection: Bool { selectedTeamId == nil }
 
     var lineup: [Player] {
         payload?.lineup(for: side) ?? []
@@ -46,7 +63,8 @@ final class MatchupModel {
     /// catches up. Without this the app opens on a spinner every time even
     /// though it already has a perfectly good score on disk.
     func loadCachedPayload() async {
-        guard payload == nil, let cached = await client.lastGood() else { return }
+        guard payload == nil, !needsTeamSelection,
+              let cached = await client.lastGood() else { return }
         payload = cached
         isShowingLastGood = true
     }
@@ -73,12 +91,16 @@ final class MatchupModel {
     }
 
     func refresh() async {
+        guard !needsTeamSelection else { return }
         isRefreshing = true
         defer { isRefreshing = false }
 
         do {
-            let fresh = try await client.fetchScore()
+            let fresh = try await client.fetchScore(teamId: selectedTeamId)
             payload = fresh
+            // Advance the baseline for everyone with nothing new to show, so
+            // only genuinely changed players keep a dot.
+            snapshots.reconcile(fresh.players)
             isShowingLastGood = false
             // `auth_expired` / `upstream_error` are states the view renders, not
             // transport errors, so the error banner stays clear.
@@ -102,6 +124,54 @@ final class MatchupModel {
         } else {
             errorMessage = (reason as? LocalizedError)?.errorDescription
                 ?? reason.localizedDescription
+        }
+    }
+
+    // MARK: - Team selection
+
+    func loadTeams() async {
+        guard leagueTeams.isEmpty, !isLoadingTeams else { return }
+        isLoadingTeams = true
+        defer { isLoadingTeams = false }
+        leagueTeams = (try? await client.fetchTeams()) ?? []
+    }
+
+    /// Switch teams. Everything on screen belonged to the old team, so the
+    /// payload and the change baselines both go with it.
+    func select(_ team: LeagueTeam) async {
+        let isChange = selectedTeamId != team.id
+        Preferences.select(team)
+        selectedTeamId = team.id
+        selectedTeamName = team.name
+
+        if isChange {
+            snapshots.reset()
+            payload = nil
+            side = .me
+            expandedPlayerId = nil
+        }
+        await refresh()
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    // MARK: - Changes since last look
+
+    func change(for player: Player) -> PlayerChange? {
+        snapshots.change(for: player)
+    }
+
+    func isExpanded(_ player: Player) -> Bool {
+        expandedPlayerId == player.id
+    }
+
+    /// Opening a row counts as seeing the change, which retires the dot until
+    /// the player's score moves again.
+    func toggleExpanded(_ player: Player) {
+        if expandedPlayerId == player.id {
+            expandedPlayerId = nil
+        } else {
+            expandedPlayerId = player.id
+            snapshots.acknowledge(player)
         }
     }
 

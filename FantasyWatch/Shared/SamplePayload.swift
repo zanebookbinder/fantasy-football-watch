@@ -35,10 +35,13 @@ enum SamplePayload {
         ),
         players: [
             Player(
+                playerId: 3918298,
                 name: "Josh Allen", slot: "QB", position: "QB", proTeam: "BUF",
                 gameState: .final, points: 40.82, projected: 22.7,
                 statLine: "20/31, 248 yd, 3 TD · 14 car, 69 yd, 2 TD",
-                injury: nil, side: .me
+                opponent: "DET", kickoff: nil, clock: nil,
+                injury: nil, side: .me,
+                stats: ["cmp": 20, "att": 31, "passYd": 248, "passTd": 3]
             )
         ]
     )

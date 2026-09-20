@@ -64,7 +64,11 @@ struct ScoreProvider: TimelineProvider {
     /// which beats a blank tile on a watch that briefly lost its radio.
     private func currentEntry() async -> ScoreEntry {
         let client = FantasyClient.shared
-        if let payload = try? await client.fetchScore(), payload.state == .ok {
+        // Whichever team was picked in the app; the Lambda's default until one
+        // has been.
+        let teamId = Preferences.selectedTeamId
+        if let payload = try? await client.fetchScore(teamId: teamId),
+           payload.state == .ok {
             return ScoreEntry(date: .now, payload: payload)
         }
         if let cached = await client.lastGood() {

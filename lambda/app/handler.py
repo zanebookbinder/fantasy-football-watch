@@ -14,8 +14,8 @@ from datetime import datetime, timezone
 
 from . import constants as C
 from . import espn, secrets
-from .cache import PayloadCache
-from .parser import build_payload
+from .cache import KeyedCache
+from .parser import build_payload, list_teams
 
 log = logging.getLogger()
 log.setLevel(os.environ.get("LOG_LEVEL", "INFO"))
@@ -25,8 +25,10 @@ TEAM_ID = int(os.environ.get("TEAM_ID", C.DEFAULT_TEAM_ID))
 SEASON = int(os.environ.get("SEASON", C.DEFAULT_SEASON))
 CACHE_TTL = float(os.environ.get("CACHE_TTL_SECONDS", "20"))
 
-# Module-level, so it survives across warm invocations.
-_cache = PayloadCache(ttl_seconds=CACHE_TTL)
+# Module-level, so both survive across warm invocations. Keyed by team, because
+# the watch now chooses which team's matchup it wants.
+_cache = KeyedCache(ttl_seconds=CACHE_TTL)
+_teams_cache = KeyedCache(ttl_seconds=600.0)
 
 
 def _respond(status, body):
@@ -77,6 +79,18 @@ def _json_body(event):
     return parsed
 
 
+def _requested_team(event):
+    """The team the watch asked for, falling back to the configured default."""
+    params = event.get("queryStringParameters") or {}
+    raw = params.get("teamId") or params.get("teamid")
+    if raw in (None, ""):
+        return TEAM_ID
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return None
+
+
 def _path(event):
     return event.get("rawPath") or event.get("path") or "/"
 
@@ -99,10 +113,14 @@ def _empty(state, updated=None):
     }
 
 
-def _fetch_payload():
-    """Fetch and parse a fresh payload, or raise."""
+def _fetch_league():
     swid, espn_s2 = secrets.get_cookies()
-    league = espn.fetch_league(LEAGUE_ID, SEASON, swid, espn_s2)
+    return espn.fetch_league(LEAGUE_ID, SEASON, swid, espn_s2)
+
+
+def _fetch_payload(team_id):
+    """Fetch and parse a fresh payload for one team, or raise."""
+    league = _fetch_league()
 
     week = league.get("scoringPeriodId") or (league.get("status") or {}).get(
         "latestScoringPeriod"
@@ -111,10 +129,36 @@ def _fetch_payload():
 
     return build_payload(
         league,
-        TEAM_ID,
+        team_id,
         game_states=game_states,
         fetched_at=datetime.now(timezone.utc),
     )
+
+
+def _handle_teams(event):
+    """GET /teams -- the league's rosters of record, for the "my team" picker.
+
+    Cached far longer than a score: names and records barely move, and this is
+    only read when someone opens the picker.
+    """
+    cached = _teams_cache.get("all")
+    if cached is not None:
+        return _respond(200, cached)
+
+    try:
+        payload = {"state": "ok", "teams": list_teams(_fetch_league())}
+    except espn.AuthExpired:
+        secrets.reset()
+        return _respond(200, {"state": "auth_expired", "teams": []})
+    except Exception as exc:  # noqa: BLE001
+        log.exception("could not list teams: %s", exc)
+        last_good = _teams_cache.last_good("all")
+        if last_good is not None:
+            return _respond(200, last_good)
+        return _respond(502, {"state": "upstream_error", "teams": []})
+
+    _teams_cache.put("all", payload)
+    return _respond(200, payload)
 
 
 def _handle_cookie_write(event):
@@ -161,6 +205,7 @@ def _handle_cookie_write(event):
     # This container recovers now rather than after the TTL; the others drop
     # their cookies on their own next 401.
     _cache.clear()
+    _teams_cache.clear()
     log.info("ESPN cookies rotated")
     return _respond(200, {"state": "ok"})
 
@@ -173,35 +218,42 @@ def handler(event, context=None):
         return _respond(405, {"state": "method_not_allowed"})
 
     path = _path(event)
-    if path not in ("/score", "/", ""):
+    if path not in ("/score", "/teams", "/", ""):
         return _respond(404, {"state": "not_found"})
 
     if not _authorized(event):
         return _respond(403, {"state": "forbidden"})
 
-    cached = _cache.get()
+    if path == "/teams":
+        return _handle_teams(event)
+
+    team_id = _requested_team(event)
+    if team_id is None:
+        return _respond(400, {"state": "bad_request"})
+
+    cached = _cache.get(team_id)
     if cached is not None:
         return _respond(200, cached)
 
     try:
-        payload = _fetch_payload()
+        payload = _fetch_payload(team_id)
     except espn.AuthExpired:
         # Cookies have rolled. Tell the watch in a way it can render kindly,
         # with HTTP 200 so it is not confused with a transport failure.
         log.warning("ESPN rejected the stored cookies; refresh the secret")
         secrets.reset()
         payload = _empty("auth_expired")
-        _cache.put(payload)
+        _cache.put(team_id, payload)
         return _respond(200, payload)
     except Exception as exc:  # noqa: BLE001 - every upstream failure lands here
         log.exception("upstream failure: %s", exc)
-        last_good = _cache.last_good
+        last_good = _cache.last_good(team_id)
         if last_good is not None:
             # A slightly stale score beats an error; `updated` keeps it honest.
             return _respond(200, last_good)
         return _respond(502, _empty("upstream_error"))
 
-    _cache.put(payload)
+    _cache.put(team_id, payload)
     return _respond(200, payload)
 
 

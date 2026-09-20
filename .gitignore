@@ -11,6 +11,7 @@ fantasy-data.json
 xcuserdata/
 *.xcuserstate
 DerivedData/
+FantasyWatch/.checks/
 build/
 *.xcworkspace/xcuserdata/
 

@@ -41,12 +41,41 @@ actor FantasyClient {
         self.store = store
     }
 
-    /// Fetch the current matchup, persisting it as the last-good payload.
-    func fetchScore() async throws -> ScorePayload {
+    /// Fetch the matchup for a team, persisting it as the last-good payload.
+    ///
+    /// Omitting `teamId` leaves the choice to the Lambda's configured default,
+    /// which is what the widget falls back to before a team has been picked.
+    func fetchScore(teamId: Int? = nil) async throws -> ScorePayload {
+        var query: [URLQueryItem] = []
+        if let teamId {
+            query.append(URLQueryItem(name: "teamId", value: String(teamId)))
+        }
+        let data = try await get(path: "score", query: query)
+
+        let payload = try JSONDecoder.fantasy.decode(ScorePayload.self, from: data)
+        if payload.state == .ok {
+            await store.save(payload)
+        }
+        return payload
+    }
+
+    /// Every team in the league, for the "my team" picker.
+    func fetchTeams() async throws -> [LeagueTeam] {
+        let data = try await get(path: "teams", query: [])
+        return try JSONDecoder.fantasy.decode(TeamsPayload.self, from: data).teams
+    }
+
+    private func get(path: String, query: [URLQueryItem]) async throws -> Data {
         guard let baseURL = AppConfiguration.baseURL, AppConfiguration.isConfigured
         else { throw ClientError.notConfigured }
 
-        var request = URLRequest(url: baseURL.appending(path: "score"))
+        var components = URLComponents(
+            url: baseURL.appending(path: path), resolvingAgainstBaseURL: false
+        )
+        components?.queryItems = query.isEmpty ? nil : query
+        guard let url = components?.url else { throw ClientError.notConfigured }
+
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(AppConfiguration.apiKey, forHTTPHeaderField: "x-api-key")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -61,21 +90,11 @@ actor FantasyClient {
         }
 
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
-        guard status == 200 else {
-            // 502 still carries a decodable state body; anything else does not.
-            if status == 502, let payload = try? JSONDecoder.fantasy.decode(
-                ScorePayload.self, from: data
-            ) {
-                return payload
-            }
+        // 502 still carries a decodable state body; anything else does not.
+        guard status == 200 || status == 502 else {
             throw ClientError.badResponse(status)
         }
-
-        let payload = try JSONDecoder.fantasy.decode(ScorePayload.self, from: data)
-        if payload.state == .ok {
-            await store.save(payload)
-        }
-        return payload
+        return data
     }
 
     /// The most recent successful payload, for offline and cold widget loads.

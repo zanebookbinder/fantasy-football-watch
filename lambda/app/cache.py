@@ -8,6 +8,39 @@ can' safe").
 import time
 
 
+class KeyedCache:
+    """One PayloadCache per key, so each team caches independently.
+
+    A watch that switches teams should not evict the cache of the team it just
+    left, and two teams' payloads must never be served for one another.
+    """
+
+    def __init__(self, ttl_seconds=20.0):
+        self.ttl = ttl_seconds
+        self._caches = {}
+
+    def _for(self, key):
+        if key not in self._caches:
+            self._caches[key] = PayloadCache(ttl_seconds=self.ttl)
+        return self._caches[key]
+
+    def get(self, key):
+        return self._for(key).get()
+
+    def put(self, key, payload):
+        self._for(key).put(payload)
+
+    def last_good(self, key):
+        return self._for(key).last_good
+
+    def clear(self, key=None):
+        if key is None:
+            for cache in self._caches.values():
+                cache.clear()
+        else:
+            self._for(key).clear()
+
+
 class PayloadCache:
     def __init__(self, ttl_seconds=20.0):
         self.ttl = ttl_seconds

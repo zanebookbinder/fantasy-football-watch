@@ -128,10 +128,10 @@ def test_base64_bodies_are_decoded(mod, written):
 
 
 def test_a_successful_write_clears_the_cached_payload(mod, written):
-    mod._cache.put({"state": "auth_expired"})
-    assert mod._cache.get() is not None
+    mod._cache.put(7, {"state": "auth_expired"})
+    assert mod._cache.get(7) is not None
     mod.handler(post(body={"espn_s2": "fresh"}))
-    assert mod._cache.get() is None, "should recover now, not after the TTL"
+    assert mod._cache.get(7) is None, "should recover now, not after the TTL"
 
 
 def test_get_on_cookies_is_not_a_write(mod, written):

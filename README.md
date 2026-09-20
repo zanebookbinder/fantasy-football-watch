@@ -51,8 +51,11 @@ else — no stat ids, no cookies, no ESPN hosts.
       "name": "Josh Allen", "slot": "QB", "position": "QB", "proTeam": "BUF",
       "gameState": "final", "points": 40.82, "projected": 22.7,
       "statLine": "20/31, 248 yd, 3 TD · 14 car, 69 yd, 2 TD",
+      "id": 3918298,
       "opponent": "DET", "kickoff": "2026-09-18T00:15:00Z", "clock": null,
-      "injury": null, "side": "me"
+      "injury": null, "side": "me",
+      "stats": { "cmp": 20, "att": 31, "passYd": 248, "passTd": 3,
+                 "car": 14, "rushYd": 69, "rushTd": 2 }
     }
   ]
 }
@@ -82,6 +85,22 @@ Notes on the numbers:
   side still has eight starters to play and 108.7 projected points coming.
 - `rank` is this week's position by live score across the whole league,
   `leagueSize` teams; `record` is `"1-0"` and `seed` the current playoff seed.
+- `stats` carries the same numbers as `statLine` unformatted, and only the
+  non-zero ones. The watch diffs two readings of it to say what a player has
+  done since you last looked — something a formatted string cannot support.
+  `id` is ESPN's player id, which is what those readings are keyed by.
+
+`GET /teams` lists the league for the "my team" picker:
+
+```json
+{ "state": "ok",
+  "teams": [ { "id": 7, "name": "The Christian Faith", "abbrev": "ZANE",
+               "record": "1-0", "seed": 1 } ] }
+```
+
+`teamId` on `/score` selects whose matchup to return, defaulting to the
+`TEAM_ID` env var. Each team caches independently, so switching back and forth
+does not evict the team you came from.
 
 Regenerate `docs/sample-payload.json` with `make sample` — it also refreshes the
 copy bundled into both watch targets, so the two halves never drift.
@@ -223,6 +242,31 @@ physical watch. The bundle ids default to
 `com.zanebookbinder.FantasyWatch.watchkitapp` and `…watchkitapp.widget`; the
 widget's id must stay a child of the app's.
 
+### Picking your team
+
+On first launch the app lists the league and asks which team is yours; the
+choice is remembered and every week's matchup follows it. "My team" at the
+bottom of the scroll changes it, behind a confirmation — switching throws away
+the cached matchup and every change baseline.
+
+The choice lives in an App Group so the widget follows the same team. **That
+sharing is unverified**: `simctl install` does not create third-party App Group
+containers, so in the simulator the suite quietly falls back to per-process
+storage and the widget keeps using the Lambda's default team. It should work on
+a device once the App Group capability is registered for the App ID, which
+automatic signing does on the first device build.
+
+### What changed since you last looked
+
+Every player's points and stats are remembered between visits. A player whose
+score has moved gets a blue dot; opening their row shows "+7.7 points since
+last view" and the stats behind it ("1 rec, 7 yd, 1 TD"). Opening the row
+retires the dot, and it returns only if the score moves again, up or down.
+
+The baseline advances for players with nothing to show and for players whose
+row you opened — never wholesale on launch, which would clear a dot you never
+actually saw. `make check-watch` pins those rules down.
+
 ### Refresh behaviour
 
 | Surface | How it refreshes | Realistic cadence |
@@ -240,8 +284,9 @@ for live; treat the widget as a frequently-updated glance, not a ticker.**
 ## Developing
 
 ```bash
-make test             # 34 tests
+make test             # Lambda test suite
 make typecheck        # both watch targets against the watchOS SDK
+make check-watch      # watch-side change-tracking rules
 make sample           # regenerate the contract sample
 make refresh-cookies  # push fresh ESPN cookies to Secrets Manager
 make fixture RAW=~/Downloads/fantasy-data.json   # rebuild the test fixture
@@ -282,6 +327,12 @@ Lambda normalizes them before they reach the contract.
 - **Building needs the watchOS simulator runtime.** Xcode → Settings →
   Components. Without it `actool` fails before the Swift even compiles;
   `make typecheck` works regardless.
+- **`make deploy` no longer works on this machine.** The SAM CLI and the AWS
+  CLI are both x86_64 builds, and they stopped running when Rosetta went away
+  with macOS 27 (`bad CPU type in executable`). Reinstall both as arm64, or push
+  code-only changes with boto3 on an arm64 Python. `make refresh-cookies` is
+  affected too — use the `POST /cookies` endpoint instead, which needs only
+  curl.
 - **ESPN can break without notice.** It has changed hosts and API versions
   before. All of that lives in the Lambda, so a break is a `sam deploy`, not an
   app rebuild.

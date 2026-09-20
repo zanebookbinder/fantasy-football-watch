@@ -64,6 +64,8 @@ struct TeamScore: Codable, Equatable, Sendable {
 }
 
 struct Player: Codable, Equatable, Identifiable, Sendable {
+    /// ESPN's player id, stable across weeks and roster moves.
+    var playerId: Int
     var name: String
     var slot: String
     var position: String
@@ -80,10 +82,33 @@ struct Player: Codable, Equatable, Identifiable, Sendable {
     var clock: String?
     var injury: String?
     var side: Side
+    /// The same numbers as `statLine`, unformatted, so the watch can work out
+    /// what changed since it last looked.
+    var stats: [String: Double]?
 
-    /// The payload carries no player id, and a lineup can hold the same name on
-    /// both sides, so identity is the slot the player occupies.
-    var id: String { "\(side.rawValue)-\(slot)-\(name)" }
+    /// A player can appear on both rosters in theory, so identity is the id
+    /// paired with the side it is listed on.
+    var id: String { "\(side.rawValue)-\(playerId)" }
+
+    private enum CodingKeys: String, CodingKey {
+        case playerId = "id"
+        case name, slot, position, proTeam, gameState, points, projected
+        case statLine, opponent, kickoff, injury, side, stats
+    }
+}
+
+/// One team in the league, as offered by the "my team" picker.
+struct LeagueTeam: Codable, Equatable, Identifiable, Sendable {
+    var id: Int
+    var name: String
+    var abbrev: String?
+    var record: String?
+    var seed: Int?
+}
+
+struct TeamsPayload: Codable, Equatable, Sendable {
+    var state: PayloadState
+    var teams: [LeagueTeam]
 }
 
 /// Derived in the Lambda from the public NFL scoreboard, so "yet to play" is

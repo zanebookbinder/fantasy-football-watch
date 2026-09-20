@@ -31,6 +31,7 @@
   },
   "players": [
     {
+      "id": 3918298,
       "name": "Josh Allen",
       "slot": "QB",
       "position": "QB",
@@ -39,6 +40,15 @@
       "points": 40.82,
       "projected": 22.7,
       "statLine": "20/31, 248 yd, 3 TD \u00b7 14 car, 69 yd, 2 TD",
+      "stats": {
+        "cmp": 20,
+        "att": 31,
+        "passYd": 248,
+        "passTd": 3,
+        "car": 14,
+        "rushYd": 69,
+        "rushTd": 2
+      },
       "opponent": "DET",
       "kickoff": "2026-09-18T00:15:00Z",
       "clock": null,
@@ -46,6 +56,7 @@
       "side": "me"
     },
     {
+      "id": 3117251,
       "name": "Christian McCaffrey",
       "slot": "RB",
       "position": "RB",
@@ -54,6 +65,7 @@
       "points": 0.0,
       "projected": 21.5,
       "statLine": "",
+      "stats": {},
       "opponent": "MIA",
       "kickoff": "2026-09-20T20:25:00Z",
       "clock": null,
@@ -61,6 +73,7 @@
       "side": "me"
     },
     {
+      "id": 3043078,
       "name": "Derrick Henry",
       "slot": "RB",
       "position": "RB",
@@ -69,6 +82,7 @@
       "points": 0.0,
       "projected": 17.6,
       "statLine": "",
+      "stats": {},
       "opponent": "NO",
       "kickoff": "2026-09-20T17:00:00Z",
       "clock": null,
@@ -76,6 +90,7 @@
       "side": "me"
     },
     {
+      "id": 4569618,
       "name": "Garrett Wilson",
       "slot": "WR",
       "position": "WR",
@@ -84,6 +99,7 @@
       "points": 0.0,
       "projected": 15.9,
       "statLine": "",
+      "stats": {},
       "opponent": "GB",
       "kickoff": "2026-09-20T17:00:00Z",
       "clock": null,
@@ -91,6 +107,7 @@
       "side": "me"
     },
     {
+      "id": 4373678,
       "name": "Khalil Shakir",
       "slot": "WR",
       "position": "WR",
@@ -99,6 +116,11 @@
       "points": 6.8,
       "projected": 10.3,
       "statLine": "3 rec, 38 yd",
+      "stats": {
+        "tgt": 6,
+        "rec": 3,
+        "recYd": 38
+      },
       "opponent": "DET",
       "kickoff": "2026-09-18T00:15:00Z",
       "clock": null,
@@ -106,6 +128,7 @@
       "side": "me"
     },
     {
+      "id": 3040151,
       "name": "George Kittle",
       "slot": "TE",
       "position": "TE",
@@ -114,6 +137,7 @@
       "points": 0.0,
       "projected": 10.5,
       "statLine": "",
+      "stats": {},
       "opponent": "MIA",
       "kickoff": "2026-09-20T20:25:00Z",
       "clock": null,
@@ -121,6 +145,7 @@
       "side": "me"
     },
     {
+      "id": 3042519,
       "name": "Aaron Jones Sr.",
       "slot": "FLEX",
       "position": "RB",
@@ -129,6 +154,7 @@
       "points": 0.0,
       "projected": 14.1,
       "statLine": "",
+      "stats": {},
       "opponent": "@CHI",
       "kickoff": "2026-09-20T17:00:00Z",
       "clock": null,
@@ -136,6 +162,7 @@
       "side": "me"
     },
     {
+      "id": -16017,
       "name": "Patriots D/ST",
       "slot": "D/ST",
       "position": "D/ST",
@@ -144,6 +171,7 @@
       "points": 0.0,
       "projected": 6.6,
       "statLine": "",
+      "stats": {},
       "opponent": "PIT",
       "kickoff": "2026-09-20T17:00:00Z",
       "clock": null,
@@ -151,6 +179,7 @@
       "side": "me"
     },
     {
+      "id": 3150744,
       "name": "Chase McLaughlin",
       "slot": "K",
       "position": "K",
@@ -159,6 +188,7 @@
       "points": 0.0,
       "projected": 8.8,
       "statLine": "",
+      "stats": {},
       "opponent": "CLE",
       "kickoff": "2026-09-20T17:00:00Z",
       "clock": null,
@@ -166,6 +196,7 @@
       "side": "me"
     },
     {
+      "id": 3916387,
       "name": "Lamar Jackson",
       "slot": "QB",
       "position": "QB",
@@ -174,6 +205,7 @@
       "points": 0.0,
       "projected": 21.7,
       "statLine": "",
+      "stats": {},
       "opponent": "NO",
       "kickoff": "2026-09-20T17:00:00Z",
       "clock": null,
@@ -181,6 +213,7 @@
       "side": "opp"
     },
     {
+      "id": 4242335,
       "name": "Jonathan Taylor",
       "slot": "RB",
       "position": "RB",
@@ -189,6 +222,7 @@
       "points": 0.0,
       "projected": 18.4,
       "statLine": "",
+      "stats": {},
       "opponent": "@KC",
       "kickoff": "2026-09-21T00:20:00Z",
       "clock": null,
@@ -196,6 +230,7 @@
       "side": "opp"
     },
     {
+      "id": 3929630,
       "name": "Saquon Barkley",
       "slot": "RB",
       "position": "RB",
@@ -204,6 +239,7 @@
       "points": 0.0,
       "projected": 17.6,
       "statLine": "",
+      "stats": {},
       "opponent": "@TEN",
       "kickoff": "2026-09-20T17:00:00Z",
       "clock": null,
@@ -211,6 +247,7 @@
       "side": "opp"
     },
     {
+      "id": 16800,
       "name": "Davante Adams",
       "slot": "WR",
       "position": "WR",
@@ -219,6 +256,7 @@
       "points": 0.0,
       "projected": 13.7,
       "statLine": "",
+      "stats": {},
       "opponent": "NYG",
       "kickoff": "2026-09-22T00:15:00Z",
       "clock": null,
@@ -226,6 +264,7 @@
       "side": "opp"
     },
     {
+      "id": 4429025,
       "name": "Quentin Johnston",
       "slot": "WR",
       "position": "WR",
@@ -234,6 +273,7 @@
       "points": 0.0,
       "projected": 9.9,
       "statLine": "",
+      "stats": {},
       "opponent": "LV",
       "kickoff": "2026-09-20T20:05:00Z",
       "clock": null,
@@ -241,6 +281,7 @@
       "side": "opp"
     },
     {
+      "id": 4361050,
       "name": "Isaiah Likely",
       "slot": "TE",
       "position": "TE",
@@ -249,6 +290,7 @@
       "points": 0.0,
       "projected": 11.0,
       "statLine": "",
+      "stats": {},
       "opponent": "@LAR",
       "kickoff": "2026-09-22T00:15:00Z",
       "clock": null,
@@ -256,6 +298,7 @@
       "side": "opp"
     },
     {
+      "id": 3915416,
       "name": "DJ Moore",
       "slot": "FLEX",
       "position": "WR",
@@ -264,6 +307,10 @@
       "points": -0.1,
       "projected": 12.6,
       "statLine": "1 car, -1 yd",
+      "stats": {
+        "car": 1,
+        "rushYd": -1
+      },
       "opponent": "DET",
       "kickoff": "2026-09-18T00:15:00Z",
       "clock": null,
@@ -271,6 +318,7 @@
       "side": "opp"
     },
     {
+      "id": -16025,
       "name": "49ers D/ST",
       "slot": "D/ST",
       "position": "D/ST",
@@ -279,6 +327,7 @@
       "points": 0.0,
       "projected": 6.6,
       "statLine": "",
+      "stats": {},
       "opponent": "MIA",
       "kickoff": "2026-09-20T20:25:00Z",
       "clock": null,
@@ -286,6 +335,7 @@
       "side": "opp"
     },
     {
+      "id": 4362081,
       "name": "Cameron Dicker",
       "slot": "K",
       "position": "K",
@@ -294,6 +344,7 @@
       "points": 0.0,
       "projected": 9.8,
       "statLine": "",
+      "stats": {},
       "opponent": "LV",
       "kickoff": "2026-09-20T20:05:00Z",
       "clock": null,

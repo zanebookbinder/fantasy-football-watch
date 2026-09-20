@@ -165,3 +165,34 @@ DST_FUMBLE_RECOVERIES = "96"
 DST_BLOCKED_KICKS = "97"
 DST_SAFETIES = "98"
 DST_TD_STAT_IDS = ("101", "102", "103", "104")  # KR, PR, fumble ret, INT ret
+
+# --- Structured stats ------------------------------------------------------
+# The watch diffs a player's stats between visits to say what changed since you
+# last looked, which a formatted string cannot support. Each entry is
+# (payload key, stat id); only non-zero values are sent. The labels for these
+# keys live on the watch, since it is the one rendering the difference.
+STAT_FIELDS = (
+    ("cmp", PASS_COMPLETIONS),
+    ("att", PASS_ATTEMPTS),
+    ("passYd", PASS_YARDS),
+    ("passTd", PASS_TDS),
+    ("int", PASS_INTS),
+    ("car", RUSH_ATTEMPTS),
+    ("rushYd", RUSH_YARDS),
+    ("rushTd", RUSH_TDS),
+    ("tgt", TARGETS),
+    ("rec", RECEPTIONS),
+    ("recYd", REC_YARDS),
+    ("recTd", REC_TDS),
+    ("fum", FUMBLES_LOST),
+    ("fgm", FG_MADE),
+    ("fga", FG_ATTEMPTED),
+    ("xpm", XP_MADE),
+    ("xpa", XP_ATTEMPTED),
+    ("pa", DST_POINTS_ALLOWED),
+    ("sack", DST_SACKS),
+    ("dInt", DST_INTERCEPTIONS),
+    ("fr", DST_FUMBLE_RECOVERIES),
+    ("blk", DST_BLOCKED_KICKS),
+    ("saf", DST_SAFETIES),
+)

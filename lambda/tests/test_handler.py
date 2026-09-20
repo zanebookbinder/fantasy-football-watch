@@ -20,13 +20,16 @@ def handler_module(monkeypatch):
     return module
 
 
-def request(path="/score", key="test-key", method="GET"):
+def request(path="/score", key="test-key", method="GET", team_id=None):
     headers = {"x-api-key": key} if key is not None else {}
-    return {
+    event = {
         "rawPath": path,
         "headers": headers,
         "requestContext": {"http": {"method": method}},
     }
+    if team_id is not None:
+        event["queryStringParameters"] = {"teamId": str(team_id)}
+    return event
 
 
 def body_of(response):
@@ -56,7 +59,9 @@ def test_successful_fetch_is_cached(handler_module, monkeypatch):
     calls = []
     payload = {"state": "ok", "week": 2, "players": []}
     monkeypatch.setattr(
-        handler_module, "_fetch_payload", lambda: calls.append(1) or payload
+        handler_module,
+        "_fetch_payload",
+        lambda team_id: calls.append(team_id) or payload,
     )
 
     first = handler_module.handler(request())
@@ -70,7 +75,7 @@ def test_successful_fetch_is_cached(handler_module, monkeypatch):
 def test_expired_cookies_return_auth_expired_with_http_200(
     handler_module, monkeypatch
 ):
-    def boom():
+    def boom(team_id):
         raise handler_module.espn.AuthExpired("401")
 
     monkeypatch.setattr(handler_module, "_fetch_payload", boom)
@@ -81,7 +86,7 @@ def test_expired_cookies_return_auth_expired_with_http_200(
 
 
 def test_upstream_failure_without_history_is_a_502(handler_module, monkeypatch):
-    def boom():
+    def boom(team_id):
         raise handler_module.espn.UpstreamError("ESPN returned 500")
 
     monkeypatch.setattr(handler_module, "_fetch_payload", boom)
@@ -95,11 +100,11 @@ def test_upstream_failure_serves_the_last_good_payload(
     handler_module, monkeypatch
 ):
     good = {"state": "ok", "week": 2, "updated": "2026-09-19T17:40:00Z"}
-    monkeypatch.setattr(handler_module, "_fetch_payload", lambda: good)
+    monkeypatch.setattr(handler_module, "_fetch_payload", lambda team_id: good)
     handler_module.handler(request())
     handler_module._cache.clear()  # expire the short TTL, keep last-good
 
-    def boom():
+    def boom(team_id):
         raise handler_module.espn.UpstreamError("ESPN returned 500")
 
     monkeypatch.setattr(handler_module, "_fetch_payload", boom)
@@ -111,7 +116,86 @@ def test_upstream_failure_serves_the_last_good_payload(
 
 def test_responses_are_not_cached_by_intermediaries(handler_module, monkeypatch):
     monkeypatch.setattr(
-        handler_module, "_fetch_payload", lambda: {"state": "ok"}
+        handler_module, "_fetch_payload", lambda team_id: {"state": "ok"}
     )
     response = handler_module.handler(request())
     assert response["headers"]["cache-control"] == "no-store"
+
+
+def test_team_id_defaults_to_the_configured_team(handler_module, monkeypatch):
+    seen = []
+    monkeypatch.setattr(
+        handler_module,
+        "_fetch_payload",
+        lambda team_id: seen.append(team_id) or {"state": "ok"},
+    )
+    handler_module.handler(request())
+    assert seen == [handler_module.TEAM_ID]
+
+
+def test_team_id_can_be_chosen_per_request(handler_module, monkeypatch):
+    seen = []
+    monkeypatch.setattr(
+        handler_module,
+        "_fetch_payload",
+        lambda team_id: seen.append(team_id) or {"state": "ok", "t": team_id},
+    )
+    handler_module.handler(request(team_id=12))
+    assert seen == [12]
+
+
+def test_each_team_caches_separately(handler_module, monkeypatch):
+    seen = []
+    monkeypatch.setattr(
+        handler_module,
+        "_fetch_payload",
+        lambda team_id: seen.append(team_id) or {"state": "ok", "t": team_id},
+    )
+    handler_module.handler(request(team_id=7))
+    handler_module.handler(request(team_id=12))
+    handler_module.handler(request(team_id=7))
+
+    # Switching teams must not evict the team you came from.
+    assert seen == [7, 12]
+    assert body_of(handler_module.handler(request(team_id=12)))["t"] == 12
+
+
+def test_a_junk_team_id_is_rejected(handler_module, monkeypatch):
+    monkeypatch.setattr(
+        handler_module, "_fetch_payload", lambda team_id: {"state": "ok"}
+    )
+    event = request()
+    event["queryStringParameters"] = {"teamId": "not-a-number"}
+    assert handler_module.handler(event)["statusCode"] == 400
+
+
+def test_teams_endpoint_lists_the_league(handler_module, monkeypatch):
+    monkeypatch.setattr(
+        handler_module,
+        "_fetch_league",
+        lambda: {"teams": [{"id": 7, "name": "Mine", "abbrev": "ZANE"}]},
+    )
+    response = handler_module.handler(request(path="/teams"))
+    body = body_of(response)
+
+    assert response["statusCode"] == 200
+    assert body["state"] == "ok"
+    assert body["teams"][0]["name"] == "Mine"
+
+
+def test_teams_endpoint_needs_the_api_key(handler_module):
+    assert handler_module.handler(
+        request(path="/teams", key="wrong")
+    )["statusCode"] == 403
+
+
+def test_teams_endpoint_is_cached(handler_module, monkeypatch):
+    calls = []
+    monkeypatch.setattr(
+        handler_module,
+        "_fetch_league",
+        lambda: calls.append(1) or {"teams": [{"id": 1, "name": "A"}]},
+    )
+    handler_module.handler(request(path="/teams"))
+    handler_module.handler(request(path="/teams"))
+    assert len(calls) == 1
