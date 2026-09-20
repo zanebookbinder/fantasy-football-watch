@@ -50,6 +50,12 @@ final class MatchupModel {
         payload?.lineup(for: side) ?? []
     }
 
+    /// Flip to the other roster. Used by the double-tap gesture and by tapping
+    /// the page dots.
+    func toggleSide() {
+        side = side == .me ? .opp : .me
+    }
+
     func team(for side: Side) -> TeamScore? {
         side == .me ? payload?.me : payload?.opp
     }

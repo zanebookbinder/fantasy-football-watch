@@ -98,6 +98,7 @@ struct MatchupView: View {
                     leagueSize: model.payload?.leagueSize
                 )
 
+                sideIndicator
                 rosterPager
                 footer
                 teamSettingsRow
@@ -125,6 +126,9 @@ struct MatchupView: View {
         .scrollTargetBehavior(.paging)
         .scrollPosition(id: $pagedSide)
         .scrollIndicators(.hidden)
+        // Keeps the Digital Crown with the vertical scroll: without this the
+        // pager takes crown focus and rotating it flips teams.
+        .focusable(false)
         .onChange(of: pagedSide) { _, side in
             if let side, model.side != side { model.side = side }
         }
@@ -135,22 +139,36 @@ struct MatchupView: View {
         }
     }
 
-    private func rosterColumn(for side: Side) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
-            HStack(spacing: 4) {
-                Text(model.team(for: side)?.team ?? "Lineup")
+    /// Which roster is showing, and the one control that flips it. Double tap
+    /// triggers this as the primary action on the watches that support it.
+    private var sideIndicator: some View {
+        Button {
+            model.toggleSide()
+        } label: {
+            HStack(spacing: 5) {
+                Text(model.team(for: model.side)?.team ?? "Lineup")
                     .font(.system(size: 14, weight: .semibold))
                     .lineLimit(1)
                 Spacer(minLength: 0)
-                // Which of the two rosters this is, now that there are no
-                // page dots to say so.
-                Image(systemName: side == .me ? "circle.fill" : "circle")
-                    .font(.system(size: 5))
-                    .foregroundStyle(.tertiary)
-                Image(systemName: side == .me ? "circle" : "circle.fill")
-                    .font(.system(size: 5))
-                    .foregroundStyle(.tertiary)
+                ForEach([Side.me, Side.opp], id: \.self) { side in
+                    Circle()
+                        .fill(side == model.side ? AnyShapeStyle(.secondary)
+                                                 : AnyShapeStyle(.tertiary))
+                        .frame(width: 5, height: 5)
+                }
             }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .primaryHandGesture()
+        .accessibilityLabel(
+            model.side == .me ? "Showing your lineup" : "Showing your opponent's lineup"
+        )
+        .accessibilityHint("Switches to the other team")
+    }
+
+    private func rosterColumn(for side: Side) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
 
             ForEach(model.payload?.lineup(for: side) ?? []) { player in
                 Button {
@@ -300,3 +318,17 @@ struct StatusView: View {
     MatchupView(model: .preview(SamplePayload.payload.with(state: .authExpired)))
 }
 #endif
+
+private extension View {
+    /// Binds the watch's double-tap gesture to this control, where the
+    /// hardware supports it. Gated because the deployment target is watchOS 10
+    /// and the gesture shortcut arrived in 11.
+    @ViewBuilder
+    func primaryHandGesture() -> some View {
+        if #available(watchOS 11.0, *) {
+            self.handGestureShortcut(.primaryAction)
+        } else {
+            self
+        }
+    }
+}
