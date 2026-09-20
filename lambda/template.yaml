@@ -106,7 +106,7 @@ Outputs:
       - '${Base}cookies'
       - Base: !GetAtt ScoreFunctionUrl.FunctionUrl
   ScoreUrl:
-    Description: Put this in FantasyWatch/Config/Secrets.xcconfig as LAMBDA_BASE_URL.
+    Description: Put this in FantasyFootballWatch/Config/Secrets.xcconfig as LAMBDA_BASE_URL.
     Value: !GetAtt ScoreFunctionUrl.FunctionUrl
   SecretId:
     Description: Put the real ESPN cookies here.

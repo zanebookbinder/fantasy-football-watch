@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct FantasyWatchApp: App {
+struct FantasyFootballWatchApp: App {
     @State private var model = MatchupModel()
     @Environment(\.scenePhase) private var scenePhase
 

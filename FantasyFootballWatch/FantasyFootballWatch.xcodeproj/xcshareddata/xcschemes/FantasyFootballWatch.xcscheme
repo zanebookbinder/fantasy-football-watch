@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "29C7B681C8D62CBAC94D51C0"
-               BuildableName = "FantasyWatch.app"
-               BlueprintName = "FantasyWatch"
-               ReferencedContainer = "container:FantasyWatch.xcodeproj">
+               BuildableName = "FantasyFootballWatch.app"
+               BlueprintName = "FantasyFootballWatch"
+               ReferencedContainer = "container:FantasyFootballWatch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "29C7B681C8D62CBAC94D51C0"
-            BuildableName = "FantasyWatch.app"
-            ReferencedContainer = "container:FantasyWatch.xcodeproj">
+            BuildableName = "FantasyFootballWatch.app"
+            ReferencedContainer = "container:FantasyFootballWatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,8 +61,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "29C7B681C8D62CBAC94D51C0"
-            BuildableName = "FantasyWatch.app"
-            ReferencedContainer = "container:FantasyWatch.xcodeproj">
+            BuildableName = "FantasyFootballWatch.app"
+            ReferencedContainer = "container:FantasyFootballWatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

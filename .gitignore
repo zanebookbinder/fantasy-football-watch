@@ -1,5 +1,5 @@
 # Secrets: the Lambda endpoint and API keys never go in source control.
-FantasyWatch/Config/Secrets.xcconfig
+FantasyFootballWatch/Config/Secrets.xcconfig
 .secrets.env
 
 # Never commit a raw ESPN response -- it contains league and account data.
@@ -11,7 +11,7 @@ fantasy-data.json
 xcuserdata/
 *.xcuserstate
 DerivedData/
-FantasyWatch/.checks/
+FantasyFootballWatch/.checks/
 build/
 *.xcworkspace/xcuserdata/
 

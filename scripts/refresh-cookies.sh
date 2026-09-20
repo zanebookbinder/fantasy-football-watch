@@ -19,7 +19,7 @@ LEAGUE_ID="${LEAGUE_ID:-1896305934}"
 SEASON="${SEASON:-2026}"
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-XCCONFIG="$REPO_ROOT/FantasyWatch/Config/Secrets.xcconfig"
+XCCONFIG="$REPO_ROOT/FantasyFootballWatch/Config/Secrets.xcconfig"
 
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'
 

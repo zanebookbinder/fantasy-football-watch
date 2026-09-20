@@ -20,7 +20,7 @@
 		48E9EF9BA4E833BE34F439EB /* MatchupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D23D61069A8F6E491BFEB94 /* MatchupView.swift */; };
 		4BBC304A87AC0934E15E2F5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52AB327C6384A61C0E1D9AD7 /* Assets.xcassets */; };
 		500B0FF037F9778B3015B618 /* PlayerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D26EC62C51D84DA4B8EF5FD /* PlayerRow.swift */; };
-		536DA582B9ADC96AA7702AF8 /* FantasyWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2422BC4C586D55A0135D51 /* FantasyWatchApp.swift */; };
+		536DA582B9ADC96AA7702AF8 /* FantasyFootballWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2422BC4C586D55A0135D51 /* FantasyFootballWatchApp.swift */; };
 		5BBBCAC7C25085FDD4A11BCE /* FantasyClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81CCE131D60B07EE559600E /* FantasyClient.swift */; };
 		5F587F897301AA3F74FC8DEC /* MatchupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466F7721672E8C3D208D3BBE /* MatchupModel.swift */; };
 		671BDBF5B1A1597B7B506784 /* FantasyClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81CCE131D60B07EE559600E /* FantasyClient.swift */; };
@@ -32,7 +32,7 @@
 		8E3C572D3F61F14EC38997F3 /* SamplePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0987E876FCC75C441079FE26 /* SamplePayload.swift */; };
 		A0E645845221756554C3DD6A /* ScoreWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57B93E56E886E09DE3CC0D /* ScoreWidget.swift */; };
 		DF887ED24ECD790A63802CD8 /* MatchupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD63271EDB2A233FF53685F /* MatchupHeaderView.swift */; };
-		EB86007EB858B22E11981432 /* FantasyWatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 531E683C61C874129071C685 /* FantasyWatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EB86007EB858B22E11981432 /* FantasyFootballWatchWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 531E683C61C874129071C685 /* FantasyFootballWatchWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F68459CAAC6345669549198E /* SamplePayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0987E876FCC75C441079FE26 /* SamplePayload.swift */; };
 		FFD57716EDCCCB7F25E078AC /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45637D4460337CF08BD2163 /* AppConfiguration.swift */; };
 /* End PBXBuildFile section */
@@ -43,7 +43,7 @@
 			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9831A0ED7992645038323751;
-			remoteInfo = FantasyWatchWidget;
+			remoteInfo = FantasyFootballWatchWidget;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -54,7 +54,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				EB86007EB858B22E11981432 /* FantasyWatchWidget.appex in Embed Foundation Extensions */,
+				EB86007EB858B22E11981432 /* FantasyFootballWatchWidget.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,8 +65,8 @@
 		62C7A263390071BFBE3637F5 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		FC7431B842A7C4CEFA5C623D /* PlayerChanges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerChanges.swift; sourceTree = "<group>"; };
 		81618FC22A0125A313BD6614 /* TeamPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPickerView.swift; sourceTree = "<group>"; };
-		5ED3E4A48209653F8AACBDB7 /* FantasyWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FantasyWatch.entitlements; sourceTree = "<group>"; };
-		4C66CB1F66C87FFDFFE1DEB6 /* FantasyWatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FantasyWatchWidget.entitlements; sourceTree = "<group>"; };
+		5ED3E4A48209653F8AACBDB7 /* FantasyFootballWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FantasyFootballWatch.entitlements; sourceTree = "<group>"; };
+		4C66CB1F66C87FFDFFE1DEB6 /* FantasyFootballWatchWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FantasyFootballWatchWidget.entitlements; sourceTree = "<group>"; };
 		0987E876FCC75C441079FE26 /* SamplePayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplePayload.swift; sourceTree = "<group>"; };
 		0D23D61069A8F6E491BFEB94 /* MatchupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchupView.swift; sourceTree = "<group>"; };
 		197C2372A16628F8244132EA /* sample-payload.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sample-payload.json"; sourceTree = "<group>"; };
@@ -74,15 +74,15 @@
 		3CD63271EDB2A233FF53685F /* MatchupHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchupHeaderView.swift; sourceTree = "<group>"; };
 		466F7721672E8C3D208D3BBE /* MatchupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchupModel.swift; sourceTree = "<group>"; };
 		52AB327C6384A61C0E1D9AD7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		531E683C61C874129071C685 /* FantasyWatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FantasyWatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		531E683C61C874129071C685 /* FantasyFootballWatchWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FantasyFootballWatchWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D26EC62C51D84DA4B8EF5FD /* PlayerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRow.swift; sourceTree = "<group>"; };
 		71E123D5D393E535A6255468 /* ScoreProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreProvider.swift; sourceTree = "<group>"; };
 		827DB7D864BD8DB585B89DA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B9875F0BC675F6D61845919 /* PlayerDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDisplay.swift; sourceTree = "<group>"; };
 		9C14DAF7B4038C4DCB585364 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9F358B13F44DE59E1E33F607 /* FantasyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FantasyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F358B13F44DE59E1E33F607 /* FantasyFootballWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FantasyFootballWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2FD57378FE917FCB625727 /* FantasyWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FantasyWidgetBundle.swift; sourceTree = "<group>"; };
-		CE2422BC4C586D55A0135D51 /* FantasyWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FantasyWatchApp.swift; sourceTree = "<group>"; };
+		CE2422BC4C586D55A0135D51 /* FantasyFootballWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FantasyFootballWatchApp.swift; sourceTree = "<group>"; };
 		D45637D4460337CF08BD2163 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		DB8323FD24D20703E3FBF8D6 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 		E81CCE131D60B07EE559600E /* FantasyClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FantasyClient.swift; sourceTree = "<group>"; };
@@ -123,9 +123,9 @@
 		630C9FE1B38A9320A6D2FBA6 /* WatchApp */ = {
 			isa = PBXGroup;
 			children = (
-				5ED3E4A48209653F8AACBDB7 /* FantasyWatch.entitlements */,
+				5ED3E4A48209653F8AACBDB7 /* FantasyFootballWatch.entitlements */,
 				81618FC22A0125A313BD6614 /* TeamPickerView.swift */,
-				CE2422BC4C586D55A0135D51 /* FantasyWatchApp.swift */,
+				CE2422BC4C586D55A0135D51 /* FantasyFootballWatchApp.swift */,
 				466F7721672E8C3D208D3BBE /* MatchupModel.swift */,
 				0D23D61069A8F6E491BFEB94 /* MatchupView.swift */,
 				3CD63271EDB2A233FF53685F /* MatchupHeaderView.swift */,
@@ -139,7 +139,7 @@
 		69E1E2F5EFE053683BE21D14 /* WatchWidget */ = {
 			isa = PBXGroup;
 			children = (
-				4C66CB1F66C87FFDFFE1DEB6 /* FantasyWatchWidget.entitlements */,
+				4C66CB1F66C87FFDFFE1DEB6 /* FantasyFootballWatchWidget.entitlements */,
 				BD2FD57378FE917FCB625727 /* FantasyWidgetBundle.swift */,
 				FB57B93E56E886E09DE3CC0D /* ScoreWidget.swift */,
 				71E123D5D393E535A6255468 /* ScoreProvider.swift */,
@@ -167,8 +167,8 @@
 		B40202C75D4FB44D8C59CFA5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9F358B13F44DE59E1E33F607 /* FantasyWatch.app */,
-				531E683C61C874129071C685 /* FantasyWatchWidget.appex */,
+				9F358B13F44DE59E1E33F607 /* FantasyFootballWatch.app */,
+				531E683C61C874129071C685 /* FantasyFootballWatchWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -185,9 +185,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		29C7B681C8D62CBAC94D51C0 /* FantasyWatch */ = {
+		29C7B681C8D62CBAC94D51C0 /* FantasyFootballWatch */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 23746EFE221170E24101FE05 /* Build configuration list for PBXNativeTarget "FantasyWatch" */;
+			buildConfigurationList = 23746EFE221170E24101FE05 /* Build configuration list for PBXNativeTarget "FantasyFootballWatch" */;
 			buildPhases = (
 				7EC6D9E6268A1DE72A5C6080 /* Sources */,
 				00902D9DB823B3227B76DC9A /* Frameworks */,
@@ -199,14 +199,14 @@
 			dependencies = (
 				6CA4EADB7B09EBD4910B02B7 /* PBXTargetDependency */,
 			);
-			name = FantasyWatch;
-			productName = FantasyWatch;
-			productReference = 9F358B13F44DE59E1E33F607 /* FantasyWatch.app */;
+			name = FantasyFootballWatch;
+			productName = FantasyFootballWatch;
+			productReference = 9F358B13F44DE59E1E33F607 /* FantasyFootballWatch.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9831A0ED7992645038323751 /* FantasyWatchWidget */ = {
+		9831A0ED7992645038323751 /* FantasyFootballWatchWidget */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 37D8ED7E760A9557D89E0E50 /* Build configuration list for PBXNativeTarget "FantasyWatchWidget" */;
+			buildConfigurationList = 37D8ED7E760A9557D89E0E50 /* Build configuration list for PBXNativeTarget "FantasyFootballWatchWidget" */;
 			buildPhases = (
 				100696EACD8521AE6A07632C /* Sources */,
 				7876BE05C4C20940CDCDE19C /* Frameworks */,
@@ -216,9 +216,9 @@
 			);
 			dependencies = (
 			);
-			name = FantasyWatchWidget;
-			productName = FantasyWatchWidget;
-			productReference = 531E683C61C874129071C685 /* FantasyWatchWidget.appex */;
+			name = FantasyFootballWatchWidget;
+			productName = FantasyFootballWatchWidget;
+			productReference = 531E683C61C874129071C685 /* FantasyFootballWatchWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -239,7 +239,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B0D3B7D22269663DD77FCD84 /* Build configuration list for PBXProject "FantasyWatch" */;
+			buildConfigurationList = B0D3B7D22269663DD77FCD84 /* Build configuration list for PBXProject "FantasyFootballWatch" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -252,8 +252,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				29C7B681C8D62CBAC94D51C0 /* FantasyWatch */,
-				9831A0ED7992645038323751 /* FantasyWatchWidget */,
+				29C7B681C8D62CBAC94D51C0 /* FantasyFootballWatch */,
+				9831A0ED7992645038323751 /* FantasyFootballWatchWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -309,7 +309,7 @@
 				FFD57716EDCCCB7F25E078AC /* AppConfiguration.swift in Sources */,
 				5BBBCAC7C25085FDD4A11BCE /* FantasyClient.swift in Sources */,
 				8E3C572D3F61F14EC38997F3 /* SamplePayload.swift in Sources */,
-				536DA582B9ADC96AA7702AF8 /* FantasyWatchApp.swift in Sources */,
+				536DA582B9ADC96AA7702AF8 /* FantasyFootballWatchApp.swift in Sources */,
 				5F587F897301AA3F74FC8DEC /* MatchupModel.swift in Sources */,
 				48E9EF9BA4E833BE34F439EB /* MatchupView.swift in Sources */,
 				DF887ED24ECD790A63802CD8 /* MatchupHeaderView.swift in Sources */,
@@ -322,7 +322,7 @@
 /* Begin PBXTargetDependency section */
 		6CA4EADB7B09EBD4910B02B7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9831A0ED7992645038323751 /* FantasyWatchWidget */;
+			target = 9831A0ED7992645038323751 /* FantasyFootballWatchWidget */;
 			targetProxy = 5FD45A0B5E568EA3EEE3D282 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -335,9 +335,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				DEVELOPMENT_TEAM = XFNCN2MARQ;
 				GENERATE_INFOPLIST_FILE = NO;
-				CODE_SIGN_ENTITLEMENTS = WatchApp/FantasyWatch.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WatchApp/FantasyFootballWatch.entitlements;
 				INFOPLIST_FILE = WatchApp/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyWatch.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyFootballWatch.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -352,9 +352,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				DEVELOPMENT_TEAM = XFNCN2MARQ;
 				GENERATE_INFOPLIST_FILE = NO;
-				CODE_SIGN_ENTITLEMENTS = WatchApp/FantasyWatch.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WatchApp/FantasyFootballWatch.entitlements;
 				INFOPLIST_FILE = WatchApp/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyWatch.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyFootballWatch.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -369,9 +369,9 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				DEVELOPMENT_TEAM = XFNCN2MARQ;
 				GENERATE_INFOPLIST_FILE = NO;
-				CODE_SIGN_ENTITLEMENTS = WatchWidget/FantasyWatchWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WatchWidget/FantasyFootballWatchWidget.entitlements;
 				INFOPLIST_FILE = WatchWidget/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyWatch.watchkitapp.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyFootballWatch.watchkitapp.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -441,9 +441,9 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				DEVELOPMENT_TEAM = XFNCN2MARQ;
 				GENERATE_INFOPLIST_FILE = NO;
-				CODE_SIGN_ENTITLEMENTS = WatchWidget/FantasyWatchWidget.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WatchWidget/FantasyFootballWatchWidget.entitlements;
 				INFOPLIST_FILE = WatchWidget/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyWatch.watchkitapp.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zanebookbinder.FantasyFootballWatch.watchkitapp.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -507,7 +507,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		23746EFE221170E24101FE05 /* Build configuration list for PBXNativeTarget "FantasyWatch" */ = {
+		23746EFE221170E24101FE05 /* Build configuration list for PBXNativeTarget "FantasyFootballWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3723DDD34D2BB342B89F5908 /* Debug */,
@@ -516,7 +516,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		37D8ED7E760A9557D89E0E50 /* Build configuration list for PBXNativeTarget "FantasyWatchWidget" */ = {
+		37D8ED7E760A9557D89E0E50 /* Build configuration list for PBXNativeTarget "FantasyFootballWatchWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1EA9A3B7A5C30A8C02F3203 /* Debug */,
@@ -525,7 +525,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B0D3B7D22269663DD77FCD84 /* Build configuration list for PBXProject "FantasyWatch" */ = {
+		B0D3B7D22269663DD77FCD84 /* Build configuration list for PBXProject "FantasyFootballWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9DD6F48E78A0CBE268452F01 /* Debug */,

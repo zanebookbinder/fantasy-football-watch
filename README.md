@@ -1,4 +1,4 @@
-# watch-my-fantasy-team
+# Fantasy Football Watch
 
 A personal watchOS app and Smart Stack widget showing the live score of an ESPN
 fantasy matchup — both team totals, win probability, projected points, and every
@@ -24,9 +24,9 @@ watch (app + widget)  ──GET /score + x-api-key──▶  Lambda  ──cooki
 | `lambda/tests/` | 34 tests, run against a real captured week |
 | `lambda/tools/` | Fixture capture and sample-payload generation |
 | `scripts/` | Cookie refresh |
-| `FantasyWatch/Shared/` | Codable models, networking, config — compiled into both targets |
-| `FantasyWatch/WatchApp/` | The full-detail app: header, starter list, polling loop |
-| `FantasyWatch/WatchWidget/` | The Smart Stack widget and its timeline provider |
+| `FantasyFootballWatch/Shared/` | Codable models, networking, config — compiled into both targets |
+| `FantasyFootballWatch/WatchApp/` | The full-detail app: header, starter list, polling loop |
+| `FantasyFootballWatch/WatchWidget/` | The Smart Stack widget and its timeline provider |
 | `docs/sample-payload.json` | The frozen contract, as real data |
 
 ## The contract
@@ -135,6 +135,12 @@ curl -H "x-api-key: $CLIENT_API_KEY" "$SCORE_URL/score"
 
 `sam deploy` prints `ScoreUrl` and `SecretId` as stack outputs.
 
+**The CloudFormation stack is still named `watch-my-fantasy-team`**, which is
+what the repo was called when it was created. Renaming a stack is not an edit —
+CloudFormation would build a second one and orphan the first, taking the
+Function URL and the cookie secret with it. The name is cosmetic and lives only
+in `scripts/refresh-cookies.sh` and the deploy command, so it stays.
+
 ## Refreshing the cookies
 
 Two ways, same outcome. Both validate the cookie against ESPN before writing,
@@ -228,18 +234,18 @@ error — `updated` keeps the staleness honest.
 
 ## Watch app setup
 
-1. `cp FantasyWatch/Config/Secrets.example.xcconfig FantasyWatch/Config/Secrets.xcconfig`
+1. `cp FantasyFootballWatch/Config/Secrets.example.xcconfig FantasyFootballWatch/Config/Secrets.xcconfig`
 2. Fill in `LAMBDA_BASE_URL` (the `ScoreUrl` output, no trailing slash) and
    `CLIENT_API_KEY`. Write `//` as `$(SLASH)$(SLASH)` — an xcconfig reads a
    literal `//` as the start of a comment.
-3. Open `FantasyWatch/FantasyWatch.xcodeproj` and run the `FantasyWatch` scheme.
+3. Open `FantasyFootballWatch/FantasyFootballWatch.xcodeproj` and run the `FantasyFootballWatch` scheme.
 
 `Secrets.xcconfig` is gitignored, and `Base.xcconfig` includes it optionally, so
 a fresh clone still builds (it just shows "not configured").
 
 Set your own `DEVELOPMENT_TEAM` and bundle identifiers before running on a
 physical watch. The bundle ids default to
-`com.zanebookbinder.FantasyWatch.watchkitapp` and `…watchkitapp.widget`; the
+`com.zanebookbinder.FantasyFootballWatch.watchkitapp` and `…watchkitapp.widget`; the
 widget's id must stay a child of the app's.
 
 ### Picking your team

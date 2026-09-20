@@ -27,12 +27,12 @@ fixture:
 # changes and both halves stay in step.
 sample:
 	python3 lambda/tools/sample_payload.py -o docs/sample-payload.json
-	cp docs/sample-payload.json FantasyWatch/Shared/sample-payload.json
+	cp docs/sample-payload.json FantasyFootballWatch/Shared/sample-payload.json
 
 # Full builds need the watchOS simulator runtime installed; this checks the
 # Swift without it.
 typecheck:
-	@cd FantasyWatch && SDK=$$(xcrun --sdk watchos --show-sdk-path) && \
+	@cd FantasyFootballWatch && SDK=$$(xcrun --sdk watchos --show-sdk-path) && \
 	  xcrun swiftc -typecheck -swift-version 5 -D DEBUG -sdk "$$SDK" \
 	    -target arm64_32-apple-watchos10.0 Shared/*.swift WatchApp/*.swift && \
 	  xcrun swiftc -typecheck -swift-version 5 -D DEBUG -sdk "$$SDK" \
@@ -42,7 +42,7 @@ typecheck:
 # No XCTest target, so the shared sources are compiled for the Mac and the
 # rules are asserted against the bundled sample payload.
 check-watch:
-	@cd FantasyWatch && rm -rf .checks && mkdir -p .checks && \
+	@cd FantasyFootballWatch && rm -rf .checks && mkdir -p .checks && \
 	  xcrun swiftc -swift-version 5 -o .checks/checks \
 	    Shared/ScorePayload.swift Shared/PlayerDisplay.swift \
 	    Shared/Preferences.swift Shared/PlayerChanges.swift \

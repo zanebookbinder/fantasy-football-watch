@@ -7,7 +7,7 @@ import Foundation
 /// unavailable the store falls back to the process's own defaults: the app
 /// still works, the widget just falls back to the Lambda's default team.
 enum Preferences {
-    static let appGroup = "group.com.zanebookbinder.FantasyWatch"
+    static let appGroup = "group.com.zanebookbinder.FantasyFootballWatch"
 
     private static let selectedTeamKey = "selectedTeamId"
     private static let selectedTeamNameKey = "selectedTeamName"

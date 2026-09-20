@@ -24,7 +24,7 @@ actor FantasyClient {
 
     private let session: URLSession
     private let store: LastGoodStore
-    private let log = Logger(subsystem: "FantasyWatch", category: "client")
+    private let log = Logger(subsystem: "FantasyFootballWatch", category: "client")
 
     init(session: URLSession? = nil, store: LastGoodStore = .shared) {
         if let session {

@@ -17,7 +17,7 @@ enum AppConfiguration {
     static var isConfigured: Bool { baseURL != nil && !apiKey.isEmpty }
 
     /// URL scheme the widget deep-links into.
-    static let deepLinkScheme = "fantasywatch"
+    static let deepLinkScheme = "fantasyfootballwatch"
 
     private static func infoValue(_ key: String) -> String? {
         guard let raw = Bundle.main.object(forInfoDictionaryKey: key) as? String
