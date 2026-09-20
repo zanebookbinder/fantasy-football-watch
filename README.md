@@ -10,6 +10,17 @@ Lambda holds those cookies and hands the watch a clean, cookie-free payload.
 
 Built from the design document in [`docs/design-document.md`](docs/design-document.md).
 
+<table>
+  <tr>
+    <td align="center" width="25%"><img src="docs/screenshots/matchup.png" width="200" alt="Matchup view with both totals, win-probability bar and the starter list"><br><sub><b>Your matchup</b><br>Both totals, win probability, what is left to play, then every starter with an ESPN-style stat line.</sub></td>
+    <td align="center" width="25%"><img src="docs/screenshots/opponent.png" width="200" alt="Opponent lineup reached by swiping the roster sideways"><br><sub><b>Their lineup</b><br>Swipe the roster sideways. Players yet to kick off show the game instead of a meaningless 0.00.</sub></td>
+    <td align="center" width="25%"><img src="docs/screenshots/changes.png" width="200" alt="A player row expanded to show points gained since the last visit"><br><sub><b>Since you last looked</b><br>A blue dot marks whoever moved; opening the row says by how much, and on what.</sub></td>
+    <td align="center" width="25%"><img src="docs/screenshots/team-picker.png" width="200" alt="First-launch team picker listing every team in the league"><br><sub><b>Pick your team</b><br>Asked once on first launch, remembered after, changeable from the bottom of the scroll.</sub></td>
+  </tr>
+</table>
+
+<sub>Screenshots use the bundled sample payload, so the opposing team names are invented.</sub>
+
 ```
 watch (app + widget)  ──GET /score + x-api-key──▶  Lambda  ──cookies──▶  ESPN
                       ◀──────compact JSON────────           ◀── raw JSON ──
