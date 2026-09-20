@@ -287,6 +287,7 @@ struct StatusView: View {
     }
 }
 
+#if DEBUG
 #Preview("Matchup") {
     MatchupView(model: .preview())
 }
@@ -298,3 +299,4 @@ struct StatusView: View {
 #Preview("Reconnect") {
     MatchupView(model: .preview(SamplePayload.payload.with(state: .authExpired)))
 }
+#endif

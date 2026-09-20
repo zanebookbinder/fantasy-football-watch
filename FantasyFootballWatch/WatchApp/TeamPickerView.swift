@@ -88,6 +88,8 @@ private struct TeamRow: View {
     }
 }
 
+#if DEBUG
 #Preview {
     TeamPickerView(model: .preview())
 }
+#endif

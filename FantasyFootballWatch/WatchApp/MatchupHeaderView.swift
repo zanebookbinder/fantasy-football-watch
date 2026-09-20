@@ -110,6 +110,7 @@ struct MatchupHeaderView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     MatchupHeaderView(
         me: SamplePayload.payload.me,
@@ -118,3 +119,4 @@ struct MatchupHeaderView: View {
     )
     .padding(.horizontal)
 }
+#endif

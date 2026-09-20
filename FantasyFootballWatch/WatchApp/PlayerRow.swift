@@ -133,6 +133,7 @@ struct SlotBadge: View {
     }
 }
 
+#if DEBUG
 #Preview {
     List {
         ForEach(SamplePayload.payload.lineup(for: .me)) { player in
@@ -140,3 +141,4 @@ struct SlotBadge: View {
         }
     }
 }
+#endif

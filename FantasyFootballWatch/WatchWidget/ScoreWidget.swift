@@ -159,6 +159,7 @@ struct ScoreWidgetView: View {
     }
 }
 
+#if DEBUG
 #Preview("Rectangular", as: .accessoryRectangular) {
     ScoreWidget()
 } timeline: {
@@ -176,3 +177,4 @@ struct ScoreWidgetView: View {
 } timeline: {
     ScoreProvider.placeholderEntry
 }
+#endif
