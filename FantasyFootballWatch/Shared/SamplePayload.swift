@@ -31,7 +31,7 @@ enum SamplePayload {
             winProb: 0.69
         ),
         opp: TeamScore(
-            team: "Team Tïts", live: -0.1, projected: 108.6, winProb: 0.31
+            team: "Red Zone Rejects", live: -0.1, projected: 108.6, winProb: 0.31
         ),
         players: [
             Player(

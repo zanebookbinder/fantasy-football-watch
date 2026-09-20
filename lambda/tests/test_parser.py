@@ -68,7 +68,7 @@ def test_reads_the_live_total_not_the_finalized_one(payload):
 
 def test_team_names(payload):
     assert payload["me"]["team"] == "The Christian Faith"
-    assert payload["opp"]["team"].startswith("Team")
+    assert payload["opp"]["team"] == "Red Zone Rejects"
 
 
 def test_projected_points_and_win_probability(payload):

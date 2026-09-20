@@ -2295,9 +2295,9 @@
  },
  "teams": [
   {
-   "abbrev": "RCOM",
+   "abbrev": "GHST",
    "id": 1,
-   "name": "Fantasy Playbook ",
+   "name": "Gridiron Ghosts",
    "playoffSeed": 6,
    "record": {
     "overall": {
@@ -2308,9 +2308,9 @@
    }
   },
   {
-   "abbrev": "HELP",
+   "abbrev": "WIRE",
    "id": 2,
-   "name": "The Real Brock Hard Ladds",
+   "name": "Waiver Wire Warriors",
    "playoffSeed": 7,
    "record": {
     "overall": {
@@ -2321,9 +2321,9 @@
    }
   },
   {
-   "abbrev": "LATO",
+   "abbrev": "RZR",
    "id": 3,
-   "name": "Team  T\u00efts",
+   "name": "Red Zone Rejects",
    "playoffSeed": 3,
    "record": {
     "overall": {
@@ -2334,9 +2334,9 @@
    }
   },
   {
-   "abbrev": "SOED",
+   "abbrev": "4ANDL",
    "id": 6,
-   "name": "Cleveland This Is For You",
+   "name": "Fourth and Long",
    "playoffSeed": 2,
    "record": {
     "overall": {
@@ -2360,9 +2360,9 @@
    }
   },
   {
-   "abbrev": "Dead",
+   "abbrev": "INJ",
    "id": 10,
-   "name": "The Hospital",
+   "name": "The Injury Report",
    "playoffSeed": 8,
    "record": {
     "overall": {
@@ -2373,9 +2373,9 @@
    }
   },
   {
-   "abbrev": "BROW",
+   "abbrev": "PLAY",
    "id": 11,
-   "name": "The Brock Hard Ladds",
+   "name": "Play Action Pals",
    "playoffSeed": 9,
    "record": {
     "overall": {
@@ -2386,9 +2386,9 @@
    }
   },
   {
-   "abbrev": "CB",
+   "abbrev": "BNCH",
    "id": 12,
-   "name": "Coogan's Bathroom",
+   "name": "Bench Mob",
    "playoffSeed": 5,
    "record": {
     "overall": {
@@ -2399,9 +2399,9 @@
    }
   },
   {
-   "abbrev": "GGT",
+   "abbrev": "HAIL",
    "id": 14,
-   "name": "Somerville Football Team",
+   "name": "Hail Mary Heroes",
    "playoffSeed": 4,
    "record": {
     "overall": {
@@ -2412,9 +2412,9 @@
    }
   },
   {
-   "abbrev": "JST",
+   "abbrev": "PYLN",
    "id": 15,
-   "name": "CeeDeezNutz",
+   "name": "Pylon Pushers",
    "playoffSeed": 10,
    "record": {
     "overall": {

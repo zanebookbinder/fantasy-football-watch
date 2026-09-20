@@ -97,7 +97,7 @@ The Lambda collapses ESPN's large response into a compact payload the watch deco
   "week": 2,
   "updated": "2026-09-19T17:40:00Z",
   "me":  { "team": "The Christian Faith", "live": 47.62, "projected": 142.6, "winProb": 0.69 },
-  "opp": { "team": "Team Tits",          "live": -0.1,  "projected": 108.6, "winProb": 0.31 },
+  "opp": { "team": "Red Zone Rejects",          "live": -0.1,  "projected": 108.6, "winProb": 0.31 },
   "players": [
     {
       "name": "Josh Allen",

@@ -43,7 +43,7 @@ else — no stat ids, no cookies, no ESPN hosts.
   "me":  { "team": "The Christian Faith", "live": 47.62, "projected": 142.6, "winProb": 0.69,
            "rank": 1, "record": "1-0", "seed": 1,
            "toPlay": 7, "playing": 0, "done": 2, "remaining": 95.0 },
-  "opp": { "team": "Team Tïts", "live": -0.1, "projected": 108.6, "winProb": 0.31,
+  "opp": { "team": "Red Zone Rejects", "live": -0.1, "projected": 108.6, "winProb": 0.31,
            "rank": 10, "record": "1-0", "seed": 3,
            "toPlay": 8, "playing": 0, "done": 1, "remaining": 108.7 },
   "players": [
