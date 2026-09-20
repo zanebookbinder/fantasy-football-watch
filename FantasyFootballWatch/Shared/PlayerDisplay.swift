@@ -97,18 +97,21 @@ extension TeamScore {
         return parts.isEmpty ? "all done" : parts.joined(separator: " · ")
     }
 
-    /// "1st of 10" — where this score sits in the league today.
-    var rankText: String? {
+    /// "1st in scoring this week" — where today's live score sits against the
+    /// whole league. Distinct from the standings: a team can lead the day's
+    /// scoring and still be mid-table, or trail it with every starter still to
+    /// play.
+    var scoringRankText: String? {
         guard let rank else { return nil }
-        let suffix: String
-        switch (rank % 10, rank % 100) {
-        case (1, 11), (2, 12), (3, 13): suffix = "th"
-        case (1, _): suffix = "st"
-        case (2, _): suffix = "nd"
-        case (3, _): suffix = "rd"
-        default: suffix = "th"
-        }
-        return "\(rank)\(suffix)"
+        return "\(Format.ordinal(rank)) in scoring this week"
+    }
+
+    /// "1-0 · 1st in league" — the season so far, which barely moves.
+    var leagueStandingText: String? {
+        var parts: [String] = []
+        if let record { parts.append(record) }
+        if let seed { parts.append("\(Format.ordinal(seed)) in league") }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 
     var winPercentText: String? {
@@ -118,6 +121,19 @@ extension TeamScore {
 }
 
 enum Format {
+    /// 1 -> "1st", 2 -> "2nd", 11 -> "11th".
+    static func ordinal(_ value: Int) -> String {
+        let suffix: String
+        switch (value % 10, value % 100) {
+        case (1, 11), (2, 12), (3, 13): suffix = "th"
+        case (1, _): suffix = "st"
+        case (2, _): suffix = "nd"
+        case (3, _): suffix = "rd"
+        default: suffix = "th"
+        }
+        return "\(value)\(suffix)"
+    }
+
     /// Fantasy points, the way ESPN shows them.
     static func points(_ value: Double) -> String {
         String(format: "%.2f", value)

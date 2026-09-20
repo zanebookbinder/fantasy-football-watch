@@ -94,8 +94,13 @@ Notes on the numbers:
   projections of those yet to kick off. **A live score is close to meaningless
   without these** — 47.62 to −0.10 looks decisive until you notice the other
   side still has eight starters to play and 108.7 projected points coming.
-- `rank` is this week's position by live score across the whole league,
-  `leagueSize` teams; `record` is `"1-0"` and `seed` the current playoff seed.
+- `rank` and `seed` are **different facts and the app says so separately.**
+  `rank` is this week's position by live score across the whole league
+  (`leagueSize` teams) — it moves all afternoon and a team can lead the day's
+  scoring while sitting mid-table. `seed` is the standings position, which
+  barely moves. Showing them on one line made two 1-0 teams read as "1st" and
+  "10th", which looks like a contradiction; the app now shows "1st in scoring
+  this week" above "1-0 · 1st in league".
 - `stats` carries the same numbers as `statLine` unformatted, and only the
   non-zero ones. The watch diffs two readings of it to say what a player has
   done since you last looked — something a formatted string cannot support.

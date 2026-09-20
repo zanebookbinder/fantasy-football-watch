@@ -173,12 +173,7 @@ struct MatchupView: View {
 
             // Belongs to the team on screen, so it rides the swipe with the
             // roster rather than always describing your own team.
-            if let standing = standingText(for: side) {
-                Text(standing)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .padding(.top, 1)
-            }
+            standing(for: side)
         }
         .containerRelativeFrame(.horizontal)
         .accessibilityLabel(
@@ -249,20 +244,23 @@ struct MatchupView: View {
         }
     }
 
-    /// "1st place of 10 teams · 1-0" — where this week's score sits, and the
-    /// season record, for whichever team's roster is showing.
-    private func standingText(for side: Side) -> String? {
-        guard let team = model.team(for: side) else { return nil }
-        var parts: [String] = []
-        if let rank = team.rankText {
-            if let size = model.payload?.leagueSize {
-                parts.append("\(rank) place of \(size) teams")
-            } else {
-                parts.append("\(rank) place")
+    /// Today's scoring on top, the season underneath — two different things
+    /// that read as one when they share a line.
+    @ViewBuilder
+    private func standing(for side: Side) -> some View {
+        if let team = model.team(for: side) {
+            VStack(alignment: .leading, spacing: 0) {
+                if let scoring = team.scoringRankText {
+                    Text(scoring)
+                }
+                if let league = team.leagueStandingText {
+                    Text(league)
+                }
             }
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .padding(.top, 1)
         }
-        if let record = team.record { parts.append(record) }
-        return parts.isEmpty ? nil : parts.joined(separator: " · ")
     }
 }
 

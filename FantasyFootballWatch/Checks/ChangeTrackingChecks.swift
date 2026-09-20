@@ -20,7 +20,37 @@ struct ChangeTrackingChecks {
         )
 
         MainActor.assumeIsolated { run(payload) }
+        checkStandings(payload)
         print("\nAll checks passed.")
+    }
+
+    /// This week's scoring rank and the season standings are different facts
+    /// that once shared a line and read as one: two 1-0 teams showed as "1st"
+    /// and "10th place of 10 teams", which looked like a contradiction.
+    static func checkStandings(_ payload: ScorePayload) {
+        print("Scoring rank and league standing stay separate")
+        let me = payload.me!
+        let opp = payload.opp!
+
+        check("today's scoring is labelled as today's",
+              me.scoringRankText == "1st in scoring this week")
+        check("the opponent's scoring rank is their own",
+              opp.scoringRankText == "10th in scoring this week")
+        check("the season line carries record and seed",
+              me.leagueStandingText == "1-0 · 1st in league")
+        check("both are 1-0 yet seeded differently",
+              opp.leagueStandingText == "1-0 · 3rd in league")
+        check("neither line claims the other's meaning",
+              !(me.scoringRankText ?? "").contains("league")
+                  && !(me.leagueStandingText ?? "").contains("this week"))
+
+        print("Ordinals")
+        check("1st/2nd/3rd", Format.ordinal(1) == "1st"
+              && Format.ordinal(2) == "2nd" && Format.ordinal(3) == "3rd")
+        check("teens are th", Format.ordinal(11) == "11th"
+              && Format.ordinal(12) == "12th" && Format.ordinal(13) == "13th")
+        check("10th and 21st", Format.ordinal(10) == "10th"
+              && Format.ordinal(21) == "21st")
     }
 
     static func check(_ label: String, _ ok: Bool) {
